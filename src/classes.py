@@ -1,9 +1,13 @@
 # -*- coding: utf-8 -*-
 
+# GENERIC
+
 class Param:
     val_type = ''    
     name = ''
     value = 0
+
+# SCENE DIRECTIVES
 
 class Integrator:
     int_type = ''
@@ -41,6 +45,7 @@ class Material:
     params = []
     texture = Texture()
 
+# WORLD DECLARATION
 
     
 
