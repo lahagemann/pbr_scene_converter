@@ -11,7 +11,15 @@ def read_from_xml(filename):
 
     scene = load_scene(scene_element)
 
+def load_scene(scene_element):
+    scene = Scene()
 
+    scene.integrator = load_integrator(scene_element)
+    scene.sensor = load_sensor(scene_element)
+
+    scene.world = load_world(scene_element)
+
+    return scene
     
 def load_integrator(scene):
     integrator = directives.Integrator()
@@ -32,4 +40,18 @@ def load_integrator(scene):
     
     return integrator
 
+def load_sensor(scene):
+    sensor = directives.Sensor()
+    sensor_element = scene.find('sensor')
+
+    # extract sensor type
+    sensor.sensor_type = sensor_element.attrib.get('type')
+
+    # sensor has:   parameters
+    #               transform, sampler, film
+    # sensor.transform.name = sensor_element.attrib.get('transform')
+
+
+def load_world(scene):
+    pass
 

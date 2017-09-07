@@ -38,15 +38,26 @@ class Texture:
     tex_type = ''
     params = []
 
-class Material:
+class AdapterMaterial:
     mat_type = ''
     mat_id = ''
-    adapter = False
+    material = Material()
+
+class Material:
+    mat_type = ''
+    mat_id = ''    
     params = []
     texture = Texture()
 
 # WORLD DECLARATION
 
-    
+# GLOBAL
 
+class World:
+    int = 1
 
+class Scene:
+    integrator = Integrator()
+    sensor = Sensor()
+    materials = []
+    world = World()
