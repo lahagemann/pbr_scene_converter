@@ -9,13 +9,15 @@ def read_from_xml(filename):
 
     scene = load_scene(scene_element)
 
+    return scene
+
 def load_scene(scene_element):
-    scene = Scene()
+    scene = directives.Scene()
 
     scene.integrator = load_integrator(scene_element)
     scene.sensor = load_sensor(scene_element)
 
-    scene.world = load_world(scene_element)
+    #scene.world = load_world(scene_element)
 
     return scene
     
@@ -68,9 +70,9 @@ def load_sensor(scene):
         
     # film setup
     film_element = sensor_element.find('film')
-    sensor.film.film_type = film.get('type')
+    sensor.film.film_type = film_element.get('type')
     
-    sensor.film.filter_type = film.find('rfilter').get('type')
+    sensor.film.filter_type = film_element.find('rfilter').get('type')
     
     for parameter in film_element:
         if not parameter.tag == 'rfilter':
@@ -84,7 +86,7 @@ def load_sensor(scene):
     
     # other params
     for parameter in sensor_element:
-        if not parameter.tag == 'transform' or not parameter.tag == 'film' or not parameter.tag == 'sampler':
+        if (not parameter.tag == 'transform') and (not parameter.tag == 'film') and (not parameter.tag == 'sampler'):
             sensor_param = directives.Param()
             
             sensor_param.val_type = parameter.tag
@@ -92,9 +94,50 @@ def load_sensor(scene):
             sensor_param.value = parameter.attrib.get('value')
             
             sensor.params.append(sensor_param)
-            
 
+    return sensor
 
-def load_world(scene):
-    pass
+#def load_materials(scene):
+    #for material_element in scene.findall('bsdf'):
+    #    pass
+
+def test_directives():
+    scene = read_from_xml('/home/grad/lahagemann/scene_converter/test_files/mitsuba/staircase.xml')
+
+    print '---- SCENE DIRECTIVES ----'
+
+    print ('integrator', scene.integrator.int_type)
+    print 'params:'
+    for param in scene.integrator.params:
+        print (param.val_type, param.name, param.value)
+    print '-----'
+
+    print ('sensor', scene.sensor.sensor_type)
+    print 'params:'
+    for param in scene.sensor.params:
+        print (param.val_type, param.name, param.value)
+    print '-----'
+
+    print ('transform', scene.sensor.transform.name, scene.sensor.transform.matrix)
+    print '-----'
+
+    print ('film', scene.sensor.film.film_type, scene.sensor.film.filter_type)
+    print 'params:'
+    for param in scene.sensor.film.params:
+        print (param.val_type, param.name, param.value)
+    print '-----'
+
+    print ('sampler', scene.sensor.sampler.sampler_type)
+    print 'params:'
+    for param in scene.sensor.sampler.params:
+        print (param.val_type, param.name, param.value)
+    print '-----'
+
+def main():
+    test_directives()
+
+if  __name__ =='__main__':main()
+
+#def load_world(scene):
+#    pass
 
