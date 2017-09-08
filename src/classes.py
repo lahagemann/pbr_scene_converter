@@ -37,17 +37,17 @@ class Texture:
     name = ''
     tex_type = ''
     params = []
-
-class AdapterMaterial:
-    mat_type = ''
-    mat_id = ''
-    material = Material()
-
+    
 class Material:
     mat_type = ''
     mat_id = ''    
     params = []
     texture = Texture()
+    
+class AdapterMaterial:
+    mat_type = ''
+    mat_id = ''
+    material = Material()
 
 # WORLD DECLARATION
 
