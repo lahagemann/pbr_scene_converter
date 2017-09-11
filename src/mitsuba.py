@@ -97,9 +97,64 @@ def load_sensor(scene):
 
     return sensor
 
-#def load_materials(scene):
-    #for material_element in scene.findall('bsdf'):
-    #    pass
+def load_materials(scene):
+    material_list = []
+    
+    for material in scene.findall('bsdf'):
+        
+        #first: check bump map case
+        if material.get('type') == 'bumpmap':
+            # do some shit
+        
+        else:
+            # check if material is adapter or regular
+            adapted_mat_elem = material.find('bsdf')
+            if adapted_mat_elem is not None:
+            
+                # material = adapter material (twosided usually)
+                adapter = directives.AdapterMaterial()
+                adapter.mat_type = material.attrib.get('type')
+                adapter.mat_id = material.attrib.get('id')
+                
+                # adapted_mat = adapted material (diffuse or wtv)
+                adapted_mat = directives.Material()
+                
+                # check texture
+                texture_elem = adapted_mat_elem.find('texture')
+                if texture_elem is not None:
+                    texture = directives.Texture()
+                    
+                    texture.name = texture_elem.attrib.get('name')
+                    texture.tex_type = texture_elem.attrib.get('type')
+                    
+                    for parameter in texture_elem:
+                        param = directives.Param()
+                        
+                        param.val_type = parameter.tag
+                        param.name = parameter.attrib.get('name')
+                        param.value = parameter.attrib.get('value')
+                        
+                        texture.params.append(param)
+                        
+                    adapted_mat.texture = texture
+                        
+                else:
+                    adapted_mat.texture = None
+                    
+                # get other material parameters
+                
+                #for parameter in 
+                
+                adapter.material = adapted_mat
+                material_list.append(adapter)
+                
+            else:
+    
+    return material_list
+                
+                
+            
+            
 
 def test_directives():
     scene = read_from_xml('/home/grad/lahagemann/scene_converter/test_files/mitsuba/staircase.xml')
