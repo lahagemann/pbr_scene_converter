@@ -49,6 +49,10 @@ class AdapterMaterial:
     mat_id = ''
     material = Material()
 
+class BumpMap:
+    texture = Texture()
+    adapter = AdapterMaterial()
+
 # WORLD DECLARATION
 
 # GLOBAL

@@ -96,8 +96,24 @@ def load_materials(scene):
         
         #first: check bump map case
         if material.get('type') == 'bumpmap':
-            pass
-            # do some shit
+            bumpmap = directives.BumpMap()
+            
+            # texture
+            texture_elem = material.find('texture')
+            
+            if texture_elem is not None:
+                texture = directives.Texture()
+            
+                texture.name = texture_elem.attrib.get('name')
+                texture.tex_type = texture_elem.attrib.get('type')
+                texture.params = extract_params(texture_elem)
+            
+                bumpmap.texture = texture
+            
+            else:
+                bumpmap.texture = None
+            
+            # adapter
         
         else:
             # check if material is adapter or regular
@@ -160,6 +176,9 @@ def load_materials(scene):
                 material_list.append(mat)
 
     return material_list
+
+def load_shapes(scene_element):
+    pass
 
 def test_directives():
     #scene = read_from_xml('/home/grad/lahagemann/scene_converter/test_files/mitsuba/staircase.xml')
