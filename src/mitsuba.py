@@ -3,6 +3,25 @@
 import xml.etree.ElementTree as ET
 import classes as directives
 
+def extract_params(element):
+    lst = []
+    
+    for attribute in element:
+        param = directives.Param()
+        
+        param.val_type = attribute.tag
+        param.name = attribute.attrib.get('name')
+        param.value = attribute.attrib.get('value')
+        
+        lst.append(param)
+
+    return lst
+
+def filter_params(list, param_type):
+    lst = [x for x in list if not x.val_type == param_type]
+    return lst
+
+
 def read_from_xml(filename):
     tree = ET.parse(filename)
     scene_element = tree.getroot()
@@ -16,6 +35,7 @@ def load_scene(scene_element):
 
     scene.integrator = load_integrator(scene_element)
     scene.sensor = load_sensor(scene_element)
+    scene.materials = load_materials(scene_element)
 
     #scene.world = load_world(scene_element)
 
@@ -29,14 +49,7 @@ def load_integrator(scene):
     integrator.int_type = integrator_element.attrib.get('type')
     
     # extract all aditional parameters
-    for parameter in integrator_element:
-        integrator_param = directives.Param()
-        
-        integrator_param.val_type = parameter.tag
-        integrator_param.name = parameter.attrib.get('name')
-        integrator_param.value = parameter.attrib.get('value')
-    
-        integrator.params.append(integrator_param)
+    integrator.params = extract_params(integrator_element)
     
     return integrator
 
@@ -58,42 +71,21 @@ def load_sensor(scene):
     # sampler setup
     sampler_element = sensor_element.find('sampler')
     sensor.sampler.sampler_type = sampler_element.get('type')
+    sensor.sampler.params = extract_params(sampler_element)
     
-    for parameter in sampler_element:
-        sampler_param = directives.Param()
-        
-        sampler_param.val_type = parameter.tag
-        sampler_param.name = parameter.attrib.get('name')
-        sampler_param.value = parameter.attrib.get('value')
-        
-        sensor.sampler.params.append(sampler_param)
-        
     # film setup
     film_element = sensor_element.find('film')
     sensor.film.film_type = film_element.get('type')
-    
     sensor.film.filter_type = film_element.find('rfilter').get('type')
-    
-    for parameter in film_element:
-        if not parameter.tag == 'rfilter':
-            film_param = directives.Param()
-            
-            film_param.val_type = parameter.tag
-            film_param.name = parameter.attrib.get('name')
-            film_param.value = parameter.attrib.get('value')
-            
-            sensor.film.params.append(film_param)
+
+    sensor.film.params = extract_params(film_element)
+    sensor.film.params = filter_params(sensor.film.params, 'rfilter')
     
     # other params
-    for parameter in sensor_element:
-        if (not parameter.tag == 'transform') and (not parameter.tag == 'film') and (not parameter.tag == 'sampler'):
-            sensor_param = directives.Param()
-            
-            sensor_param.val_type = parameter.tag
-            sensor_param.name = parameter.attrib.get('name')
-            sensor_param.value = parameter.attrib.get('value')
-            
-            sensor.params.append(sensor_param)
+    sensor.params = extract_params(sensor_element)
+    sensor.params = filter_params(sensor.params, 'transform')
+    sensor.params = filter_params(sensor.params, 'film')
+    sensor.params = filter_params(sensor.params, 'sampler')
 
     return sensor
 
@@ -104,6 +96,7 @@ def load_materials(scene):
         
         #first: check bump map case
         if material.get('type') == 'bumpmap':
+            pass
             # do some shit
         
         else:
@@ -118,6 +111,7 @@ def load_materials(scene):
                 
                 # adapted_mat = adapted material (diffuse or wtv)
                 adapted_mat = directives.Material()
+                adapted_mat.mat_type = adapted_mat_elem.get('type')
                 
                 # check texture
                 texture_elem = adapted_mat_elem.find('texture')
@@ -126,15 +120,7 @@ def load_materials(scene):
                     
                     texture.name = texture_elem.attrib.get('name')
                     texture.tex_type = texture_elem.attrib.get('type')
-                    
-                    for parameter in texture_elem:
-                        param = directives.Param()
-                        
-                        param.val_type = parameter.tag
-                        param.name = parameter.attrib.get('name')
-                        param.value = parameter.attrib.get('value')
-                        
-                        texture.params.append(param)
+                    texture.params = extract_params(texture_elem)
                         
                     adapted_mat.texture = texture
                         
@@ -142,23 +128,43 @@ def load_materials(scene):
                     adapted_mat.texture = None
                     
                 # get other material parameters
-                
-                #for parameter in 
+                adapted_mat.params = extract_params(adapted_mat_elem)
+                adapted_mat.params = filter_params(adapted_mat.params, 'texture')
                 
                 adapter.material = adapted_mat
                 material_list.append(adapter)
                 
             else:
-    
+                mat = directives.Material()
+                
+                mat.mat_type = material.attrib.get('type')
+                mat.mat_id = material.attrib.get('id')
+
+                # check texture
+                texture_elem = material.find('texture')
+                if texture_elem is not None:
+                    texture = directives.Texture()
+            
+                    texture.name = texture_elem.attrib.get('name')
+                    texture.tex_type = texture_elem.attrib.get('type')
+                    texture.params = extract_params(texture_elem)
+                    
+                    mat.texture = texture
+                
+                else:
+                    mat.texture = None
+
+                # get other material parameters
+                mat.params = extract_params(material)
+                mat.params = filter_params(mat.params, 'texture')
+                material_list.append(mat)
+
     return material_list
-                
-                
-            
-            
 
 def test_directives():
-    scene = read_from_xml('/home/grad/lahagemann/scene_converter/test_files/mitsuba/staircase.xml')
-
+    #scene = read_from_xml('/home/grad/lahagemann/scene_converter/test_files/mitsuba/staircase.xml')
+    scene = read_from_xml('/Users/luiza.hagemann/Development/pbr_scene_converter/test_files/mitsuba/staircase.xml')
+    
     print '---- SCENE DIRECTIVES ----'
 
     print ('integrator', scene.integrator.int_type)
@@ -188,8 +194,45 @@ def test_directives():
         print (param.val_type, param.name, param.value)
     print '-----'
 
+def test_materials():
+    scene = read_from_xml('/Users/luiza.hagemann/Development/pbr_scene_converter/test_files/mitsuba/staircase.xml')
+
+    print '---- MATERIALS ----'
+
+    for material in scene.materials:
+        if isinstance(material, directives.AdapterMaterial):
+            print 'Adapter'
+            print (material.mat_type, material.mat_id)
+            print 'Adapted Material'
+            print (material.material.mat_type, material.material.mat_id)
+            print 'params'
+            for param in material.material.params:
+                print (param.val_type, param.name, param.value)
+            if material.material.texture is not None:
+                print 'texture'
+                print (material.material.texture.name, material.material.texture.tex_type)
+                print 'tex params'
+                for param in material.material.texture.params:
+                    print (param.val_type, param.name, param.value)
+
+        else:
+            print 'Material'
+            print (material.mat_type, material.mat_id)
+            print 'params'
+            for param in material.params:
+                print (param.val_type, param.name, param.value)
+            if material.texture is not None:
+                print 'texture'
+                print (material.texture.name, material.texture.tex_type)
+                print 'tex params'
+                for param in material.texture.params:
+                    print (param.val_type, param.name, param.value)
+
+        print '-----'
+
 def main():
     test_directives()
+    test_materials()
 
 if  __name__ =='__main__':main()
 
