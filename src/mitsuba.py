@@ -114,6 +114,41 @@ def load_materials(scene):
                 bumpmap.texture = None
             
             # adapter
+            adapter_elem = material.find('bsdf')
+            
+            
+            # check if material is adapter or regular
+            adapted_mat_elem = adapter_elem.find('bsdf')
+            if adapted_mat_elem is not None:
+            
+                # material = adapter material (twosided usually)
+                adapter = directives.AdapterMaterial()
+                adapter.mat_type = adapter_elem.attrib.get('type')
+                adapter.mat_id = adapter_elem.attrib.get('id')
+                
+                # adapted_mat = adapted material (diffuse or wtv)
+                adapted_mat = directives.Material()
+                adapted_mat.mat_type = adapted_mat_elem.get('type')
+                    
+                # get other material parameters
+                adapted_mat.params = extract_params(adapted_mat_elem)
+                adapted_mat.params = filter_params(adapted_mat.params, 'texture')
+                
+                adapter.material = adapted_mat
+                bumpmap.adapter = adapter
+                material_list.append(bumpmap)
+                
+            else:
+                mat = directives.Material()
+                
+                mat.mat_type = material.attrib.get('type')
+                mat.mat_id = material.attrib.get('id')
+
+                # get other material parameters
+                mat.params = extract_params(material)
+                
+                bumpmap.adapter = mat
+                material_list.append(bumpmap)
         
         else:
             # check if material is adapter or regular
@@ -181,8 +216,9 @@ def load_shapes(scene_element):
     pass
 
 def test_directives():
+    scene = read_from_xml('/home/luiza/pbr_scene_converter/test_files/mitsuba/staircase.xml')
     #scene = read_from_xml('/home/grad/lahagemann/scene_converter/test_files/mitsuba/staircase.xml')
-    scene = read_from_xml('/Users/luiza.hagemann/Development/pbr_scene_converter/test_files/mitsuba/staircase.xml')
+    #scene = read_from_xml('/Users/luiza.hagemann/Development/pbr_scene_converter/test_files/mitsuba/staircase.xml')
     
     print '---- SCENE DIRECTIVES ----'
 
@@ -214,12 +250,29 @@ def test_directives():
     print '-----'
 
 def test_materials():
-    scene = read_from_xml('/Users/luiza.hagemann/Development/pbr_scene_converter/test_files/mitsuba/staircase.xml')
+    scene = read_from_xml('/home/luiza/pbr_scene_converter/test_files/mitsuba/staircase.xml')
+    #scene = read_from_xml('/home/grad/lahagemann/scene_converter/test_files/mitsuba/staircase.xml')
+    #scene = read_from_xml('/Users/luiza.hagemann/Development/pbr_scene_converter/test_files/mitsuba/staircase.xml')
 
     print '---- MATERIALS ----'
 
     for material in scene.materials:
-        if isinstance(material, directives.AdapterMaterial):
+        if isinstance(material, directives.BumpMap):
+            print 'BumpMap'
+            print 'texture'
+            print (material.texture.name, material.texture.tex_type)
+            print 'tex params'
+            for param in material.texture.params:
+                print (param.val_type, param.name, param.value)
+            print 'Adapter'
+            print (material.adapter.mat_type, material.adapter.mat_id)
+            print 'Adapted Material'
+            print (material.adapter.material.mat_type, material.adapter.material.mat_id)
+            print 'params'
+            for param in material.adapter.material.params:
+                print (param.val_type, param.name, param.value)
+    
+        elif isinstance(material, directives.AdapterMaterial):
             print 'Adapter'
             print (material.mat_type, material.mat_id)
             print 'Adapted Material'

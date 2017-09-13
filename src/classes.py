@@ -54,6 +54,17 @@ class BumpMap:
     adapter = AdapterMaterial()
 
 # WORLD DECLARATION
+class Emitter:
+    emitter_type = ''
+    params = []
+
+class Shape:
+    shape_type = ''
+    shape_id = ''
+    transform = Transform()
+    emitter = Emitter()
+    material = AdapterMaterial()
+    params = []
 
 # GLOBAL
 
