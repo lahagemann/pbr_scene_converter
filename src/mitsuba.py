@@ -1,7 +1,9 @@
 # -*- coding: utf-8 -*-
 
 import xml.etree.ElementTree as ET
+import numpy as np
 import classes as directives
+
 
 def extract_params(element):
     lst = []
@@ -54,6 +56,8 @@ def load_integrator(scene):
     return integrator
 
 def load_sensor(scene):
+    np.set_printoptions(suppress=True)
+    
     sensor = directives.Sensor()
     sensor_element = scene.find('sensor')
 
@@ -67,6 +71,9 @@ def load_sensor(scene):
     
     matrix = sensor_element.find('transform').find('matrix').get('value')
     sensor.transform.matrix = map(float, matrix.strip().split(' '))
+    # formats matrix into 4x4 pattern
+    sensor.transform.matrix = [sensor.transform.matrix[i:i + 4] for i in xrange(0, len(sensor.transform.matrix), 4)]
+    
     
     # sampler setup
     sampler_element = sensor_element.find('sampler')
