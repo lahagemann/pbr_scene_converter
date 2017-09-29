@@ -66,6 +66,7 @@ def load_sensor(scene):
 
     # sensor has:   parameters
     #               transform, sampler, film
+
     # transform setup
     sensor.transform.name = sensor_element.find('transform').get('name')
     
@@ -73,8 +74,7 @@ def load_sensor(scene):
     sensor.transform.matrix = map(float, matrix.strip().split(' '))
     # formats matrix into 4x4 pattern
     sensor.transform.matrix = [sensor.transform.matrix[i:i + 4] for i in xrange(0, len(sensor.transform.matrix), 4)]
-    
-    
+
     # sampler setup
     sampler_element = sensor_element.find('sampler')
     sensor.sampler.sampler_type = sampler_element.get('type')
