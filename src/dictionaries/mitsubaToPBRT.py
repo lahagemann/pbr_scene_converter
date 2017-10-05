@@ -4,7 +4,6 @@ integratorType =    {   'path'  : 'path',
                         'volpath_simple': 'path',
                         'volpath' : 'path',
                         'adaptive' : 'path',
-                        'ptracer' : ???,
                         'direct' : 'directlighting',
                         'bdpt' : 'bdpt', 
                         'mlt' : 'mlt',
@@ -17,9 +16,7 @@ integratorType =    {   'path'  : 'path',
 
 integratorParam =   {   # path, volpath_simple, volpath
                         'maxDepth' : 'maxdepth',
-                        'hideEmitters' : '',
-                        'strictNormals' : '',
-                        'rrDepth',
+                        'rrDepth' : 'rrthreshold',
                         # bdpt
                         'lightImage' : '',
                         'sampleDirect' : '',
@@ -34,23 +31,38 @@ integratorParam =   {   # path, volpath_simple, volpath
                         'lookupSize' : '',
                         'granularity' : '',
                         # ppm, sppm
-                        'photonCount' : '',
-                        'initialRadius' : '',
-                        'alpha' : '',
-                        'maxPasses' : '',
+                        'photonCount' : 'photonsperiteration',
+                        'initialRadius' : 'radius',
+                        'maxPasses' : 'iterations',
                         #pssmlt, mlt
-                        'bidirectional' : '',
-                        'luminanceSamples' : '',
-                        'twoStage' : '',
-                        'pLarge',
-                        'bidirectionalMutation' : '',
-                        'lambda' : '',
+                        'luminanceSamples' : 'bootstrapsamples',
+                        'pLarge' : 'largestepprobability',
+                        'lambda' : 'sigma',
                         #erpt                        
-                        'numChains' : '',
+                        'numChains' : 'chains',
                         'maxChains' : '',
                         'chainLength' : '',
+                    }
 
+samplerType =       {   'independent' : 'random',
+                        'stratified' : 'stratified',
+                        'ldsampler' : '02sequence',
+                        'halton' : 'halton',
+                        'hammersley' : 'random',
+                        'sobol' : 'sobol'
+                    }
 
+samplerParam =      {   'sampleCount' : 'pixelsamples'  }
 
+filmType =          {   'ldrfilm' : 'image',
+                        'hdrfilm' : 'image'
+                    }
+
+filmParam =         {   'width' : 'xresolution',
+                        'height' : 'yresolution'
+                    }
+
+filterType =        {
+    
                     }
 

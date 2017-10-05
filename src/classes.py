@@ -63,7 +63,7 @@ class Shape:
     shape_id = ''
     transform = Transform()
     emitter = Emitter()
-    material = AdapterMaterial()
+    material = None
     params = []
 
 # GLOBAL
@@ -72,6 +72,7 @@ class World:
     int = 1
 
 class Scene:
+    
     integrator = Integrator()
     sensor = Sensor()
     materials = []
