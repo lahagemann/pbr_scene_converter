@@ -55,7 +55,9 @@ samplerType =       {   'independent' : 'random',
 samplerParam =      {   'sampleCount' : 'pixelsamples'  }
 
 filmType =          {   'ldrfilm' : 'image',
-                        'hdrfilm' : 'image'
+                        'hdrfilm' : 'image',
+                        'tiledhdrfilm' : 'image',
+                        'mfilm' : 'image'
                     }
 
 filmParam =         {   'width' : 'xresolution',
@@ -64,5 +66,32 @@ filmParam =         {   'width' : 'xresolution',
 
 filterType =        {
     
+                    }
+
+sensorType =        {   'perspective' : 'perspective',
+                        'thinlens' : 'perspective',
+                        'orthographic' : 'orthographic',
+                        'telecentric' : '',
+                        'spherical' : '',
+                        'irradiancemeter' : '',
+                        'radiancemeter' : '',
+                        'fluencemeter' : '',
+                        'perspective_rdist' : '',
+                    }
+
+sensorParam =       {   #perspective
+                        'toWorld' : '',
+                        'focalLength' : '',
+                        'fov' : 'fov',
+                        'fovAxis' : '',
+                        'shutterOpen' : 'shutteropen',
+                        'shutterClose' : 'shutterclose',
+                        'nearClip' : '',
+                        'farClip' : '',
+                        # thinlens
+                        'apertureRadius' : 'lensradius',
+                        'focusDistance' : 'focaldistance',
+                        # perspective_rdist
+                        'kc' : '',
                     }
 
