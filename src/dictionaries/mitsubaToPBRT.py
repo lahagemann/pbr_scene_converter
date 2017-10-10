@@ -17,19 +17,8 @@ integratorType =    {   'path'  : 'path',
 integratorParam =   {   # path, volpath_simple, volpath
                         'maxDepth' : 'maxdepth',
                         'rrDepth' : 'rrthreshold',
-                        # bdpt
-                        'lightImage' : '',
-                        'sampleDirect' : '',
                         # photonmapper
-                        'directSamples' : '',
-                        'glossySamples' : '',
-                        'globalPhotons' : '',
-                        'causticPhotons' : '',
-                        'volumePhotons' : '',
-                        'globalLookupRadius' : '',
-                        'causticLookupRadius' : '',
-                        'lookupSize' : '',
-                        'granularity' : '',
+                        'globalLookupRadius' : 'radius',
                         # ppm, sppm
                         'photonCount' : 'photonsperiteration',
                         'initialRadius' : 'radius',
@@ -40,9 +29,9 @@ integratorParam =   {   # path, volpath_simple, volpath
                         'lambda' : 'sigma',
                         #erpt                        
                         'numChains' : 'chains',
-                        'maxChains' : '',
-                        'chainLength' : '',
+                        'chainLength' : 'mutationsperpixel'
                     }
+# sampler
 
 samplerType =       {   'independent' : 'random',
                         'stratified' : 'stratified',
@@ -54,6 +43,8 @@ samplerType =       {   'independent' : 'random',
 
 samplerParam =      {   'sampleCount' : 'pixelsamples'  }
 
+# film
+
 filmType =          {   'ldrfilm' : 'image',
                         'hdrfilm' : 'image',
                         'tiledhdrfilm' : 'image',
@@ -64,34 +55,35 @@ filmParam =         {   'width' : 'xresolution',
                         'height' : 'yresolution'
                     }
 
+#filter
+
 filterType =        {
-    
+                        'box' : 'box',
+                        'tent' : 'triangle',
+                        'gaussian' : 'gaussian',
+                        'mitchell' : 'mitchell',
+                        'catmullrom' : 'mitchell',
+                        'lanczos' : 'sinc'
                     }
+
+# sensor -> camera
 
 sensorType =        {   'perspective' : 'perspective',
                         'thinlens' : 'perspective',
                         'orthographic' : 'orthographic',
-                        'telecentric' : '',
-                        'spherical' : '',
-                        'irradiancemeter' : '',
-                        'radiancemeter' : '',
-                        'fluencemeter' : '',
-                        'perspective_rdist' : '',
+                        'telecentric' : 'orthographic',
+                        'spherical' : 'environment',
+                        'irradiancemeter' : 'realistic',
+                        'radiancemeter' : 'realistic',
+                        'fluencemeter' : 'realistic',
+                        'perspective_rdist' : 'perspective'
                     }
 
 sensorParam =       {   #perspective
-                        'toWorld' : '',
-                        'focalLength' : '',
                         'fov' : 'fov',
-                        'fovAxis' : '',
                         'shutterOpen' : 'shutteropen',
                         'shutterClose' : 'shutterclose',
-                        'nearClip' : '',
-                        'farClip' : '',
                         # thinlens
                         'apertureRadius' : 'lensradius',
-                        'focusDistance' : 'focaldistance',
-                        # perspective_rdist
-                        'kc' : '',
+                        'focusDistance' : 'focaldistance'
                     }
-
