@@ -2,10 +2,12 @@
 
 import mitsuba as mit
 import mitsubaToPBRT as mtpbrt
+import classes as directives
 import numpy as np
 
 def toPBRT(scene):
     np.set_printoptions(suppress=True)
+    textures = {}
     
     with open("scene.pbrt", 'w') as outfile:
         # scene directives
@@ -127,7 +129,47 @@ def toPBRT(scene):
         outfile.write('WorldBegin\n')
         
         # texture declaration
-
+        tex_count = 0
+        
+        print len(scene.materials)
+        for material in scene.materials:
+            # case bumpmap: texture in upper level, texture in adapter -> material
+            if isinstance(material, directives.BumpMap):
+                id = 'Texture' + str(tex_count).zfill(2)
+                
+                # outer texture for bumpmap is float. otherwise, spectrum
+                outfile.write('Texture "' + id + '" "float" ')
+                
+                tex = material.texture
+                
+                if tex.tex_type == 'bitmap':
+                    outfile.write('"imagemap" ')
+                else:
+                    pass #TODO
+                
+                for param in tex.params:
+                    if param.name == 'filename':
+                        outfile.write('"string filename" [ "' + param.value + '" ] ')
+                    elif param.name == 'filterType':
+                        if param.value == 'ewa':
+                            outfile.write('"bool trilinear" [ "false" ] ')
+                        else:
+                            outfile.write('"bool trilinear" [ "true" ] ')
+                    else:
+                        # search the dictionary
+                        pass
+                
+                #textures[id] =
+        
+            # case adapter: texture in adapter -> material
+            elif isinstance(material, directives.AdapterMaterial):
+                pass
+                
+            # case material: texture field.
+            else:
+                pass
+        
+            tex_count += 1
 
 
         # end scene description
@@ -135,7 +177,7 @@ def toPBRT(scene):
 
 
 def main():
-    scene = mit.read_from_xml('/Users/luiza.hagemann/Development/pbr_scene_converter/test_files/mitsuba/classroom.xml')
+    scene = mit.read_from_xml('/Users/luiza.hagemann/Development/pbr_scene_converter/test_files/mitsuba/staircase.xml')
     toPBRT(scene)
 
 if  __name__ =='__main__': main()
