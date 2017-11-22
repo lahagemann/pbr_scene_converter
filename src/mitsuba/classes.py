@@ -37,6 +37,10 @@ class Texture:
     name = ''
     tex_type = ''
     params = []
+
+class WrapperTexture:
+    tex_type = ''
+    texture = Texture()
     
 class Material:
     mat_type = ''

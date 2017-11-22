@@ -1,8 +1,42 @@
-Integrator "path" "integer maxdepth" [ 65 ]
+Integrator "path" "integer maxdepth" [ 65 ] 
 Transform [ -0.999970418625 0.000344841638853 -0.00764601728669 0.0 1.48836067785e-10 0.998985013332 0.0450550536274 0.0 0.0076537920396 0.045053714241 -0.998955491446 0.0 -0.00494564240561 -1.74514245079 4.80833172931 1.0 ]
-Sampler "sobol" "integer pixelsamples" [ 64 ]
+Sampler "sobol" "integer pixelsamples" [ 64 ] 
 PixelFilter "triangle" 
-Film "image" "integer xresolution" [ 720 ] "integer yresolution" [ 1280 ] "string filename" [ "scene.png" ]
-Camera "perspective" "float fov" [ 35 ]
+Film "image" "integer xresolution" [ 720 ] "integer yresolution" [ 1280 ] 
+Camera "perspective" "float fov" [ 35 ] 
 WorldBegin
-Texture "Texture06" "float" "imagemap" "string filename" [ "textures/BrushedAluminium.jpg" ] "bool trilinear" [ "true" ] WorldEnd
+Texture "Texture01" "spectrum" "imagemap" "string filename" [ "textures/WoodFloor.jpg" ] "bool trilinear" [ "true" ] 
+Texture "Texture02" "spectrum" "imagemap" "string filename" [ "textures/WoodPanel.jpg" ] "bool trilinear" [ "true" ] 
+Texture "Texture03" "spectrum" "imagemap" "string filename" [ "textures/Wood.jpg" ] "bool trilinear" [ "true" ] 
+Texture "Texture04" "spectrum" "imagemap" "string filename" [ "textures/WoodChair.jpg" ] "bool trilinear" [ "true" ] 
+Texture "Texture05" "spectrum" "imagemap" "string filename" [ "textures/Fabric.jpg" ] "bool trilinear" [ "true" ] 
+Texture "Texture06" "float" "imagemap" "string filename" [ "textures/BrushedAluminium.jpg" ] "bool trilinear" [ "true" ] 
+Texture "Texture07" "spectrum" "imagemap" "string filename" [ "textures/Painting1.jpg" ] "bool trilinear" [ "true" ] 
+Texture "Texture08" "spectrum" "imagemap" "string filename" [ "textures/Painting2.jpg" ] "bool trilinear" [ "true" ] 
+Texture "Texture09" "spectrum" "imagemap" "string filename" [ "textures/Painting3.jpg" ] "bool trilinear" [ "true" ] 
+Texture "Texture10" "spectrum" "imagemap" "string filename" [ "textures/Wallpaper.jpg" ] "bool trilinear" [ "true" ] 
+
+
+
+
+
+
+MakeNamedMaterial "BrushedAluminium" 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+WorldEnd

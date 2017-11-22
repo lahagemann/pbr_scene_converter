@@ -87,3 +87,6 @@ sensorParam =       {   #perspective
                         'apertureRadius' : 'lensradius',
                         'focusDistance' : 'focaldistance'
                     }
+
+#textureParam =      {
+#                    }

@@ -5,9 +5,20 @@ import mitsubaToPBRT as mtpbrt
 import classes as directives
 import numpy as np
 
+def pbrt_writeParams(outfile, paramList, dictionary):
+    for param in paramList:
+        if param.name in dictionary:
+            pbrt_param = dictionary[param.name]
+            outfile.write('"' + param.val_type + ' ' + pbrt_param + '" ')
+            if param.val_type is 'string' or param.val_type is 'bool':
+                outfile.write('[ "' + param.value + '" ] ')
+            else:
+                outfile.write('[ ' + param.value + ' ] ')
+
+
 def toPBRT(scene):
     np.set_printoptions(suppress=True)
-    textures = {}
+    textures = {} # texture dictionary. entries are 'material_name' : 'texture_id'
     
     with open("scene.pbrt", 'w') as outfile:
         # scene directives
@@ -21,12 +32,7 @@ def toPBRT(scene):
             else:
                 outfile.write('"path" ')
 
-            for param in scene.integrator.params:
-                if param.name in mtpbrt.integratorParam:
-                    pbrt_param = mtpbrt.integratorParam[param.name]
-                    outfile.write('"' + param.val_type + ' ' + pbrt_param + '" ')
-                    outfile.write('[ ' + param.value + ' ]')
-
+            pbrt_writeParams(outfile, scene.integrator.params, mtpbrt.integratorParam)
             outfile.write('\n')
 
         # transform
@@ -57,15 +63,7 @@ def toPBRT(scene):
             else:
                 outfile.write('"sobol" ')
 
-            for param in scene.sensor.sampler.params:
-                if param.name in mtpbrt.samplerParam:
-                    pbrt_param = mtpbrt.samplerParam[param.name]
-                    outfile.write('"' + param.val_type + ' ' + pbrt_param + '" ')
-                    if param.val_type is 'string':
-                        outfile.write('[ "' + param.value + '" ]')
-                    else:
-                        outfile.write('[ ' + param.value + ' ]')
-            
+            pbrt_writeParams(outfile, scene.sensor.sampler.params, mtpbrt.samplerParam)
             outfile.write('\n')
 
         # filter
@@ -90,18 +88,7 @@ def toPBRT(scene):
             else:
                 outfile.write('"image" ')
 
-
-            for param in scene.sensor.film.params:
-                if param.name == 'fileFormat':
-                    outfile.write('"string filename" [ "scene.' + param.value + '" ]' )
-                elif param.name in mtpbrt.filmParam:
-                    pbrt_param = mtpbrt.filmParam[param.name]
-                    outfile.write('"' + param.val_type + ' ' + pbrt_param + '" ')
-                    if param.val_type is 'string':
-                        outfile.write('[ "' + param.value + '" ] ')
-                    else:
-                        outfile.write('[ ' + param.value + ' ] ')
-
+            pbrt_writeParams(outfile, scene.sensor.film.params, mtpbrt.filmParam)
             outfile.write('\n')
 
         # sensor/camera
@@ -114,64 +101,118 @@ def toPBRT(scene):
             else:
                 outfile.write('"perspective" ')
 
-            for param in scene.sensor.params:
-                if param.name in mtpbrt.sensorParam:
-                    pbrt_param = mtpbrt.sensorParam[param.name]
-                    outfile.write('"' + param.val_type + ' ' + pbrt_param + '" ')
-                    if param.val_type is 'string':
-                        outfile.write('[ "' + param.value + '" ]')
-                    else:
-                        outfile.write('[ ' + param.value + ' ]')
-
+            pbrt_writeParams(outfile, scene.sensor.params, mtpbrt.sensorParam)
             outfile.write('\n')
 
         # scene description
         outfile.write('WorldBegin\n')
         
         # texture declaration
-        tex_count = 0
+        tex_count = 1
         
-        print len(scene.materials)
         for material in scene.materials:
-            # case bumpmap: texture in upper level, texture in adapter -> material
+            # case bumpmap: texture with adapter texture
             if isinstance(material, directives.BumpMap):
-                id = 'Texture' + str(tex_count).zfill(2)
-                
-                # outer texture for bumpmap is float. otherwise, spectrum
-                outfile.write('Texture "' + id + '" "float" ')
-                
                 tex = material.texture
                 
-                if tex.tex_type == 'bitmap':
-                    outfile.write('"imagemap" ')
-                else:
-                    pass #TODO
+                if tex is not None:
+                    id = 'Texture' + str(tex_count).zfill(2)
+                    textures[material.adapter.mat_id] = id
                 
-                for param in tex.params:
-                    if param.name == 'filename':
-                        outfile.write('"string filename" [ "' + param.value + '" ] ')
-                    elif param.name == 'filterType':
-                        if param.value == 'ewa':
-                            outfile.write('"bool trilinear" [ "false" ] ')
-                        else:
-                            outfile.write('"bool trilinear" [ "true" ] ')
+                    # outer texture for bumpmap is float. otherwise, spectrum
+                    outfile.write('Texture "' + id + '" "float" ')
+                
+                    if tex.tex_type == 'bitmap':
+                        outfile.write('"imagemap" ')
                     else:
-                        # search the dictionary
-                        pass
+                        pass #TODO
                 
-                #textures[id] =
+                    for param in tex.params:
+                        if param.name == 'filename':
+                            outfile.write('"string filename" [ "' + param.value + '" ] ')
+                        elif param.name == 'filterType':
+                            if param.value == 'ewa':
+                                outfile.write('"bool trilinear" [ "false" ] ')
+                            else:
+                                outfile.write('"bool trilinear" [ "true" ] ')
+                        else:
+                            # search the dictionary
+                            pass
+    
+                    tex_count += 1
+                    outfile.write('\n')
         
             # case adapter: texture in adapter -> material
             elif isinstance(material, directives.AdapterMaterial):
-                pass
+                tex = material.material.texture
                 
+                if tex is not None:
+                    id = 'Texture' + str(tex_count).zfill(2)
+                    textures[material.mat_id] = id
+                
+                    outfile.write('Texture "' + id + '" "spectrum" ')
+                    
+                    if tex.tex_type == 'bitmap':
+                        outfile.write('"imagemap" ')
+                    else:
+                        pass #TODO
+
+                    for param in tex.params:
+                        if param.name == 'filename':
+                            outfile.write('"string filename" [ "' + param.value + '" ] ')
+                        elif param.name == 'filterType':
+                            if param.value == 'ewa':
+                                outfile.write('"bool trilinear" [ "false" ] ')
+                            else:
+                                outfile.write('"bool trilinear" [ "true" ] ')
+                        else:
+                            # search the dictionary
+                            pass
+        
+                    tex_count += 1
+                    outfile.write('\n')
+            
             # case material: texture field.
             else:
-                pass
+                tex = material.texture
+                if tex is not None:
+                    id = 'Texture' + str(tex_count).zfill(2)
+                    textures[material.mat_id] = id
+                
+                    outfile.write('Texture "' + id + '" "spectrum" ')
+                
+                    if tex.tex_type == 'bitmap':
+                        outfile.write('"imagemap" ')
+                    else:
+                        pass #TODO
+                
+                    for param in tex.params:
+                        if param.name == 'filename':
+                            outfile.write('"string filename" [ "' + param.value + '" ] ')
+                        elif param.name == 'filterType':
+                            if param.value == 'ewa':
+                                outfile.write('"bool trilinear" [ "false" ] ')
+                            else:
+                                outfile.write('"bool trilinear" [ "true" ] ')
+                        else:
+                            # search the dictionary
+                            pass
+
+                    tex_count += 1
+                    outfile.write('\n')
+
+
+        # named material declaration
+        for material in scene.materials:
+            if isinstance(material, directives.BumpMap):
+                outfile.write('MakeNamedMaterial "' + material.adapter.mat_id + '" ')
+            
         
-            tex_count += 1
-
-
+            elif isinstance(material, directives.AdapterMaterial):
+                pass
+            else:
+                pass
+            outfile.write('\n')
         # end scene description
         outfile.write('WorldEnd\n')
 
