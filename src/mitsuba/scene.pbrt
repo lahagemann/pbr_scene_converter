@@ -15,28 +15,28 @@ Texture "Texture07" "spectrum" "imagemap" "string filename" [ "textures/Painting
 Texture "Texture08" "spectrum" "imagemap" "string filename" [ "textures/Painting2.jpg" ] "bool trilinear" [ "true" ] 
 Texture "Texture09" "spectrum" "imagemap" "string filename" [ "textures/Painting3.jpg" ] "bool trilinear" [ "true" ] 
 Texture "Texture10" "spectrum" "imagemap" "string filename" [ "textures/Wallpaper.jpg" ] "bool trilinear" [ "true" ] 
-
-
-
-
-
-
+MakeNamedMaterial "WoodFloor" 
+MakeNamedMaterial "WoodStairs" 
+MakeNamedMaterial "WoodChair" 
+MakeNamedMaterial "WoodLamp" 
+MakeNamedMaterial "Lampshade" 
+MakeNamedMaterial "Brass" 
 MakeNamedMaterial "BrushedAluminium" 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+MakeNamedMaterial "ChairSeat" 
+MakeNamedMaterial "Glass" 
+MakeNamedMaterial "MagnoliaPaint" 
+MakeNamedMaterial "WhitePaint" 
+MakeNamedMaterial "Painting1" 
+MakeNamedMaterial "Painting2" 
+MakeNamedMaterial "Painting3" 
+MakeNamedMaterial "Black" 
+MakeNamedMaterial "StainlessSteel" 
+MakeNamedMaterial "Emission" 
+MakeNamedMaterial "Candles" 
+MakeNamedMaterial "Gold" 
+MakeNamedMaterial "WhitePaint2" 
+MakeNamedMaterial "White" 
+MakeNamedMaterial "WhitePlastic" 
+MakeNamedMaterial "Copper" 
+MakeNamedMaterial "Wallpaper" 
 WorldEnd

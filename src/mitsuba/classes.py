@@ -59,12 +59,11 @@ class BumpMap:
 
 # WORLD DECLARATION
 class Emitter:
-    emitter_type = ''
+    type = ''
     params = []
 
 class Shape:
-    shape_type = ''
-    shape_id = ''
+    id = ''
     transform = Transform()
     emitter = Emitter()
     material = None
@@ -76,8 +75,9 @@ class World:
     int = 1
 
 class Scene:
-    
     integrator = Integrator()
     sensor = Sensor()
     materials = []
+    shapes = []
+    light_sources = []
     world = World()

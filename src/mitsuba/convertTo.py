@@ -15,6 +15,50 @@ def pbrt_writeParams(outfile, paramList, dictionary):
             else:
                 outfile.write('[ ' + param.value + ' ] ')
 
+def pbrt_shapeString(shape):
+    s = ''
+    
+    if shape.type == 'obj' or shape.type == 'ply':
+        # if ref != None, set material reference with "NamedMaterial" command
+        s = s + 'NamedMaterial "' + shape.material_ref + '"\n'
+        s = s + 'Shape "plymesh" "string filename" [ "' + shape.filename + '" ]\n'
+            
+    elif shape.type == 'cube':
+        # cube will be a triangle mesh
+        pass
+    
+    elif shape.type == 'sphere':
+        pass
+            
+    elif shape.type == 'cylinder':
+        pass
+        
+    elif shape.type == 'rectangle':
+        # rectangle will be a triangle mesh
+        p0 = np.sum(scene.transform.matrix * np.array([1, 1, 0, 1]), axis = 1)
+        p1 = np.sum(scene.transform.matrix * np.array([-1, 1, 0, 1]), axis = 1)
+        p2 = np.sum(scene.transform.matrix * np.array([-1, -1, 0, 1]), axis = 1)
+        p3 = np.sum(scene.transform.matrix * np.array([1, -1, 0, 1]), axis = 1)
+                
+        s = s + 'Shape "trianglemesh" "integer indices" [ 0 1 2 0 2 3 ] "point P" '
+        s = s + '[ ' + str(p0[0]) + ' ' + str(p0[1]) + ' ' + str(p0[2]) + ' '
+        s = s + str(p1[0]) + ' ' + str(p1[1]) + ' ' + str(p1[2]) + ' '
+        s = s + str(p2[0]) + ' ' + str(p2[1]) + ' ' + str(p2[2]) + ' '
+        s = s + str(p3[0]) + ' ' + str(p3[1]) + ' ' + str(p3[2]) + ' ] '
+                
+        # TODO: NORMAL CALCULATION
+                
+        s = s + '"float uv" [ 0 0 1 0 1 1 0 1 ]\n'
+            
+    elif shape.type == 'disk':
+            
+    elif shape.type == 'hair':
+            
+    elif shape.type == 'heightfield':
+
+
+    return s
+
 
 def toPBRT(scene):
     np.set_printoptions(suppress=True)
@@ -207,12 +251,29 @@ def toPBRT(scene):
             if isinstance(material, directives.BumpMap):
                 outfile.write('MakeNamedMaterial "' + material.adapter.mat_id + '" ')
             
-        
+                outfile.write('\n')
             elif isinstance(material, directives.AdapterMaterial):
-                pass
+                outfile.write('MakeNamedMaterial "' + material.mat_id + '" ')
+
+                outfile.write('\n')
             else:
-                pass
-            outfile.write('\n')
+                outfile.write('MakeNamedMaterial "' + material.mat_id + '" ')
+                    
+                outfile.write('\n')
+                    
+                    
+        for shape in scene.shapes:
+            if shape.emitter is not None:
+                if shape.emitter.type == 'area':
+                    outfile.write('AttributeBegin\n')
+                    
+                    
+                
+                    outfile.write('AttributeEnd\n')
+
+            
+            
+
         # end scene description
         outfile.write('WorldEnd\n')
 
