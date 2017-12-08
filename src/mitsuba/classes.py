@@ -63,7 +63,7 @@ class Emitter:
     params = []
 
 class Shape:
-    id = ''
+    type = '' 
     transform = Transform()
     emitter = Emitter()
     material = None

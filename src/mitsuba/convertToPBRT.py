@@ -35,19 +35,26 @@ def pbrt_shapeString(shape):
         
     elif shape.type == 'rectangle':
         # rectangle will be a triangle mesh
-        p0 = np.sum(scene.transform.matrix * np.array([1, 1, 0, 1]), axis = 1)
-        p1 = np.sum(scene.transform.matrix * np.array([-1, 1, 0, 1]), axis = 1)
-        p2 = np.sum(scene.transform.matrix * np.array([-1, -1, 0, 1]), axis = 1)
-        p3 = np.sum(scene.transform.matrix * np.array([1, -1, 0, 1]), axis = 1)
-                
+        p0 = np.sum(scene.transform.matrix * np.array([-1, -1, 0, 1]), axis = 1)
+        p1 = np.sum(scene.transform.matrix * np.array([1, -1, 0, 1]), axis = 1)
+        p2 = np.sum(scene.transform.matrix * np.array([1, 1, 0, 1]), axis = 1)
+        p3 = np.sum(scene.transform.matrix * np.array([-1, 1, 0, 1]), axis = 1)        
+
         s = s + 'Shape "trianglemesh" "integer indices" [ 0 1 2 0 2 3 ] "point P" '
         s = s + '[ ' + str(p0[0]) + ' ' + str(p0[1]) + ' ' + str(p0[2]) + ' '
         s = s + str(p1[0]) + ' ' + str(p1[1]) + ' ' + str(p1[2]) + ' '
         s = s + str(p2[0]) + ' ' + str(p2[1]) + ' ' + str(p2[2]) + ' '
         s = s + str(p3[0]) + ' ' + str(p3[1]) + ' ' + str(p3[2]) + ' ] '
                 
-        # TODO: NORMAL CALCULATION
-                
+        # normal for all 4 points in a rectangle is the same as face normal
+        normal = np.cross(p2 - p0, p3 - p1)
+        s = s + '"normal N" ['
+        s = s + str(normal[0] + ' ' + str(normal[1]) + ' ' + str(normal[2]) + ' '
+        s = s + str(normal[0] + ' ' + str(normal[1]) + ' ' + str(normal[2]) + ' '
+        s = s + str(normal[0] + ' ' + str(normal[1]) + ' ' + str(normal[2]) + ' '
+        s = s + str(normal[0] + ' ' + str(normal[1]) + ' ' + str(normal[2]) + ' '
+
+        # float uv for triangle is default
         s = s + '"float uv" [ 0 0 1 0 1 1 0 1 ]\n'
             
     elif shape.type == 'disk':

@@ -38,8 +38,7 @@ def load_scene(scene_element):
     scene.integrator = load_integrator(scene_element)
     scene.sensor = load_sensor(scene_element)
     scene.materials = load_materials(scene_element)
-
-    #scene.world = load_world(scene_element)
+    scene.shapes = load_shapes(scene_element)
 
     return scene
     
@@ -220,11 +219,26 @@ def load_materials(scene):
     return material_list
 
 def load_shapes(scene_element):
-    pass
+    shape_list = []
+    for shape in scene.findall('shape'):
+        type = shape.get('type')
+        s = Shape()
+        s.type = type
 
+        s.transform.name = shape.find('transform').find('name').get('value')
+        s.transform.matrix = shape.find('transform').find('matrix').get('value')
+
+        s.emitter.type = shape.find('emitter').get('type')
+        s.emitter.params = extract_params(shape.find('emitter'))
+
+        s.params = extract_params(shape)
+        
+        shape_list.append(s) 
+    
+    return shape_list          
+           
 def main():
-    test_directives()
-    test_materials()
+    scene = read_from_xml('/home/grad/lahagemann/pbr_scene_converter/test_files/mitsuba/staircase.xml')
 
 if  __name__ =='__main__':main()
 
