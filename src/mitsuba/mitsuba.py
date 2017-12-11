@@ -7,7 +7,6 @@ import classes as directives
 
 def extract_params(element):
     lst = []
-    
     for attribute in element:
         param = directives.Param()
         
@@ -22,7 +21,127 @@ def extract_params(element):
 def filter_params(list, param_type):
     lst = [x for x in list if not x.val_type == param_type]
     return lst
+    
+def extract_material(material):
+    m = None
+    
+    #first: check bump map case
+    if material.get('type') == 'bumpmap':
+        bumpmap = directives.BumpMap()
+        
+        # texture
+        texture_elem = material.find('texture')
+        
+        if texture_elem is not None:
+            texture = directives.Texture()
+        
+            texture.name = texture_elem.attrib.get('name')
+            texture.tex_type = texture_elem.attrib.get('type')
+            texture.params = extract_params(texture_elem)
+        
+            bumpmap.texture = texture
+        
+        else:
+            bumpmap.texture = None
+        
+        # adapter
+        adapter_elem = material.find('bsdf')
+        
+        
+        # check if material is adapter or regular
+        adapted_mat_elem = adapter_elem.find('bsdf')
+        if adapted_mat_elem is not None:
+        
+            # material = adapter material (twosided usually)
+            adapter = directives.AdapterMaterial()
+            adapter.mat_type = adapter_elem.attrib.get('type')
+            adapter.mat_id = adapter_elem.attrib.get('id')
+            
+            # adapted_mat = adapted material (diffuse or wtv)
+            adapted_mat = directives.Material()
+            adapted_mat.mat_type = adapted_mat_elem.get('type')
+                
+            # get other material parameters
+            adapted_mat.params = extract_params(adapted_mat_elem)
+            adapted_mat.params = filter_params(adapted_mat.params, 'texture')
+            
+            adapter.material = adapted_mat
+            bumpmap.adapter = adapter
+            material_list.append(bumpmap)
+            
+        else:
+            mat = directives.Material()
+            
+            mat.mat_type = material.attrib.get('type')
+            mat.mat_id = material.attrib.get('id')
 
+            # get other material parameters
+            mat.params = extract_params(material)
+            
+            bumpmap.adapter = mat
+            m = bumpmap
+                    
+    else:
+        # check if material is adapter or regular
+        adapted_mat_elem = material.find('bsdf')
+        if adapted_mat_elem is not None:
+        
+            # material = adapter material (twosided usually)
+            adapter = directives.AdapterMaterial()
+            adapter.mat_type = material.attrib.get('type')
+            adapter.mat_id = material.attrib.get('id')
+            
+            # adapted_mat = adapted material (diffuse or wtv)
+            adapted_mat = directives.Material()
+            adapted_mat.mat_type = adapted_mat_elem.get('type')
+            
+            # check texture
+            texture_elem = adapted_mat_elem.find('texture')
+            if texture_elem is not None:
+                texture = directives.Texture()
+                
+                texture.name = texture_elem.attrib.get('name')
+                texture.tex_type = texture_elem.attrib.get('type')
+                texture.params = extract_params(texture_elem)
+                    
+                adapted_mat.texture = texture
+                    
+            else:
+                adapted_mat.texture = None
+                
+            # get other material parameters
+            adapted_mat.params = extract_params(adapted_mat_elem)
+            adapted_mat.params = filter_params(adapted_mat.params, 'texture')
+            
+            adapter.material = adapted_mat
+            m = adapter
+            
+        else:
+            mat = directives.Material()
+            
+            mat.mat_type = material.attrib.get('type')
+            mat.mat_id = material.attrib.get('id')
+
+            # check texture
+            texture_elem = material.find('texture')
+            if texture_elem is not None:
+                texture = directives.Texture()
+        
+                texture.name = texture_elem.attrib.get('name')
+                texture.tex_type = texture_elem.attrib.get('type')
+                texture.params = extract_params(texture_elem)
+                
+                mat.texture = texture
+            
+            else:
+                mat.texture = None
+
+            # get other material parameters
+            mat.params = extract_params(material)
+            mat.params = filter_params(mat.params, 'texture')
+            m = mat
+                
+    return m
 
 def read_from_xml(filename):
     tree = ET.parse(filename)
@@ -99,122 +218,9 @@ def load_materials(scene):
     material_list = []
     
     for material in scene.findall('bsdf'):
-        
-        #first: check bump map case
-        if material.get('type') == 'bumpmap':
-            bumpmap = directives.BumpMap()
-            
-            # texture
-            texture_elem = material.find('texture')
-            
-            if texture_elem is not None:
-                texture = directives.Texture()
-            
-                texture.name = texture_elem.attrib.get('name')
-                texture.tex_type = texture_elem.attrib.get('type')
-                texture.params = extract_params(texture_elem)
-            
-                bumpmap.texture = texture
-            
-            else:
-                bumpmap.texture = None
-            
-            # adapter
-            adapter_elem = material.find('bsdf')
-            
-            
-            # check if material is adapter or regular
-            adapted_mat_elem = adapter_elem.find('bsdf')
-            if adapted_mat_elem is not None:
-            
-                # material = adapter material (twosided usually)
-                adapter = directives.AdapterMaterial()
-                adapter.mat_type = adapter_elem.attrib.get('type')
-                adapter.mat_id = adapter_elem.attrib.get('id')
-                
-                # adapted_mat = adapted material (diffuse or wtv)
-                adapted_mat = directives.Material()
-                adapted_mat.mat_type = adapted_mat_elem.get('type')
-                    
-                # get other material parameters
-                adapted_mat.params = extract_params(adapted_mat_elem)
-                adapted_mat.params = filter_params(adapted_mat.params, 'texture')
-                
-                adapter.material = adapted_mat
-                bumpmap.adapter = adapter
-                material_list.append(bumpmap)
-                
-            else:
-                mat = directives.Material()
-                
-                mat.mat_type = material.attrib.get('type')
-                mat.mat_id = material.attrib.get('id')
-
-                # get other material parameters
-                mat.params = extract_params(material)
-                
-                bumpmap.adapter = mat
-                material_list.append(bumpmap)
-        
-        else:
-            # check if material is adapter or regular
-            adapted_mat_elem = material.find('bsdf')
-            if adapted_mat_elem is not None:
-            
-                # material = adapter material (twosided usually)
-                adapter = directives.AdapterMaterial()
-                adapter.mat_type = material.attrib.get('type')
-                adapter.mat_id = material.attrib.get('id')
-                
-                # adapted_mat = adapted material (diffuse or wtv)
-                adapted_mat = directives.Material()
-                adapted_mat.mat_type = adapted_mat_elem.get('type')
-                
-                # check texture
-                texture_elem = adapted_mat_elem.find('texture')
-                if texture_elem is not None:
-                    texture = directives.Texture()
-                    
-                    texture.name = texture_elem.attrib.get('name')
-                    texture.tex_type = texture_elem.attrib.get('type')
-                    texture.params = extract_params(texture_elem)
-                        
-                    adapted_mat.texture = texture
-                        
-                else:
-                    adapted_mat.texture = None
-                    
-                # get other material parameters
-                adapted_mat.params = extract_params(adapted_mat_elem)
-                adapted_mat.params = filter_params(adapted_mat.params, 'texture')
-                
-                adapter.material = adapted_mat
-                material_list.append(adapter)
-                
-            else:
-                mat = directives.Material()
-                
-                mat.mat_type = material.attrib.get('type')
-                mat.mat_id = material.attrib.get('id')
-
-                # check texture
-                texture_elem = material.find('texture')
-                if texture_elem is not None:
-                    texture = directives.Texture()
-            
-                    texture.name = texture_elem.attrib.get('name')
-                    texture.tex_type = texture_elem.attrib.get('type')
-                    texture.params = extract_params(texture_elem)
-                    
-                    mat.texture = texture
-                
-                else:
-                    mat.texture = None
-
-                # get other material parameters
-                mat.params = extract_params(material)
-                mat.params = filter_params(mat.params, 'texture')
-                material_list.append(mat)
+        mat = extract_material(material)
+        if mat is not None:
+            material_list.append(mat)
 
     return material_list
 
@@ -222,7 +228,7 @@ def load_shapes(scene_element):
     shape_list = []
     for shape in scene.findall('shape'):
         type = shape.get('type')
-        s = Shape()
+        s = directives.Shape()
         s.type = type
 
         s.transform.name = shape.find('transform').find('name').get('value')
@@ -230,6 +236,10 @@ def load_shapes(scene_element):
 
         s.emitter.type = shape.find('emitter').get('type')
         s.emitter.params = extract_params(shape.find('emitter'))
+        
+        material_elem = shape.find('bsdf')
+        if material_elem is not None:
+            s.material = extract_material(material_elem)
 
         s.params = extract_params(shape)
         

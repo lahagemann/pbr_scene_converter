@@ -24,9 +24,59 @@ def pbrt_shapeString(shape):
         s = s + 'Shape "plymesh" "string filename" [ "' + shape.filename + '" ]\n'
             
     elif shape.type == 'cube':
-        # cube will be a triangle mesh
-        pass
+        # cube will be a triangle mesh (god help me)
+        points = []
+        
+        points.append(np.sum(shape.transform.matrix * np.array([-1, -1, -1, 1]), axis = 1))
+	    points.append(np.sum(shape.transform.matrix * np.array([-1, 1, 1, 1]), axis = 1))
+	    points.append(np.sum(shape.transform.matrix * np.array([1, 1, -1, 1]), axis = 1))
+	    points.append(np.sum(shape.transform.matrix * np.array([1, -1, 1, 1]), axis = 1))
+        points.append(np.sum(shape.transform.matrix * np.array([-1, 1, -1, 1]), axis = 1))
+        points.append(np.sum(shape.transform.matrix * np.array([-1, -1, 1, 1]), axis = 1))
+        points.append(np.sum(shape.transform.matrix * np.array([1, -1, -1, 1]), axis = 1))
+        points.append(np.sum(shape.transform.matrix * np.array([1, 1, 1, 1]), axis = 1))
+        
+        points.append(points[5]), points.append(points[0]), points.append(points[3]), points.append(points[6]) # 8, 9, 10, 11
+        points.append(points[7]), points.append(points[2]), points.append(points[1]), points.append(points[4]) # 12, 13, 14, 15
+        points.append(points[4]), points.append(points[1]), points.append(points[0]), points.append(points[5]) # 16, 17, 18, 19
+        points.append(points[6]), points.append(points[3]), points.append(points[2]), points.append(points[7]) # 20, 21, 22, 23
+                
+        s = s + 'Shape "trianglemesh" '
+        s = s + '"integer indices" [ 0 2 1 0 3 2 4 6 5 4 7 6 5 3 0 5 6 3 7 1 2 7 4 1 4 0 1 4 5 0 6 2 3 6 7 2 ] "point P" [ '
+        
+        for i in range(0, 24):
+            s = s + str(points[i][0] + ' ' + str(points[i][1]) + ' ' + str(points[i][2]) + ' '
     
+        s = s + '] '        
+       
+        #normal for all 4 points in a face are the same
+        # faces: 1 = 0 1 2 3; 2 = 4 5 6 7; 3 = 8 9 10 11; 4 = 12 13 14 15; 5 = 16 17 18 19; 6 = 20 21 22 23;
+        normalFace1 = np.cross(points[2] - points[0], points[3] - points[1])
+        normalFace2 = np.cross(points[6] - points[4], points[7] - points[5])
+        normalFace3 = np.cross(points[10] - points[8], points[11] - points[9])
+        normalFace4 = np.cross(points[14] - points[12], points[15] - points[13])
+        normalFace5 = np.cross(points[18] - points[16], points[19] - points[17])
+        normalFace6 = np.cross(points[22] - points[20], points[23] - points[21])
+        
+        s = s + '"normal N" [ '
+        for i in range(0, 4):
+            s = s + str(normalFace1[0] + ' ' + str(normalFace1[1]) + ' ' + str(normalFace1[2]) + ' '
+        for i in range(0, 4):
+            s = s + str(normalFace2[0] + ' ' + str(normalFace2[1]) + ' ' + str(normalFace2[2]) + ' '
+        for i in range(0, 4):
+            s = s + str(normalFace3[0] + ' ' + str(normalFace3[1]) + ' ' + str(normalFace3[2]) + ' '
+        for i in range(0, 4):
+            s = s + str(normalFace4[0] + ' ' + str(normalFace4[1]) + ' ' + str(normalFace4[2]) + ' '
+        for i in range(0, 4):
+            s = s + str(normalFace5[0] + ' ' + str(normalFace5[1]) + ' ' + str(normalFace5[2]) + ' '
+        for i in range(0, 4):
+            s = s + str(normalFace6[0] + ' ' + str(normalFace6[1]) + ' ' + str(normalFace6[2]) + ' '
+        
+        s = s + '] '
+        
+        # default uv
+        s = s + '"float uv" [ 0 0 1 0 1 1 0 1 0 0 1 0 1 1 0 1 0 0 1 0 1 1 0 1 0 0 1 0 1 1 0 1 0 0 1 0 1 1 0 1 0 0 1 0 1 1 0 1 ]\n'
+            
     elif shape.type == 'sphere':
         pass
             
@@ -35,10 +85,10 @@ def pbrt_shapeString(shape):
         
     elif shape.type == 'rectangle':
         # rectangle will be a triangle mesh
-        p0 = np.sum(scene.transform.matrix * np.array([-1, -1, 0, 1]), axis = 1)
-        p1 = np.sum(scene.transform.matrix * np.array([1, -1, 0, 1]), axis = 1)
-        p2 = np.sum(scene.transform.matrix * np.array([1, 1, 0, 1]), axis = 1)
-        p3 = np.sum(scene.transform.matrix * np.array([-1, 1, 0, 1]), axis = 1)        
+        p0 = np.sum(shape.transform.matrix * np.array([-1, -1, 0, 1]), axis = 1)
+        p1 = np.sum(shape.transform.matrix * np.array([1, -1, 0, 1]), axis = 1)
+        p2 = np.sum(shape.transform.matrix * np.array([1, 1, 0, 1]), axis = 1)
+        p3 = np.sum(shape.transform.matrix * np.array([-1, 1, 0, 1]), axis = 1)        
 
         s = s + 'Shape "trianglemesh" "integer indices" [ 0 1 2 0 2 3 ] "point P" '
         s = s + '[ ' + str(p0[0]) + ' ' + str(p0[1]) + ' ' + str(p0[2]) + ' '
@@ -49,12 +99,10 @@ def pbrt_shapeString(shape):
         # normal for all 4 points in a rectangle is the same as face normal
         normal = np.cross(p2 - p0, p3 - p1)
         s = s + '"normal N" ['
-        s = s + str(normal[0] + ' ' + str(normal[1]) + ' ' + str(normal[2]) + ' '
-        s = s + str(normal[0] + ' ' + str(normal[1]) + ' ' + str(normal[2]) + ' '
-        s = s + str(normal[0] + ' ' + str(normal[1]) + ' ' + str(normal[2]) + ' '
-        s = s + str(normal[0] + ' ' + str(normal[1]) + ' ' + str(normal[2]) + ' '
+        for i in range(0,4):
+            s = s + str(normal[0] + ' ' + str(normal[1]) + ' ' + str(normal[2]) + ' '
 
-        # float uv for triangle is default
+        # default uv
         s = s + '"float uv" [ 0 0 1 0 1 1 0 1 ]\n'
             
     elif shape.type == 'disk':
@@ -277,9 +325,6 @@ def toPBRT(scene):
                     
                 
                     outfile.write('AttributeEnd\n')
-
-            
-            
 
         # end scene description
         outfile.write('WorldEnd\n')
