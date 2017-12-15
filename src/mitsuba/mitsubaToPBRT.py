@@ -88,5 +88,20 @@ sensorParam =       {   #perspective
                         'focusDistance' : 'focaldistance'
                     }
 
-#textureParam =      {
-#                    }
+textureParam =      {
+                        'color1' : 'tex1',
+                        'color0' : 'tex2',
+                        'uscale' : 'uscale',
+                        'vscale' : 'vscale'
+                    }
+
+material =          {
+                        'diffuse'  : 'matte',
+                        'diffuseReflectance' : 'matte',
+                        'roughconductor' : 'metal',
+                        'dielectric' : 'glass',
+                        'conductor' : 'metal',
+                        'plastic' : 'plastic'
+                        
+
+                    }
