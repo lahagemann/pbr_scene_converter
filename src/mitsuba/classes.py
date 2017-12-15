@@ -72,6 +72,13 @@ class Shape:
     def getRefMaterial():
         pass
 
+    def getRefMaterial(self):
+        ref = [x for x in self.params if not x.name != 'id']
+        if len(ref) == 1:
+            return ref[0]
+        else:
+            return ''
+
 # GLOBAL
 
 class World:
