@@ -68,6 +68,9 @@ class Shape:
     emitter = Emitter()
     material = None
     params = []
+    
+    def getRefMaterial():
+        pass
 
 # GLOBAL
 

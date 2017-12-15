@@ -20,8 +20,7 @@ def pbrt_shapeString(shape):
     
     if shape.type == 'obj' or shape.type == 'ply':
         # if ref != None, set material reference with "NamedMaterial" command
-        s = s + 'NamedMaterial "' + shape.material_ref + '"\n'
-        s = s + 'Shape "plymesh" "string filename" [ "' + shape.filename + '" ]\n'
+        s = s + 'Shape "plymesh" "string filename" [ "' + shape.getFile + '" ]\n'
             
     elif shape.type == 'cube':
         # cube will be a triangle mesh (god help me)
@@ -42,7 +41,7 @@ def pbrt_shapeString(shape):
         points.append(points[6]), points.append(points[3]), points.append(points[2]), points.append(points[7]) # 20, 21, 22, 23
                 
         s = s + 'Shape "trianglemesh" '
-        s = s + '"integer indices" [ 0 2 1 0 3 2 4 6 5 4 7 6 5 3 0 5 6 3 7 1 2 7 4 1 4 0 1 4 5 0 6 2 3 6 7 2 ] "point P" [ '
+        s = s + '"integer indices" [ 0 2 1 0 3 2 4 6 5 4 7 6 8 10 9 8 11 10 12 14 13 12 15 14 16 18 17 16 19 18 20 22 21 20 23 22 ] "point P" [ '
         
         for i in range(0, 24):
             s = s + str(points[i][0] + ' ' + str(points[i][1]) + ' ' + str(points[i][2]) + ' '
@@ -78,8 +77,13 @@ def pbrt_shapeString(shape):
         s = s + '"float uv" [ 0 0 1 0 1 1 0 1 0 0 1 0 1 1 0 1 0 0 1 0 1 1 0 1 0 0 1 0 1 1 0 1 0 0 1 0 1 1 0 1 0 0 1 0 1 1 0 1 ]\n'
             
     elif shape.type == 'sphere':
-        pass
-            
+        s = s + 'TransformBegin\n'
+        s = s + '\tTransform [ 1 0 0 0 0 1 0 0 0 0 1 0 ' + bla + ' 1 ]\n'
+        s = s + '\tShape "sphere" '
+        #s = s + <> params
+        s = s + '\n'
+        s = s + 'TransformEnd\n' 
+        
     elif shape.type == 'cylinder':
         pass
         
@@ -317,6 +321,7 @@ def toPBRT(scene):
                 outfile.write('\n')
                     
                     
+        currentRefMaterial = ''
         for shape in scene.shapes:
             if shape.emitter is not None:
                 if shape.emitter.type == 'area':
@@ -325,6 +330,19 @@ def toPBRT(scene):
                     
                 
                     outfile.write('AttributeEnd\n')
+                    
+            else:
+                # if shape has ref material, then make reference
+                ref = shape.getReferenceMaterial
+                shapeString = pbrt_shapeString(shape)
+                
+                if not ref == '':
+                    if ref != shape.getReferenceMaterial:
+                        outfile.write('NamedMaterial "' + ref + '"\n')
+                        outfile.write(shapeString)
+                    else:
+                        outfile.write(shapeString)
+                
 
         # end scene description
         outfile.write('WorldEnd\n')

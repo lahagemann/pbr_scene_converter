@@ -229,6 +229,10 @@ def load_shapes(scene_element):
     for shape in scene.findall('shape'):
         type = shape.get('type')
         s = directives.Shape()
+        
+        if type == 'sphere':
+        
+        else:
         s.type = type
 
         s.transform.name = shape.find('transform').find('name').get('value')
@@ -242,6 +246,8 @@ def load_shapes(scene_element):
             s.material = extract_material(material_elem)
 
         s.params = extract_params(shape)
+        s.params = filter_params(s.params, 'transform')
+        s.params = filter_params(s.params, 'bsdf')
         
         shape_list.append(s) 
     
