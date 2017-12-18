@@ -89,15 +89,8 @@ sensorParam =       {   #perspective
                     }
                     
 textureType =       {
-                        '' : 'bilerp',
-                        '' : 'checkerboard',
-                        '' : 'constant',
-                        '' : 'dots',
-                        '' : 'fbm',
-                        '' : 'marble',
-                        '' : 'mix',
-                        '' : 'scale',
-                        '' : 'uv'
+                        'checkerboard' : 'checkerboard',
+                        'scale' : 'scale'
                     }
 
 textureParam =      {
@@ -113,6 +106,14 @@ material =          {
                         'roughconductor' : 'metal',
                         'dielectric' : 'glass',
                         'conductor' : 'metal',
-                        'plastic' : 'plastic'
+                        'plastic' : 'plastic',
                         'thindielectric' : 'uber'
+                    }
+
+lightType =         {
+                        'point' : 'point',
+                        'spot' : 'spot',
+                        'directional' : '',
+                        'envmap' : 'infinite',
+                        'sunsky' : 'distant'
                     }

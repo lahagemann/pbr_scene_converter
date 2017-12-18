@@ -338,10 +338,15 @@ def toPBRT(scene):
             if shape.emitter is not None:
                 if shape.emitter.type == 'area':
                     outfile.write('AttributeBegin\n')
-                    
-                    
-                
+                    outfile.write('\tAreaLightSource "diffuse" ')
+                    p = pbrt_writeParams(shape.emitter.params, mtpbrt.emitterParam)
+                    outfile.write(p + '\n')
+                    shapeString = pbrt_shapeString(shape)
+                    outfile.write(shapeString + '\n')
                     outfile.write('AttributeEnd\n')
+                        
+                else:
+                    aaaa
                     
             else:
                 # if shape has ref material, then make reference
