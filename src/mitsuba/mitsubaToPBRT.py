@@ -87,6 +87,18 @@ sensorParam =       {   #perspective
                         'apertureRadius' : 'lensradius',
                         'focusDistance' : 'focaldistance'
                     }
+                    
+textureType =       {
+                        '' : 'bilerp',
+                        '' : 'checkerboard',
+                        '' : 'constant',
+                        '' : 'dots',
+                        '' : 'fbm',
+                        '' : 'marble',
+                        '' : 'mix',
+                        '' : 'scale',
+                        '' : 'uv'
+                    }
 
 textureParam =      {
                         'color1' : 'tex1',
@@ -102,6 +114,5 @@ material =          {
                         'dielectric' : 'glass',
                         'conductor' : 'metal',
                         'plastic' : 'plastic'
-                        
-
+                        'thindielectric' : 'uber'
                     }

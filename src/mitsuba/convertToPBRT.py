@@ -6,16 +6,19 @@ import classes as directives
 import numpy as np
 
 def pbrt_writeParams(outfile, paramList, dictionary):
+    s = ''
     for param in paramList:
         if param.name in dictionary:
             pbrt_param = dictionary[param.name]
-            outfile.write('"' + param.val_type + ' ' + pbrt_param + '" ')
+            s = s + '"' + param.val_type + ' ' + pbrt_param + '" '
             if param.val_type is 'string' or param.val_type is 'bool':
-                outfile.write('[ "' + param.value + '" ] ')
+                s = s + '[ "' + param.value + '" ] '
             else:
-                outfile.write('[ ' + param.value + ' ] ')
+                s = s + '[ ' + param.value + ' ] '
+                
+    return s
 
-def pbrt_shapeString(shape):
+def pbrt_shapeString(shape, currentRefMaterial):
     s = ''
     
     if shape.type == 'obj' or shape.type == 'ply':
@@ -80,7 +83,7 @@ def pbrt_shapeString(shape):
         s = s + 'TransformBegin\n'
         s = s + '\tTransform [ 1 0 0 0 0 1 0 0 0 0 1 0 ' + bla + ' 1 ]\n'
         s = s + '\tShape "sphere" '
-        #s = s + <> params
+        s = s + pbrt_writeParams(shape.params, mtpbrt.shapeParam)
         s = s + '\n'
         s = s + 'TransformEnd\n' 
         
@@ -110,11 +113,13 @@ def pbrt_shapeString(shape):
         s = s + '"float uv" [ 0 0 1 0 1 1 0 1 ]\n'
             
     elif shape.type == 'disk':
+        pass
             
     elif shape.type == 'hair':
-            
+        pass
+                
     elif shape.type == 'heightfield':
-
+        pass
 
     return s
 
@@ -135,8 +140,8 @@ def toPBRT(scene):
             else:
                 outfile.write('"path" ')
 
-            pbrt_writeParams(outfile, scene.integrator.params, mtpbrt.integratorParam)
-            outfile.write('\n')
+            p = pbrt_writeParams(scene.integrator.params, mtpbrt.integratorParam)
+            outfile.write(p + '\n')
 
         # transform
         if scene.sensor.transform.matrix:
@@ -166,8 +171,8 @@ def toPBRT(scene):
             else:
                 outfile.write('"sobol" ')
 
-            pbrt_writeParams(outfile, scene.sensor.sampler.params, mtpbrt.samplerParam)
-            outfile.write('\n')
+            p = pbrt_writeParams(scene.sensor.sampler.params, mtpbrt.samplerParam)
+            outfile.write(p + '\n')
 
         # filter
         if scene.sensor.film.filter_type:
@@ -191,8 +196,8 @@ def toPBRT(scene):
             else:
                 outfile.write('"image" ')
 
-            pbrt_writeParams(outfile, scene.sensor.film.params, mtpbrt.filmParam)
-            outfile.write('\n')
+            p = pbrt_writeParams(scene.sensor.film.params, mtpbrt.filmParam)
+            outfile.write(p + '\n')
 
         # sensor/camera
         if scene.sensor:
@@ -204,8 +209,8 @@ def toPBRT(scene):
             else:
                 outfile.write('"perspective" ')
 
-            pbrt_writeParams(outfile, scene.sensor.params, mtpbrt.sensorParam)
-            outfile.write('\n')
+            p = pbrt_writeParams(scene.sensor.params, mtpbrt.sensorParam)
+            outfile.write(p + '\n')
 
         # scene description
         outfile.write('WorldBegin\n')
@@ -228,7 +233,9 @@ def toPBRT(scene):
                     if tex.tex_type == 'bitmap':
                         outfile.write('"imagemap" ')
                     else:
-                        pass #TODO
+                        if tex.tex_type in mtpbrt.textureType:
+                            tex_type = mtpbrt.textureType[tex.tex_type]
+                            outfile.write('"' + tex_type + '" ')
                 
                     for param in tex.params:
                         if param.name == 'filename':
@@ -240,7 +247,9 @@ def toPBRT(scene):
                                 outfile.write('"bool trilinear" [ "true" ] ')
                         else:
                             # search the dictionary
-                            pass
+                            p = pbrt_writeParams(shape.params, mtpbrt.textureParam)
+                            outfile.write(p + '\n')
+        
     
                     tex_count += 1
                     outfile.write('\n')
@@ -270,7 +279,8 @@ def toPBRT(scene):
                                 outfile.write('"bool trilinear" [ "true" ] ')
                         else:
                             # search the dictionary
-                            pass
+                            p = pbrt_writeParams(shape.params, mtpbrt.textureParam)
+                            outfile.write(p + '\n')
         
                     tex_count += 1
                     outfile.write('\n')
@@ -299,7 +309,9 @@ def toPBRT(scene):
                                 outfile.write('"bool trilinear" [ "true" ] ')
                         else:
                             # search the dictionary
-                            pass
+                            p = pbrt_writeParams(shape.params, mtpbrt.textureParam)
+                            outfile.write(p + '\n')
+        
 
                     tex_count += 1
                     outfile.write('\n')
@@ -333,7 +345,6 @@ def toPBRT(scene):
                     
             else:
                 # if shape has ref material, then make reference
-                ref = shape.getReferenceMaterial
                 shapeString = pbrt_shapeString(shape)
                 
                 if not ref == '':
@@ -342,6 +353,7 @@ def toPBRT(scene):
                         outfile.write(shapeString)
                     else:
                         outfile.write(shapeString)
+                    
                 
 
         # end scene description

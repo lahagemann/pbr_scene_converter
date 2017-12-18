@@ -68,9 +68,6 @@ class Shape:
     emitter = Emitter()
     material = None
     params = []
-    
-    def getRefMaterial():
-        pass
 
     def getRefMaterial(self):
         ref = [x for x in self.params if not x.name != 'id']
@@ -80,14 +77,9 @@ class Shape:
             return ''
 
 # GLOBAL
-
-class World:
-    int = 1
-
 class Scene:
     integrator = Integrator()
     sensor = Sensor()
     materials = []
     shapes = []
     light_sources = []
-    world = World()
