@@ -100,14 +100,34 @@ textureParam =      {
                         'vscale' : 'vscale'
                     }
 
-material =          {
+materialType =      {
                         'diffuse'  : 'matte',
                         'diffuseReflectance' : 'matte',
                         'roughconductor' : 'metal',
                         'dielectric' : 'glass',
                         'conductor' : 'metal',
                         'plastic' : 'plastic',
-                        'thindielectric' : 'uber'
+                        'thindielectric' : 'uber',
+                        'roughplastic' : 'substrate'
+                    }
+
+materialParam =     {
+                        'reflectance' : 'Kd',
+                        'diffuseReflectance' : 'Kd',
+                        'intIOR' : 'eta',
+                        'specularReflectance' : 'Kr',
+                        'specularTransmittance' : 'Kt',
+                        'alphaU' : 'uroughness',
+                        'alphaV' : 'vroughness',
+                        'eta' : 'eta',
+                        'k' : 'k',
+                        'alpha' : 'roughness'
+                    }
+
+matPlasticParam =   {
+                        'diffuseReflectance' : 'Kd',
+                        'specularReflectance' : 'Ks',
+                        'alpha' : 'roughness'
                     }
 
 lightType =         {

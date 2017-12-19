@@ -342,14 +342,41 @@ def toPBRT(scene):
         for material in scene.materials:
             if isinstance(material, directives.BumpMap):
                 outfile.write('MakeNamedMaterial "' + material.adapter.mat_id + '" ')
+                # convert material type
             
-                outfile.write('\n')
+                # if material has texture, put param "texture Kd" + reference
+                if material.texture is not None:
+                    outfile.write('"texture bumpmap" [ "' + textures[material.adapter.mat_id] + '" ] ')
+
+                # convert all other params
+                p = pbrt_writeParams(material.adapter.material.params, mtpbrt.materialParam)
+                outfile.write(p + '\n')
+            
             elif isinstance(material, directives.AdapterMaterial):
                 outfile.write('MakeNamedMaterial "' + material.mat_id + '" ')
+                
+                # convert material type
+            
+                # if material has texture, put param "texture Kd" + reference
+                if material.material.texture is not None: 
+                    outfile.write('"texture Kd" [ "' + textures[material.mat_id] + '" ] ')
 
-                outfile.write('\n')
+                # convert all other params
+                p = pbrt_writeParams(material.material.params, mtpbrt.materialParam)
+                outfile.write(p + '\n')
+
             else:
                 outfile.write('MakeNamedMaterial "' + material.mat_id + '" ')
+
+                # convert material type
+            
+                # if material has texture, put param "texture Kd" + reference
+                if material.texture is not None: 
+                    outfile.write('"texture Kd" [ "' + textures[material.mat_id] + '" ] ')
+
+                # convert all other params
+                p = pbrt_writeParams(material.params, mtpbrt.materialParam)
+                outfile.write(p + '\n')
                     
                 outfile.write('\n')
                     
