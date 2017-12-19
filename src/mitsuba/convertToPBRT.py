@@ -5,7 +5,7 @@ import mitsubaToPBRT as mtpbrt
 import classes as directives
 import numpy as np
 
-def pbrt_writeParams(outfile, paramList, dictionary):
+def pbrt_writeParams(paramList, dictionary):
     s = ''
     for param in paramList:
         if param.name in dictionary:
@@ -18,12 +18,12 @@ def pbrt_writeParams(outfile, paramList, dictionary):
                 
     return s
 
-def pbrt_shapeString(shape, currentRefMaterial):
+def pbrt_shapeString(shape, numberOfTabs):
+    autoTab = '\t'
     s = ''
     
     if shape.type == 'obj' or shape.type == 'ply':
-        # if ref != None, set material reference with "NamedMaterial" command
-        s = s + 'Shape "plymesh" "string filename" [ "' + shape.getFile + '" ]\n'
+        s = s + (autoTab * numberOfTabs) + 'Shape "plymesh" "string filename" [ "' + shape.getFile + '" ]\n'
             
     elif shape.type == 'cube':
         # cube will be a triangle mesh (god help me)
@@ -43,7 +43,7 @@ def pbrt_shapeString(shape, currentRefMaterial):
         points.append(points[4]), points.append(points[1]), points.append(points[0]), points.append(points[5]) # 16, 17, 18, 19
         points.append(points[6]), points.append(points[3]), points.append(points[2]), points.append(points[7]) # 20, 21, 22, 23
                 
-        s = s + 'Shape "trianglemesh" '
+        s = s + (autoTab * numberOfTabs) + 'Shape "trianglemesh" '
         s = s + '"integer indices" [ 0 2 1 0 3 2 4 6 5 4 7 6 8 10 9 8 11 10 12 14 13 12 15 14 16 18 17 16 19 18 20 22 21 20 23 22 ] "point P" [ '
         
         for i in range(0, 24):
@@ -80,12 +80,12 @@ def pbrt_shapeString(shape, currentRefMaterial):
         s = s + '"float uv" [ 0 0 1 0 1 1 0 1 0 0 1 0 1 1 0 1 0 0 1 0 1 1 0 1 0 0 1 0 1 1 0 1 0 0 1 0 1 1 0 1 0 0 1 0 1 1 0 1 ]\n'
             
     elif shape.type == 'sphere':
-        s = s + 'TransformBegin\n'
-        s = s + '\tTransform [ 1 0 0 0 0 1 0 0 0 0 1 0 ' + str(shape.center[0]) + ' ' + str(shape.center[1]) + ' ' + str(shape.center[2]) + ' ' + ' 1 ]\n'
-        s = s + '\tShape "sphere" '
+        s = s + (autoTab * numberOfTabs) + 'TransformBegin\n'
+        s = s + (autoTab * (numberOfTabs + 1)) + 'Transform [ 1 0 0 0 0 1 0 0 0 0 1 0 ' + str(shape.center[0]) + ' ' + str(shape.center[1]) + ' ' + str(shape.center[2]) + ' ' + ' 1 ]\n'
+        s = s + (autoTab * (numberOfTabs + 1)) 'Shape "sphere" '
         s = s + pbrt_writeParams(shape.params, mtpbrt.shapeParam)
         s = s + '\n'
-        s = s + 'TransformEnd\n' 
+        s = s + (autoTab * numberOfTabs) + 'TransformEnd\n'
         
     elif shape.type == 'cylinder':
         pass
@@ -97,7 +97,7 @@ def pbrt_shapeString(shape, currentRefMaterial):
         p2 = np.sum(shape.transform.matrix * np.array([1, 1, 0, 1]), axis = 1)
         p3 = np.sum(shape.transform.matrix * np.array([-1, 1, 0, 1]), axis = 1)        
 
-        s = s + 'Shape "trianglemesh" "integer indices" [ 0 1 2 0 2 3 ] "point P" '
+        s = s + (autoTab * numberOfTabs) + 'Shape "trianglemesh" "integer indices" [ 0 1 2 0 2 3 ] "point P" '
         s = s + '[ ' + str(p0[0]) + ' ' + str(p0[1]) + ' ' + str(p0[2]) + ' '
         s = s + str(p1[0]) + ' ' + str(p1[1]) + ' ' + str(p1[2]) + ' '
         s = s + str(p2[0]) + ' ' + str(p2[1]) + ' ' + str(p2[2]) + ' '
@@ -117,6 +117,26 @@ def pbrt_shapeString(shape, currentRefMaterial):
             
     elif shape.type == 'hair':
         pass
+                        
+    if s.
+                        
+    if s.material is not None:
+        s = s + 'Material "'
+                        
+        if isinstance(s.material, directives.AdapterMaterial):
+            # convert material type
+                        
+            s = s + '" '
+            params = pbrt_writeParams(s.material.material.params, mtpbrt.materialParam)
+            s = s + params + '\n'
+                        
+                        
+        elif is instance(s.material, directives.Material):
+            # convert material type
+                        
+            s = s + '" '
+            params = pbrt_writeParams(s.material.params, mtpbrt.materialParam)
+            s = s + params + '\n'
                 
     return s
 
@@ -339,22 +359,36 @@ def toPBRT(scene):
             if shape.emitter is not None:
                 if shape.emitter.type == 'area':
                     outfile.write('AttributeBegin\n')
+                        
                     outfile.write('\tAreaLightSource "diffuse" ')
                     p = pbrt_writeParams(shape.emitter.params, mtpbrt.emitterParam)
                     outfile.write(p + '\n')
-                    shapeString = pbrt_shapeString(shape)
+                        
+                    shapeString = pbrt_shapeString(shape, 1)
                     outfile.write(shapeString + '\n')
+                        
+                    ref = shape.getReferenceMaterial()
+                        
+                    if not ref == '':
+                        if ref != currentRefMaterial:
+                            outfile.write('\tNamedMaterial "' + ref + '"\n')
+                            outfile.write(shapeString)
+                        else:
+                            outfile.write(shapeString)
+                        
                     outfile.write('AttributeEnd\n')
                         
                 else:
-                    aaaa
+                    
                     
             else:
                 # if shape has ref material, then make reference
-                shapeString = pbrt_shapeString(shape)
+                shapeString = pbrt_shapeString(shape,0)
                 
+                ref = shape.getReferenceMaterial()
+                        
                 if not ref == '':
-                    if ref != shape.getReferenceMaterial:
+                    if ref != currentRefMaterial:
                         outfile.write('NamedMaterial "' + ref + '"\n')
                         outfile.write(shapeString)
                     else:
