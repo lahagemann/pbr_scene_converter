@@ -343,6 +343,13 @@ def toPBRT(scene):
             if isinstance(material, directives.BumpMap):
                 outfile.write('MakeNamedMaterial "' + material.adapter.mat_id + '" ')
                 # convert material type
+                mitsubaType = material.adapter.material.mat_type
+                if mitsubaType in mtpbrt.materialType:
+                    pbrtType = mtpbrt.materialType[mitsubaType]
+                    outfile.write('"string type" [ "' + pbrtType '" ] ')
+                else:  
+                    outfile.write('"string type" [ "matte" ] ')
+
             
                 # if material has texture, put param "texture Kd" + reference
                 if material.texture is not None:
@@ -356,6 +363,12 @@ def toPBRT(scene):
                 outfile.write('MakeNamedMaterial "' + material.mat_id + '" ')
                 
                 # convert material type
+                mitsubaType = material.material.mat_type
+                if mitsubaType in mtpbrt.materialType:
+                    pbrtType = mtpbrt.materialType[mitsubaType]
+                    outfile.write('"string type" [ "' + pbrtType '" ] ')
+                else:  
+                    outfile.write('"string type" [ "matte" ] ')
             
                 # if material has texture, put param "texture Kd" + reference
                 if material.material.texture is not None: 
@@ -369,6 +382,12 @@ def toPBRT(scene):
                 outfile.write('MakeNamedMaterial "' + material.mat_id + '" ')
 
                 # convert material type
+                mitsubaType = material.mat_type
+                if mitsubaType in mtpbrt.materialType:
+                    pbrtType = mtpbrt.materialType[mitsubaType]
+                    outfile.write('"string type" [ "' + pbrtType '" ] ')
+                else:  
+                    outfile.write('"string type" [ "matte" ] ')
             
                 # if material has texture, put param "texture Kd" + reference
                 if material.texture is not None: 
@@ -406,6 +425,7 @@ def toPBRT(scene):
                     outfile.write('AttributeEnd\n')
                         
                 else:
+                    pass
                     
                     
             else:
