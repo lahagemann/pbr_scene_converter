@@ -64,6 +64,7 @@ class Emitter:
 
 class Shape:
     type = '' 
+    center = np.array([0,0,0])
     transform = Transform()
     emitter = Emitter()
     material = None
@@ -72,7 +73,7 @@ class Shape:
     def getRefMaterial(self):
         ref = [x for x in self.params if not x.name != 'id']
         if len(ref) == 1:
-            return ref[0]
+            return ref[0].value
         else:
             return ''
 

@@ -81,7 +81,7 @@ def pbrt_shapeString(shape, currentRefMaterial):
             
     elif shape.type == 'sphere':
         s = s + 'TransformBegin\n'
-        s = s + '\tTransform [ 1 0 0 0 0 1 0 0 0 0 1 0 ' + bla + ' 1 ]\n'
+        s = s + '\tTransform [ 1 0 0 0 0 1 0 0 0 0 1 0 ' + str(shape.center[0]) + ' ' + str(shape.center[1]) + ' ' + str(shape.center[2]) + ' ' + ' 1 ]\n'
         s = s + '\tShape "sphere" '
         s = s + pbrt_writeParams(shape.params, mtpbrt.shapeParam)
         s = s + '\n'
@@ -118,9 +118,6 @@ def pbrt_shapeString(shape, currentRefMaterial):
     elif shape.type == 'hair':
         pass
                 
-    elif shape.type == 'heightfield':
-        pass
-
     return s
 
 
@@ -267,7 +264,9 @@ def toPBRT(scene):
                     if tex.tex_type == 'bitmap':
                         outfile.write('"imagemap" ')
                     else:
-                        pass #TODO
+                        if tex.tex_type in mtpbrt.textureType:
+                            tex_type = mtpbrt.textureType[tex.tex_type]
+                            outfile.write('"' + tex_type + '" ')
 
                     for param in tex.params:
                         if param.name == 'filename':
@@ -297,7 +296,9 @@ def toPBRT(scene):
                     if tex.tex_type == 'bitmap':
                         outfile.write('"imagemap" ')
                     else:
-                        pass #TODO
+                        if tex.tex_type in mtpbrt.textureType:
+                            tex_type = mtpbrt.textureType[tex.tex_type]
+                            outfile.write('"' + tex_type + '" ')
                 
                     for param in tex.params:
                         if param.name == 'filename':

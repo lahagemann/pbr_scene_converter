@@ -12,7 +12,11 @@ def extract_params(element):
         
         param.val_type = attribute.tag
         param.name = attribute.attrib.get('name')
-        param.value = attribute.attrib.get('value')
+        
+        if param.val_type == 'point':
+            param.value = np.array([attribute.attrib.get('x'), attribute.attrib.get('y'), attribute.attrib.get('z')])
+        else:
+            param.value = attribute.attrib.get('value')
         
         lst.append(param)
 
@@ -231,8 +235,10 @@ def load_shapes(scene_element):
         s = directives.Shape()
         
         if type == 'sphere':
-        
-        else:
+            p = shape.find('point')
+            if p is not None:
+                s.center = np.array([p.get('x'), p.get('y'), p.get('z')])
+                
         s.type = type
 
         s.transform.name = shape.find('transform').find('name').get('value')
@@ -248,6 +254,7 @@ def load_shapes(scene_element):
         s.params = extract_params(shape)
         s.params = filter_params(s.params, 'transform')
         s.params = filter_params(s.params, 'bsdf')
+        s.params = filter_params(s.params, 'emitter')
         
         shape_list.append(s) 
     
