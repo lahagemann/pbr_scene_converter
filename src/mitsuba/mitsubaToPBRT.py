@@ -143,8 +143,6 @@ emitterParam =      {
                         'position' : 'from',
                         'samplingWeight' : 'samples',
                         'cutoffAngle' : 'conedeltaangle',
-                        'beamWidth' : 'coneangle',
-                        
-
+                        'beamWidth' : 'coneangle'
                     }
     

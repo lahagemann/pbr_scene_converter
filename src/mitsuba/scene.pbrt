@@ -1,879 +1,437 @@
-Integrator "path" "integer maxdepth" [ 65 ] 
-Transform [ -0.999970418625 0.000344841638853 -0.00764601728669 0.0 1.48836066686e-10 0.998985013332 0.0450550536274 0.0 0.0076537920396 0.045053714241 -0.998955491446 0.0 -0.00494564240561 -1.74514245079 4.80833172931 1.0 ]
+Integrator "path" "integer maxdepth" [ 17 ] 
+Transform [ -0.988479974356 -0.00428442510763 0.151294480342 0.0 -1.50337072575e-08 0.999599546565 0.0283071332954 0.0 -0.151354784634 0.0279810061628 -0.988083754136 0.0 -0.78006101234 -1.44302460143 6.03615168275 1.0 ]
 Sampler "sobol" "integer pixelsamples" [ 64 ] 
 PixelFilter "triangle" 
-Film "image" "integer xresolution" [ 720 ] "integer yresolution" [ 1280 ] 
-Camera "perspective" "float fov" [ 35 ] 
+Film "image" "integer xresolution" [ 1280 ] "integer yresolution" [ 720 ] 
+Camera "perspective" "float fov" [ 60 ] 
 WorldBegin
-Texture "Texture01" "spectrum" "imagemap" "string filename" [ "textures/WoodFloor.jpg" ] "bool trilinear" [ "true" ] 
-Texture "Texture02" "spectrum" "imagemap" "string filename" [ "textures/WoodPanel.jpg" ] "bool trilinear" [ "true" ] 
-Texture "Texture03" "spectrum" "imagemap" "string filename" [ "textures/Wood.jpg" ] "bool trilinear" [ "true" ] 
-Texture "Texture04" "spectrum" "imagemap" "string filename" [ "textures/WoodChair.jpg" ] "bool trilinear" [ "true" ] 
-Texture "Texture05" "spectrum" "imagemap" "string filename" [ "textures/Fabric.jpg" ] "bool trilinear" [ "true" ] 
-Texture "Texture06" "float" "imagemap" "string filename" [ "textures/BrushedAluminium.jpg" ] "bool trilinear" [ "true" ] 
-Texture "Texture07" "spectrum" "imagemap" "string filename" [ "textures/Painting1.jpg" ] "bool trilinear" [ "true" ] 
-Texture "Texture08" "spectrum" "imagemap" "string filename" [ "textures/Painting2.jpg" ] "bool trilinear" [ "true" ] 
-Texture "Texture09" "spectrum" "imagemap" "string filename" [ "textures/Painting3.jpg" ] "bool trilinear" [ "true" ] 
-Texture "Texture10" "spectrum" "imagemap" "string filename" [ "textures/Wallpaper.jpg" ] "bool trilinear" [ "true" ] 
-MakeNamedMaterial "WoodFloor" "string type" [ "substrate" ] "texture Kd" [ "Texture01" ] "float roughness" [ 0.1 ] "float eta" [ 1.5 ] 
-MakeNamedMaterial "WoodStairs" "string type" [ "substrate" ] "texture Kd" [ "Texture02" ] "float roughness" [ 0.1 ] "float eta" [ 1.5 ] 
-MakeNamedMaterial "WoodChair" "string type" [ "substrate" ] "texture Kd" [ "Texture03" ] "float roughness" [ 0.1 ] "float eta" [ 1.5 ] 
-MakeNamedMaterial "WoodLamp" "string type" [ "substrate" ] "texture Kd" [ "Texture04" ] "float roughness" [ 0.1 ] "float eta" [ 1.5 ] 
-MakeNamedMaterial "Lampshade" "string type" [ "matte" ] "texture Kd" [ "Texture05" ] 
-MakeNamedMaterial "Brass" "string type" [ "metal" ] "float roughness" [ 0.1 ] "rgb Kr" [ 1, 1, 1 ] "rgb eta" [ 2.8656, 2.11918, 1.94008 ] "rgb k" [ 3.03233, 2.05611, 1.61629 ] 
-MakeNamedMaterial "BrushedAluminium" "string type" [ "metal" ] "texture bumpmap" [ "Texture06" ] "float roughness" [ 0.1 ] "rgb Kr" [ 0.578596, 0.578596, 0.578596 ] "rgb eta" [ 1.65746, 0.880369, 0.521229 ] "rgb k" [ 9.22387, 6.26952, 4.837 ] 
-MakeNamedMaterial "ChairSeat" "string type" [ "matte" ] "rgb Kd" [ 0.117647, 0.054902, 0.0666667 ] 
-MakeNamedMaterial "Glass" "string type" [ "glass" ] "float eta" [ 1.5 ] 
-
-MakeNamedMaterial "MagnoliaPaint" "string type" [ "substrate" ] "float roughness" [ 0.1 ] "float eta" [ 1.5 ] "rgb Kd" [ 0.578596, 0.578596, 0.578596 ] 
-MakeNamedMaterial "WhitePaint" "string type" [ "substrate" ] "float roughness" [ 0.2 ] "float eta" [ 1.5 ] "rgb Kd" [ 0.578596, 0.578596, 0.578596 ] 
-MakeNamedMaterial "Painting1" "string type" [ "matte" ] "texture Kd" [ "Texture07" ] 
-MakeNamedMaterial "Painting2" "string type" [ "matte" ] "texture Kd" [ "Texture08" ] 
-MakeNamedMaterial "Painting3" "string type" [ "matte" ] "texture Kd" [ "Texture09" ] 
-MakeNamedMaterial "Black" "string type" [ "matte" ] "rgb Kd" [ 0.01, 0.01, 0.01 ] 
-MakeNamedMaterial "StainlessSteel" "string type" [ "metal" ] "rgb Kr" [ 0.578596, 0.578596, 0.578596 ] "rgb eta" [ 1.65746, 0.880369, 0.521229 ] "rgb k" [ 9.22387, 6.26952, 4.837 ] 
-MakeNamedMaterial "Emission" "string type" [ "matte" ] "rgb Kd" [ 1, 1, 1 ] 
-MakeNamedMaterial "Candles" "string type" [ "matte" ] "rgb Kd" [ 0.578596, 0.578596, 0.578596 ] 
-MakeNamedMaterial "Gold" "string type" [ "metal" ] "rgb Kr" [ 1, 1, 1 ] "rgb eta" [ 0.143119, 0.374957, 1.44248 ] "rgb k" [ 3.98316, 2.38572, 1.60322 ] 
-MakeNamedMaterial "WhitePaint2" "string type" [ "matte" ] "rgb Kd" [ 0.578596, 0.578596, 0.578596 ] 
-MakeNamedMaterial "White" "string type" [ "matte" ] "rgb Kd" [ 0.691535, 0.691535, 0.691535 ] 
-MakeNamedMaterial "WhitePlastic" "string type" [ "matte" ] "rgb Kd" [ 0.578596, 0.578596, 0.578596 ] 
-MakeNamedMaterial "Copper" "string type" [ "metal" ] "rgb Kr" [ 1, 1, 1 ] "rgb eta" [ 0.265787, 0.19561, 0.22092 ] "rgb k" [ 3.54017, 2.31113, 1.66859 ] 
-MakeNamedMaterial "Wallpaper" "string type" [ "matte" ] "texture Kd" [ "Texture10" ] 
-NamedMaterial "WhitePaint"
-Shape "plymesh" "string filename" [ "models/Mesh524.obj" ]
-NamedMaterial "MagnoliaPaint"
-Shape "plymesh" "string filename" [ "models/Mesh286.obj" ]
-NamedMaterial "WoodStairs"
-Shape "plymesh" "string filename" [ "models/Mesh334.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh489.obj" ]
-NamedMaterial "Painting1"
-Shape "plymesh" "string filename" [ "models/Mesh429.obj" ]
-NamedMaterial "Painting2"
-Shape "plymesh" "string filename" [ "models/Mesh423.obj" ]
-NamedMaterial "WhitePaint"
-Shape "plymesh" "string filename" [ "models/Mesh473.obj" ]
-NamedMaterial "MagnoliaPaint"
-Shape "plymesh" "string filename" [ "models/Mesh346.obj" ]
-NamedMaterial "WoodStairs"
-Shape "plymesh" "string filename" [ "models/Mesh405.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh530.obj" ]
-NamedMaterial "WhitePaint"
-Shape "plymesh" "string filename" [ "models/Mesh385.obj" ]
-NamedMaterial "MagnoliaPaint"
-Shape "plymesh" "string filename" [ "models/Mesh361.obj" ]
-NamedMaterial "WoodStairs"
-Shape "plymesh" "string filename" [ "models/Mesh355.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh328.obj" ]
-NamedMaterial "Painting3"
-Shape "plymesh" "string filename" [ "models/Mesh252.obj" ]
-NamedMaterial "WhitePaint"
-Shape "plymesh" "string filename" [ "models/Mesh403.obj" ]
-NamedMaterial "MagnoliaPaint"
-Shape "plymesh" "string filename" [ "models/Mesh270.obj" ]
-NamedMaterial "WoodStairs"
-Shape "plymesh" "string filename" [ "models/Mesh344.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh251.obj" ]
-NamedMaterial "Painting1"
-Shape "plymesh" "string filename" [ "models/Mesh305.obj" ]
-NamedMaterial "WhitePaint"
-Shape "plymesh" "string filename" [ "models/Mesh253.obj" ]
-NamedMaterial "MagnoliaPaint"
-Shape "plymesh" "string filename" [ "models/Mesh339.obj" ]
-NamedMaterial "WoodStairs"
-Shape "plymesh" "string filename" [ "models/Mesh409.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh491.obj" ]
-NamedMaterial "Painting3"
-Shape "plymesh" "string filename" [ "models/Mesh624.obj" ]
-NamedMaterial "WoodStairs"
-Shape "plymesh" "string filename" [ "models/Mesh517.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh329.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh384.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh382.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh391.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh752.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh318.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh353.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh374.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh315.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh386.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh432.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh445.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh401.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh363.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh439.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh508.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh523.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh456.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh379.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh511.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh542.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh675.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh419.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh466.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh467.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh320.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh393.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh470.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh474.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh483.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh486.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh500.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh490.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh505.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh494.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh545.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh468.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh496.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh516.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh376.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh378.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh659.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh360.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh292.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh501.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh283.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh321.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh513.obj" ]
-NamedMaterial "WhitePaint"
-Shape "plymesh" "string filename" [ "models/Mesh428.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh498.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh510.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh514.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh411.obj" ]
-NamedMaterial "WoodStairs"
-Shape "plymesh" "string filename" [ "models/Mesh690.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh482.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh518.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh422.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh450.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh507.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh434.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh312.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh311.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh309.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh308.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh726.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh356.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh303.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh300.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh277.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh296.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh452.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh333.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh295.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh243.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh289.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh288.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh604.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh314.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh287.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh404.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh430.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh745.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh502.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh723.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh258.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh414.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh367.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh307.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh284.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh282.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh302.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh240.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh279.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh366.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh276.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh326.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh447.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh477.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh273.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh522.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh616.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh568.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh358.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh262.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh632.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh399.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh261.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh460.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh521.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh443.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh304.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh705.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh586.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh387.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh472.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh538.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh749.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh254.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh425.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh235.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh679.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh736.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh249.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh364.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh248.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh667.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh301.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh715.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh236.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh718.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh246.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh712.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh576.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh631.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh674.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh245.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh381.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh654.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh244.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh728.obj" ]
-NamedMaterial "WoodFloor"
-Shape "plymesh" "string filename" [ "models/Mesh242.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh342.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh653.obj" ]
-NamedMaterial "WoodStairs"
-Shape "plymesh" "string filename" [ "models/Mesh737.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh290.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh416.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh239.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh559.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh418.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh350.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh337.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh338.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh234.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh458.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh229.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh257.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh269.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh336.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh267.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh227.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh226.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh230.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh529.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh531.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh536.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh685.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh539.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh541.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh543.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh550.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh553.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh275.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh555.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh556.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh638.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh560.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh561.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh563.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh565.obj" ]
-NamedMaterial "WhitePaint"
-Shape "plymesh" "string filename" [ "models/Mesh469.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh569.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh571.obj" ]
-NamedMaterial "Wallpaper"
-Shape "plymesh" "string filename" [ "models/Mesh574.obj" ]
-NamedMaterial "WhitePaint2"
-Shape "plymesh" "string filename" [ "models/Mesh389.obj" ]
-NamedMaterial "WoodFloor"
-Shape "plymesh" "string filename" [ "models/Mesh731.obj" ]
-NamedMaterial "Wallpaper"
-Shape "plymesh" "string filename" [ "models/Mesh579.obj" ]
-NamedMaterial "WoodStairs"
-Shape "plymesh" "string filename" [ "models/Mesh672.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh408.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh709.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh583.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh515.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh584.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh546.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh587.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh297.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh377.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh595.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh395.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh598.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh487.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh607.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh610.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh397.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh573.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh503.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh525.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh710.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh649.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh352.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh578.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh614.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh444.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh644.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh417.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh620.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh625.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh570.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh601.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh455.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh630.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh635.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh533.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh657.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh340.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh637.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh426.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh280.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh640.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh645.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh618.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh441.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh446.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh476.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh707.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh588.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh256.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh648.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh373.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh650.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh652.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh655.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh464.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh299.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh641.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh461.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh656.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh658.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh660.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh323.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh663.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh313.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh390.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh265.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh228.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh233.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh264.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh747.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh324.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh497.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh437.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh478.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh665.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh668.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh306.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh602.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh627.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh670.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh673.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh677.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh760.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh681.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh520.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh424.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh400.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh683.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh581.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh684.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh753.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh686.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh368.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh702.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh572.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh691.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh293.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh512.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh696.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh605.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh697.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh706.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh699.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh763.obj" ]
-NamedMaterial "WoodChair"
-Shape "plymesh" "string filename" [ "models/Mesh703.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh680.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh558.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh662.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh331.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh708.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh575.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh711.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh492.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh713.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh547.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh577.obj" ]
-NamedMaterial "ChairSeat"
-Shape "plymesh" "string filename" [ "models/Mesh694.obj" ]
-NamedMaterial "Lampshade"
-Shape "plymesh" "string filename" [ "models/Mesh716.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh719.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh633.obj" ]
-NamedMaterial "Brass"
-Shape "plymesh" "string filename" [ "models/Mesh724.obj" ]
-NamedMaterial "WhitePlastic"
-Shape "plymesh" "string filename" [ "models/Mesh727.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh440.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh729.obj" ]
-NamedMaterial "StainlessSteel"
-Shape "plymesh" "string filename" [ "models/Mesh590.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh732.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh372.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh734.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh738.obj" ]
-NamedMaterial "Brass"
-Shape "plymesh" "string filename" [ "models/Mesh636.obj" ]
-NamedMaterial "WoodLamp"
-Shape "plymesh" "string filename" [ "models/Mesh741.obj" ]
-NamedMaterial "Brass"
-Shape "plymesh" "string filename" [ "models/Mesh742.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh701.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh744.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh600.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh628.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh746.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh566.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh294.obj" ]
-NamedMaterial "WoodStairs"
-Shape "plymesh" "string filename" [ "models/Mesh748.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh535.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh750.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh506.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh410.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh617.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh695.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh554.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh751.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh754.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh622.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh493.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh412.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh621.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh755.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh509.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh757.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh281.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh421.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh639.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh676.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh402.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh567.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh759.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh451.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh548.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh761.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh764.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh768.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh687.obj" ]
-NamedMaterial "Gold"
-Shape "plymesh" "string filename" [ "models/Mesh534.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh593.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh767.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh606.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh647.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh717.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh465.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh770.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh611.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh348.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh688.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh396.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh552.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh643.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh771.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh773.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh223.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh222.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh220.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh219.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh218.obj" ]
-NamedMaterial "WoodStairs"
-Shape "plymesh" "string filename" [ "models/Mesh629.obj" ]
-NamedMaterial "WhitePaint2"
-Shape "plymesh" "string filename" [ "models/Mesh217.obj" ]
-NamedMaterial "Painting2"
-Shape "plymesh" "string filename" [ "models/Mesh216.obj" ]
-NamedMaterial "WhitePaint"
-Shape "plymesh" "string filename" [ "models/Mesh392.obj" ]
-NamedMaterial "MagnoliaPaint"
-Shape "plymesh" "string filename" [ "models/Mesh215.obj" ]
-NamedMaterial "WoodStairs"
-Shape "plymesh" "string filename" [ "models/Mesh214.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh704.obj" ]
-NamedMaterial "Black"
-Shape "plymesh" "string filename" [ "models/Mesh427.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh213.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh212.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh210.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh609.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh678.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh209.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh260.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh208.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh207.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh597.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh562.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh689.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh205.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh592.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh420.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh204.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh202.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh345.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh285.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh225.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh201.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh200.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh263.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh398.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh330.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh599.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh198.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh197.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh196.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh195.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh193.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh371.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh191.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh189.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh188.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh722.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh186.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh185.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh184.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh183.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh349.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh181.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh250.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh180.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh608.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh178.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh266.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh176.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh175.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh174.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh171.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh758.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh169.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh698.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh651.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh166.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh322.obj" ]
-NamedMaterial "BrushedAluminium"
-Shape "plymesh" "string filename" [ "models/Mesh164.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh232.obj" ]
-NamedMaterial "Black"
-Shape "plymesh" "string filename" [ "models/Mesh772.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh163.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh162.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh161.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh730.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh159.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh194.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh158.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh540.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh544.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh375.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh157.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh357.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh156.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh155.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh407.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh153.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh152.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh721.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh151.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh231.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh664.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh160.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh182.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh150.obj" ]
-NamedMaterial "White"
-Shape "plymesh" "string filename" [ "models/Mesh459.obj" ]
-NamedMaterial "Copper"
-Shape "plymesh" "string filename" [ "models/Mesh149.obj" ]
-NamedMaterial "Glass"
-Shape "plymesh" "string filename" [ "models/Mesh148.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh146.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh438.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh457.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh144.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh143.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh142.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh141.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh199.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh310.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh140.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh138.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh343.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh471.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh137.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh238.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh187.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh693.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh532.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh537.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh211.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh135.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh134.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh132.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh131.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh129.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh128.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh354.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh431.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh127.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh126.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh125.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh190.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh130.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh124.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh733.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh123.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh136.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh388.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh121.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh120.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh119.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh117.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh116.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh298.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh714.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh740.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh114.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh111.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh110.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh109.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh108.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh551.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh582.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh454.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh415.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh449.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh107.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh106.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh105.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh104.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh103.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh173.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh206.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh102.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh101.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh100.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh626.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh669.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh099.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh098.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh743.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh097.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh613.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh413.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh096.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh095.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh094.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh370.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh177.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh463.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh272.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh093.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh495.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh092.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh359.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh091.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh090.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh089.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh088.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh087.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh203.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh596.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh615.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh086.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh085.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh084.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh082.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh081.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh154.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh080.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh079.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh485.obj" ]
-NamedMaterial "Candles"
-Shape "plymesh" "string filename" [ "models/Mesh078.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh172.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh317.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh347.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh077.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh076.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh075.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh481.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh083.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh073.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh072.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh612.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh071.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh069.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh068.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh067.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh278.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh332.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh436.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh168.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh066.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh499.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh394.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh274.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh065.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh380.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh070.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh585.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh316.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh692.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh064.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh335.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh756.obj" ]
-NamedMaterial "Brass"
-Shape "plymesh" "string filename" [ "models/Mesh224.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh063.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh062.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh725.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh271.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh061.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh642.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh589.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh060.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh247.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh059.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh433.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh221.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh058.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh057.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh327.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh682.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh056.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh055.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh054.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh735.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh167.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh053.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh052.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh268.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh739.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh623.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh580.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh051.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh769.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh671.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh050.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh049.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh369.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh528.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh048.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh341.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh047.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh046.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh133.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh603.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh442.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh504.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh045.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh480.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh564.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh192.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh362.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh044.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh591.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh043.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh766.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh365.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh042.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh488.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh113.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh041.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh170.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh351.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh040.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh549.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh720.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh634.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh039.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh038.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh383.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh037.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh036.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh035.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh406.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh557.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh112.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh165.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh034.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh032.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh115.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh145.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh527.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh237.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh031.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh479.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh030.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh453.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh029.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh028.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh027.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh026.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh025.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh646.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh484.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh255.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh765.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh448.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh139.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh024.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh325.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh074.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh023.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh022.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh021.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh020.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh019.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh661.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh018.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh017.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh147.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh016.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh015.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh291.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh319.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh526.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh014.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh013.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh033.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh011.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh179.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh010.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh009.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh008.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh118.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh007.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh762.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh594.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh475.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh006.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh005.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh012.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh619.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh519.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh004.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh241.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh700.obj" ]
-NamedMaterial "Emission"
-Shape "plymesh" "string filename" [ "models/Mesh435.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh003.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh122.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh666.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh002.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh001.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh000.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh259.obj" ]
-Shape "plymesh" "string filename" [ "models/Mesh462.obj" ]
-AttributeBegin
-	AreaLightSource "diffuse" 
-	Shape "trianglemesh" "integer indices" [ 0 1 2 0 2 3 ] "point P" [ 0.551075 7.14059011074 -0.57238 -1.513425 7.14058979901 -0.57238 -1.513425 7.14058988926 -2.73312 0.551075 7.14059020099 -2.73312 ] "normal N" [1.34713496055e-06 -8.92169546 -3.72608391418e-07 1.34713496055e-06 -8.92169546 -3.72608391418e-07 1.34713496055e-06 -8.92169546 -3.72608391418e-07 1.34713496055e-06 -8.92169546 -3.72608391418e-07 "float uv" [ 0 0 1 0 1 1 0 1 ]
-	Material "" "rgb Kd" [ 0, 0, 0 ] 
-AttributeEnd
+	Texture "Texture01" "spectrum" "imagemap" "string filename" [ "textures/wood1.jpg" ] "bool trilinear" [ "true" ] 
+	Texture "Texture02" "spectrum" "imagemap" "string filename" [ "textures/wood2.jpg" ] "bool trilinear" [ "true" ] 
+	Texture "Texture03" "spectrum" "imagemap" "string filename" [ "textures/blackboard.jpg" ] "bool trilinear" [ "true" ] 
+	MakeNamedMaterial "Walls" "string type" [ "matte" ] "rgb Kd" [ 0.654071, 0.67408, 0.8 ] 
+	MakeNamedMaterial "Lectern" "string type" [ "matte" ] "texture Kd" [ "Texture01" ] 
+	MakeNamedMaterial "FlagRed" "string type" [ "matte" ] "rgb Kd" [ 0.8, 0.008214, 0 ] 
+	MakeNamedMaterial "FlagWhite" "string type" [ "matte" ] "rgb Kd" [ 1, 1, 1 ] 
+	MakeNamedMaterial "FlagBase" "string type" [ "matte" ] "rgb Kd" [ 0.779661, 0.653162, 0.349188 ] 
+	MakeNamedMaterial "ChalkHolder" "string type" [ "matte" ] "rgb Kd" [ 0.8, 0.644901, 0.412119 ] 
+	MakeNamedMaterial "ProjectorScreen" "string type" [ "matte" ] "rgb Kd" [ 1, 1, 1 ] 
+	MakeNamedMaterial "StickyNote1" "string type" [ "matte" ] "rgb Kd" [ 0.612066, 0.612066, 0.612066 ] 
+	MakeNamedMaterial "Whiteboard" "string type" [ "matte" ] "rgb Kd" [ 1, 1, 1 ] 
+	MakeNamedMaterial "StickyNote7" "string type" [ "matte" ] "rgb Kd" [ 0.612066, 0.612066, 0.612066 ] 
+	MakeNamedMaterial "StickyNote8" "string type" [ "matte" ] "rgb Kd" [ 0.612066, 0.612066, 0.612066 ] 
+	MakeNamedMaterial "Bin2" "string type" [ "matte" ] "rgb Kd" [ 0.8, 0.717509, 0.190456 ] 
+	MakeNamedMaterial "Boxes2" "string type" [ "matte" ] "rgb Kd" [ 0.8, 0.791642, 0.388399 ] 
+	MakeNamedMaterial "Boxes1" "string type" [ "matte" ] "rgb Kd" [ 0.64, 0.472188, 0.319233 ] 
+	MakeNamedMaterial "StickyNote4" "string type" [ "matte" ] "rgb Kd" [ 0.612066, 0.612066, 0.612066 ] 
+	MakeNamedMaterial "Whiteboard2" "string type" [ "matte" ] "rgb Kd" [ 0.79311, 0.79311, 0.79311 ] 
+	MakeNamedMaterial "BluePencil" "string type" [ "matte" ] "rgb Kd" [ 0, 0.030764, 0.8 ] 
+	MakeNamedMaterial "GreenPencil" "string type" [ "matte" ] "rgb Kd" [ 0.145676, 0.64, 0 ] 
+	MakeNamedMaterial "RedPencil" "string type" [ "matte" ] "rgb Kd" [ 0.626651, 0, 0 ] 
+	MakeNamedMaterial "Bookshelf" "string type" [ "matte" ] "rgb Kd" [ 0.491301, 0.305177, 0.8 ] 
+	MakeNamedMaterial "Hallway" "string type" [ "matte" ] "rgb Kd" [ 0.784314, 0.784314, 0.784314 ] 
+	MakeNamedMaterial "CeilingLight" "string type" [ "substrate" ] "float roughness" [ 0.1 ] "float eta" [ 1.5 ] "rgb Kd" [ 0.647814, 0.647814, 0.647814 ] 
+	MakeNamedMaterial "Black" "string type" [ "matte" ] "rgb Kd" [ 0.00631, 0.00631, 0.00631 ] 
+	MakeNamedMaterial "BlackPlastic" "string type" [ "substrate" ] "float roughness" [ 0.1 ] "float eta" [ 1.5 ] "rgb Kd" [ 0.00631, 0.00631, 0.00631 ] 
+	MakeNamedMaterial "Projector" "string type" [ "matte" ] "rgb Kd" [ 0.00631, 0.00631, 0.00631 ] 
+	MakeNamedMaterial "ScreenEnds" "string type" [ "matte" ] "rgb Kd" [ 0.028991, 0.028991, 0.028991 ] 
+	MakeNamedMaterial "FoamEraser" "string type" [ "matte" ] "rgb Kd" [ 0.684615, 0.684615, 0.684615 ] 
+	MakeNamedMaterial "Whiteboard3" "string type" [ "substrate" ] "float roughness" [ 0.05 ] "float eta" [ 1.5 ] "rgb Kd" [ 1, 1, 1 ] 
+	MakeNamedMaterial "ChairWood" "string type" [ "substrate" ] "texture Kd" [ "Texture02" ] "float roughness" [ 0.05 ] "float eta" [ 1.5 ] 
+	MakeNamedMaterial "ChairFrame" "string type" [ "metal" ] "float roughness" [ 0.1 ] "rgb Kr" [ 0.751534, 0.751534, 0.751534 ] "rgb eta" [ 1.65746, 0.880369, 0.521229 ] "rgb k" [ 9.22387, 6.26952, 4.837 ] 
+	MakeNamedMaterial "ChairStainless" "string type" [ "metal" ] "rgb Kr" [ 1, 1, 1 ] "rgb eta" [ 1.65746, 0.880369, 0.521229 ] "rgb k" [ 9.22387, 6.26952, 4.837 ] 
+	MakeNamedMaterial "Floor" "string type" [ "matte" ] "rgb Kd" [ 0.659224, 0.592438, 0.517401 ] 
+	MakeNamedMaterial "WoodFrame" "string type" [ "matte" ] "texture Kd" [ "Texture03" ] 
+	MakeNamedMaterial "WhiteboardFrame" "string type" [ "matte" ] "rgb Kd" [ 0.056173, 0.056173, 0.056173 ] 
+	MakeNamedMaterial "StickyNote3" "string type" [ "matte" ] "rgb Kd" [ 0.612066, 0.612066, 0.612066 ] 
+	MakeNamedMaterial "StickyNote5" "string type" [ "matte" ] "rgb Kd" [ 0.612066, 0.612066, 0.612066 ] 
+	MakeNamedMaterial "StickyNote6" "string type" [ "matte" ] "rgb Kd" [ 0.612066, 0.612066, 0.612066 ] 
+	MakeNamedMaterial "Speakers" "string type" [ "matte" ] "rgb Kd" [ 0.03598, 0.03598, 0.03598 ] 
+	MakeNamedMaterial "Wall" "string type" [ "matte" ] "rgb Kd" [ 0.450837, 0.453663, 0.499605 ] 
+	MakeNamedMaterial "WindowFrame" "string type" [ "metal" ] "float roughness" [ 0.1 ] "rgb Kr" [ 0.471008, 0.471008, 0.471008 ] "rgb eta" [ 1.65746, 0.880369, 0.521229 ] "rgb k" [ 9.22387, 6.26952, 4.837 ] 
+	MakeNamedMaterial "Bin1" "string type" [ "matte" ] "rgb Kd" [ 0.327125, 0.578596, 0.280561 ] 
+	MakeNamedMaterial "Rubber" "string type" [ "matte" ] "rgb Kd" [ 0.687031, 0.715465, 0.560499 ] 
+	MakeNamedMaterial "FluorescentTube" "string type" [ "plastic" ] "float eta" [ 1.5 ] "rgb Kd" [ 0.612066, 0.612066, 0.612066 ] 
+	MakeNamedMaterial "StickyNote2" "string type" [ "matte" ] "rgb Kd" [ 0.612066, 0.612066, 0.612066 ] 
+	NamedMaterial "Walls"
+	TransformBegin
+		Transform [ 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 -0.0734223 0.0 1.0 ]
+		Shape "plymesh" "string filename" [ "models/Mesh036.obj" ]
+	TransformEnd
+	NamedMaterial "FluorescentTube"
+	TransformBegin
+		Transform [ 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 -0.0734223 0.0 1.0 ]
+		Shape "plymesh" "string filename" [ "models/Mesh048.obj" ]
+	TransformEnd
+	NamedMaterial "CeilingLight"
+	TransformBegin
+		Transform [ 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 -0.0734223 0.0 1.0 ]
+		Shape "plymesh" "string filename" [ "models/Mesh062.obj" ]
+	TransformEnd
+	NamedMaterial "FluorescentTube"
+	TransformBegin
+		Transform [ 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 -0.0734223 0.0 1.0 ]
+		Shape "plymesh" "string filename" [ "models/Mesh038.obj" ]
+	TransformEnd
+	NamedMaterial "Black"
+	TransformBegin
+		Transform [ 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 -0.0734223 0.0 1.0 ]
+		Shape "plymesh" "string filename" [ "models/Mesh054.obj" ]
+	TransformEnd
+	TransformBegin
+		Transform [ 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 -0.0734223 0.0 1.0 ]
+		Shape "plymesh" "string filename" [ "models/Mesh077.obj" ]
+	TransformEnd
+	NamedMaterial "BlackPlastic"
+	TransformBegin
+		Transform [ 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 -0.0734223 0.0 1.0 ]
+		Shape "plymesh" "string filename" [ "models/Mesh052.obj" ]
+	TransformEnd
+	NamedMaterial "Black"
+	TransformBegin
+		Transform [ 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 -0.0734223 0.0 1.0 ]
+		Shape "plymesh" "string filename" [ "models/Mesh061.obj" ]
+	TransformEnd
+	NamedMaterial "Projector"
+	TransformBegin
+		Transform [ 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 -0.0734223 0.0 1.0 ]
+		Shape "plymesh" "string filename" [ "models/Mesh031.obj" ]
+	TransformEnd
+	TransformBegin
+		Transform [ 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 -0.0734223 0.0 1.0 ]
+		Shape "plymesh" "string filename" [ "models/Mesh030.obj" ]
+	TransformEnd
+	NamedMaterial "Black"
+	TransformBegin
+		Transform [ 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 -0.0734223 0.0 1.0 ]
+		Shape "plymesh" "string filename" [ "models/Mesh057.obj" ]
+	TransformEnd
+	NamedMaterial "Walls"
+	TransformBegin
+		Transform [ 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 -0.0734223 0.0 1.0 ]
+		Shape "plymesh" "string filename" [ "models/Mesh023.obj" ]
+	TransformEnd
+	TransformBegin
+		Transform [ 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 -0.0734223 0.0 1.0 ]
+		Shape "plymesh" "string filename" [ "models/Mesh027.obj" ]
+	TransformEnd
+	NamedMaterial "Bin2"
+	TransformBegin
+		Transform [ 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 -0.0734223 0.0 1.0 ]
+		Shape "plymesh" "string filename" [ "models/Mesh047.obj" ]
+	TransformEnd
+	NamedMaterial "Boxes1"
+	TransformBegin
+		Transform [ 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 -0.0734223 0.0 1.0 ]
+		Shape "plymesh" "string filename" [ "models/Mesh049.obj" ]
+	TransformEnd
+	NamedMaterial "Black"
+	TransformBegin
+		Transform [ 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 -0.0734223 0.0 1.0 ]
+		Shape "plymesh" "string filename" [ "models/Mesh022.obj" ]
+	TransformEnd
+	TransformBegin
+		Transform [ 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 -0.0734223 0.0 1.0 ]
+		Shape "plymesh" "string filename" [ "models/Mesh029.obj" ]
+	TransformEnd
+	NamedMaterial "Whiteboard"
+	TransformBegin
+		Transform [ 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 -0.0734223 0.0 1.0 ]
+		Shape "plymesh" "string filename" [ "models/Mesh033.obj" ]
+	TransformEnd
+	NamedMaterial "Walls"
+	TransformBegin
+		Transform [ 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 -0.0734223 0.0 1.0 ]
+		Shape "plymesh" "string filename" [ "models/Mesh040.obj" ]
+	TransformEnd
+	NamedMaterial "Black"
+	TransformBegin
+		Transform [ 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 -0.0734223 0.0 1.0 ]
+		Shape "plymesh" "string filename" [ "models/Mesh028.obj" ]
+	TransformEnd
+	NamedMaterial "ProjectorScreen"
+	TransformBegin
+		Transform [ 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 -0.0734223 0.0 1.0 ]
+		Shape "plymesh" "string filename" [ "models/Mesh076.obj" ]
+	TransformEnd
+	NamedMaterial "ScreenEnds"
+	TransformBegin
+		Transform [ 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 -0.0734223 0.0 1.0 ]
+		Shape "plymesh" "string filename" [ "models/Mesh050.obj" ]
+	TransformEnd
+	NamedMaterial "FlagBase"
+	TransformBegin
+		Transform [ 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 -0.0734223 0.0 1.0 ]
+		Shape "plymesh" "string filename" [ "models/Mesh055.obj" ]
+	TransformEnd
+	NamedMaterial "FoamEraser"
+	TransformBegin
+		Transform [ 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 -0.0734223 0.0 1.0 ]
+		Shape "plymesh" "string filename" [ "models/Mesh053.obj" ]
+	TransformEnd
+	NamedMaterial "ChalkHolder"
+	TransformBegin
+		Transform [ 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 -0.0734223 0.0 1.0 ]
+		Shape "plymesh" "string filename" [ "models/Mesh058.obj" ]
+	TransformEnd
+	NamedMaterial "ChairWood"
+	TransformBegin
+		Transform [ 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 -0.0734223 0.0 1.0 ]
+		Shape "plymesh" "string filename" [ "models/Mesh060.obj" ]
+	TransformEnd
+	NamedMaterial "ChairStainless"
+	TransformBegin
+		Transform [ 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 -0.0734223 0.0 1.0 ]
+		Shape "plymesh" "string filename" [ "models/Mesh063.obj" ]
+	TransformEnd
+	NamedMaterial "ChairFrame"
+	TransformBegin
+		Transform [ 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 -0.0734223 0.0 1.0 ]
+		Shape "plymesh" "string filename" [ "models/Mesh064.obj" ]
+	TransformEnd
+	NamedMaterial "ChairWood"
+	TransformBegin
+		Transform [ 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 -0.0734223 0.0 1.0 ]
+		Shape "plymesh" "string filename" [ "models/Mesh037.obj" ]
+	TransformEnd
+	TransformBegin
+		Transform [ 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 -0.0734223 0.0 1.0 ]
+		Shape "plymesh" "string filename" [ "models/Mesh067.obj" ]
+	TransformEnd
+	TransformBegin
+		Transform [ 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 -0.0734223 0.0 1.0 ]
+		Shape "plymesh" "string filename" [ "models/Mesh073.obj" ]
+	TransformEnd
+	TransformBegin
+		Transform [ 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 -0.0734223 0.0 1.0 ]
+		Shape "plymesh" "string filename" [ "models/Mesh024.obj" ]
+	TransformEnd
+	TransformBegin
+		Transform [ 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 -0.0734223 0.0 1.0 ]
+		Shape "plymesh" "string filename" [ "models/Mesh041.obj" ]
+	TransformEnd
+	NamedMaterial "Rubber"
+	TransformBegin
+		Transform [ 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 -0.0734223 0.0 1.0 ]
+		Shape "plymesh" "string filename" [ "models/Mesh026.obj" ]
+	TransformEnd
+	NamedMaterial "ChairWood"
+	TransformBegin
+		Transform [ 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 -0.0734223 0.0 1.0 ]
+		Shape "plymesh" "string filename" [ "models/Mesh069.obj" ]
+	TransformEnd
+	NamedMaterial "Floor"
+	TransformBegin
+		Transform [ 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 -0.0734223 0.0 1.0 ]
+		Shape "plymesh" "string filename" [ "models/Mesh035.obj" ]
+	TransformEnd
+	NamedMaterial "WoodFrame"
+	TransformBegin
+		Transform [ 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 -0.0734223 0.0 1.0 ]
+		Shape "plymesh" "string filename" [ "models/Mesh043.obj" ]
+	TransformEnd
+	NamedMaterial "Whiteboard2"
+	TransformBegin
+		Transform [ 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 -0.0734223 0.0 1.0 ]
+		Shape "plymesh" "string filename" [ "models/Mesh072.obj" ]
+	TransformEnd
+	NamedMaterial "StickyNote1"
+	TransformBegin
+		Transform [ 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 -0.0734223 0.0 1.0 ]
+		Shape "plymesh" "string filename" [ "models/Mesh045.obj" ]
+	TransformEnd
+	NamedMaterial "StickyNote2"
+	TransformBegin
+		Transform [ 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 -0.0734223 0.0 1.0 ]
+		Shape "plymesh" "string filename" [ "models/Mesh044.obj" ]
+	TransformEnd
+	NamedMaterial "RedPencil"
+	TransformBegin
+		Transform [ 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 -0.0734223 0.0 1.0 ]
+		Shape "plymesh" "string filename" [ "models/Mesh074.obj" ]
+	TransformEnd
+	NamedMaterial "BluePencil"
+	TransformBegin
+		Transform [ 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 -0.0734223 0.0 1.0 ]
+		Shape "plymesh" "string filename" [ "models/Mesh070.obj" ]
+	TransformEnd
+	NamedMaterial "GreenPencil"
+	TransformBegin
+		Transform [ 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 -0.0734223 0.0 1.0 ]
+		Shape "plymesh" "string filename" [ "models/Mesh078.obj" ]
+	TransformEnd
+	NamedMaterial "Whiteboard3"
+	TransformBegin
+		Transform [ 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 -0.0734223 0.0 1.0 ]
+		Shape "plymesh" "string filename" [ "models/Mesh021.obj" ]
+	TransformEnd
+	NamedMaterial "WhiteboardFrame"
+	TransformBegin
+		Transform [ 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 -0.0734223 0.0 1.0 ]
+		Shape "plymesh" "string filename" [ "models/Mesh018.obj" ]
+	TransformEnd
+	NamedMaterial "Lectern"
+	TransformBegin
+		Transform [ 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 -0.0734223 0.0 1.0 ]
+		Shape "plymesh" "string filename" [ "models/Mesh017.obj" ]
+	TransformEnd
+	TransformBegin
+		Transform [ 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 -0.0734223 0.0 1.0 ]
+		Shape "plymesh" "string filename" [ "models/Mesh066.obj" ]
+	TransformEnd
+	TransformBegin
+		Transform [ 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 -0.0734223 0.0 1.0 ]
+		Shape "plymesh" "string filename" [ "models/Mesh056.obj" ]
+	TransformEnd
+	TransformBegin
+		Transform [ 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 -0.0734223 0.0 1.0 ]
+		Shape "plymesh" "string filename" [ "models/Mesh016.obj" ]
+	TransformEnd
+	TransformBegin
+		Transform [ 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 -0.0734223 0.0 1.0 ]
+		Shape "plymesh" "string filename" [ "models/Mesh015.obj" ]
+	TransformEnd
+	NamedMaterial "Hallway"
+	TransformBegin
+		Transform [ 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 -0.0734223 0.0 1.0 ]
+		Shape "plymesh" "string filename" [ "models/Mesh014.obj" ]
+	TransformEnd
+	NamedMaterial "WoodFrame"
+	TransformBegin
+		Transform [ 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 -0.0734223 0.0 1.0 ]
+		Shape "plymesh" "string filename" [ "models/Mesh025.obj" ]
+	TransformEnd
+	NamedMaterial "Whiteboard2"
+	TransformBegin
+		Transform [ 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 -0.0734223 0.0 1.0 ]
+		Shape "plymesh" "string filename" [ "models/Mesh046.obj" ]
+	TransformEnd
+	NamedMaterial "BluePencil"
+	TransformBegin
+		Transform [ 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 -0.0734223 0.0 1.0 ]
+		Shape "plymesh" "string filename" [ "models/Mesh012.obj" ]
+	TransformEnd
+	NamedMaterial "GreenPencil"
+	TransformBegin
+		Transform [ 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 -0.0734223 0.0 1.0 ]
+		Shape "plymesh" "string filename" [ "models/Mesh011.obj" ]
+	TransformEnd
+	TransformBegin
+		Transform [ 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 -0.0734223 0.0 1.0 ]
+		Shape "plymesh" "string filename" [ "models/Mesh010.obj" ]
+	TransformEnd
+	TransformBegin
+		Transform [ 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 -0.0734223 0.0 1.0 ]
+		Shape "plymesh" "string filename" [ "models/Mesh009.obj" ]
+	TransformEnd
+	NamedMaterial "BluePencil"
+	TransformBegin
+		Transform [ 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 -0.0734223 0.0 1.0 ]
+		Shape "plymesh" "string filename" [ "models/Mesh008.obj" ]
+	TransformEnd
+	NamedMaterial "RedPencil"
+	TransformBegin
+		Transform [ 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 -0.0734223 0.0 1.0 ]
+		Shape "plymesh" "string filename" [ "models/Mesh059.obj" ]
+	TransformEnd
+	NamedMaterial "Bookshelf"
+	TransformBegin
+		Transform [ 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 -0.0734223 0.0 1.0 ]
+		Shape "plymesh" "string filename" [ "models/Mesh065.obj" ]
+	TransformEnd
+	NamedMaterial "StickyNote3"
+	TransformBegin
+		Transform [ 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 -0.0734223 0.0 1.0 ]
+		Shape "plymesh" "string filename" [ "models/Mesh032.obj" ]
+	TransformEnd
+	NamedMaterial "StickyNote4"
+	TransformBegin
+		Transform [ 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 -0.0734223 0.0 1.0 ]
+		Shape "plymesh" "string filename" [ "models/Mesh007.obj" ]
+	TransformEnd
+	NamedMaterial "StickyNote5"
+	TransformBegin
+		Transform [ 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 -0.0734223 0.0 1.0 ]
+		Shape "plymesh" "string filename" [ "models/Mesh075.obj" ]
+	TransformEnd
+	NamedMaterial "StickyNote6"
+	TransformBegin
+		Transform [ 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 -0.0734223 0.0 1.0 ]
+		Shape "plymesh" "string filename" [ "models/Mesh071.obj" ]
+	TransformEnd
+	NamedMaterial "StickyNote7"
+	TransformBegin
+		Transform [ 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 -0.0734223 0.0 1.0 ]
+		Shape "plymesh" "string filename" [ "models/Mesh039.obj" ]
+	TransformEnd
+	NamedMaterial "StickyNote8"
+	TransformBegin
+		Transform [ 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 -0.0734223 0.0 1.0 ]
+		Shape "plymesh" "string filename" [ "models/Mesh006.obj" ]
+	TransformEnd
+	NamedMaterial "Black"
+	TransformBegin
+		Transform [ 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 -0.0734223 0.0 1.0 ]
+		Shape "plymesh" "string filename" [ "models/Mesh051.obj" ]
+	TransformEnd
+	NamedMaterial "FlagRed"
+	TransformBegin
+		Transform [ 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 -0.0734223 0.0 1.0 ]
+		Shape "plymesh" "string filename" [ "models/Mesh013.obj" ]
+	TransformEnd
+	NamedMaterial "FlagWhite"
+	TransformBegin
+		Transform [ 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 -0.0734223 0.0 1.0 ]
+		Shape "plymesh" "string filename" [ "models/Mesh005.obj" ]
+	TransformEnd
+	NamedMaterial "Walls"
+	TransformBegin
+		Transform [ 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 -0.0734223 0.0 1.0 ]
+		Shape "plymesh" "string filename" [ "models/Mesh042.obj" ]
+	TransformEnd
+	NamedMaterial "Speakers"
+	TransformBegin
+		Transform [ 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 -0.0734223 0.0 1.0 ]
+		Shape "plymesh" "string filename" [ "models/Mesh003.obj" ]
+	TransformEnd
+	NamedMaterial "FluorescentTube"
+	TransformBegin
+		Transform [ 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 -0.0734223 0.0 1.0 ]
+		Shape "plymesh" "string filename" [ "models/Mesh020.obj" ]
+	TransformEnd
+	NamedMaterial "CeilingLight"
+	TransformBegin
+		Transform [ 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 -0.0734223 0.0 1.0 ]
+		Shape "plymesh" "string filename" [ "models/Mesh002.obj" ]
+	TransformEnd
+	NamedMaterial "Wall"
+	TransformBegin
+		Transform [ 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 -0.0734223 0.0 1.0 ]
+		Shape "plymesh" "string filename" [ "models/Mesh019.obj" ]
+	TransformEnd
+	NamedMaterial "WindowFrame"
+	TransformBegin
+		Transform [ 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 -0.0734223 0.0 1.0 ]
+		Shape "plymesh" "string filename" [ "models/Mesh068.obj" ]
+	TransformEnd
+	NamedMaterial "Bin1"
+	TransformBegin
+		Transform [ 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 -0.0734223 0.0 1.0 ]
+		Shape "plymesh" "string filename" [ "models/Mesh001.obj" ]
+	TransformEnd
+	NamedMaterial "Boxes1"
+	TransformBegin
+		Transform [ 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 -0.0734223 0.0 1.0 ]
+		Shape "plymesh" "string filename" [ "models/Mesh004.obj" ]
+	TransformEnd
+	NamedMaterial "Boxes2"
+	TransformBegin
+		Transform [ 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 -0.0734223 0.0 1.0 ]
+		Shape "plymesh" "string filename" [ "models/Mesh034.obj" ]
+	TransformEnd
+	NamedMaterial "Boxes1"
+	TransformBegin
+		Transform [ 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 -0.0734223 0.0 1.0 ]
+		Shape "plymesh" "string filename" [ "models/Mesh000.obj" ]
+	TransformEnd
+	LightSource "distant" "point from" [ -0.865804 0.416766 -0.276929 ] "point to" [ 0.000000 0.000000 0.000000 ] 
 WorldEnd

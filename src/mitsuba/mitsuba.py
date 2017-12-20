@@ -17,7 +17,7 @@ def extract_params(element):
         else:
             param.name = attribute.attrib.get('name')
         
-        if param.val_type == 'point':
+        if param.val_type == 'point' or param.val_type == 'vector':
             param.value = np.array([attribute.attrib.get('x'), attribute.attrib.get('y'), attribute.attrib.get('z')])
         elif param.val_type == 'ref':
             param.value = attribute.attrib.get('id')
@@ -168,7 +168,8 @@ def load_scene(scene_element):
     scene.sensor = load_sensor(scene_element)
     scene.materials = load_materials(scene_element)
     scene.shapes = load_shapes(scene_element)
-
+    scene.lights = load_lights(scene_element)
+    
     return scene
     
 def load_integrator(scene):
@@ -254,7 +255,7 @@ def load_shapes(scene):
             s.transform.matrix =  map(float, matrix.strip().split(' '))
             # formats matrix into 4x4 pattern
             s.transform.matrix = [s.transform.matrix[i:i + 4] for i in xrange(0, len(s.transform.matrix), 4)]
-
+            
         if shape.find('emitter') is not None:
             s.emitter = directives.Emitter()
             s.emitter.type = shape.find('emitter').get('type')
@@ -270,6 +271,7 @@ def load_shapes(scene):
             s.emitter.params = filter_params(s.emitter.params, 'transform')
         
         material_elem = shape.find('bsdf')
+        
         if material_elem is not None:
             s.material = extract_material(material_elem)
 
@@ -278,9 +280,36 @@ def load_shapes(scene):
         s.params = filter_params(s.params, 'bsdf')
         s.params = filter_params(s.params, 'emitter')
         
-        shape_list.append(s) 
+        print s.transform.matrix
+        
+        shape_list.append(s)
+        
+    for s in shape_list:
+        print s.transform.matrix
+        
+    return shape_list
     
-    return shape_list          
+def load_lights(scene):
+    light_list = []
+    
+    for emitter in scene.findall('emitter'):    
+        e = directives.Emitter()
+        e.type = emitter.get('type')
+            
+        if emitter.find('transform') is not None:
+            e.transform = directives.Transform()
+            matrix = emitter.find('transform').find('matrix').get('value')
+            e.transform.matrix =  map(float, matrix.strip().split(' '))
+            # formats matrix into 4x4 pattern
+            e.transform.matrix = [e.transform.matrix[i:i + 4] for i in xrange(0, len(e.transform.matrix), 4)]
+            
+        e.params = extract_params(emitter)
+        e.params = filter_params(e.params, 'transform')
+        
+        light_list.append(e)
+    
+    return light_list
+          
            
 def main():
     scene = read_from_xml('/home/grad/lahagemann/pbr_scene_converter/test_files/mitsuba/staircase.xml')

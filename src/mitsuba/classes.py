@@ -64,6 +64,13 @@ class Emitter:
     type = ''
     transform = None
     params = []
+    
+    def getParam(self, paramName):
+        p = [x for x in self.params if not x.name != paramName]
+        if len(p) == 1:
+            return p[0].value
+        else:
+            return ''
 
 class Shape:
     type = '' 
@@ -75,8 +82,6 @@ class Shape:
 
     def getRefMaterial(self):
         ref = [x for x in self.params if not x.name != 'id']
-        for i in self.params:
-            print i.name 
         if len(ref) == 1:
             return ref[0].value
         else:
@@ -88,6 +93,13 @@ class Shape:
             return f[0].value
         else:
             return ''
+            
+    def getParam(self, paramName):
+        p = [x for x in self.params if not x.name != paramName]
+        if len(p) == 1:
+            return p[0].value
+        else:
+            return ''
 
 # GLOBAL
 class Scene:
@@ -95,4 +107,4 @@ class Scene:
     sensor = Sensor()
     materials = []
     shapes = []
-    light_sources = []
+    lights = []

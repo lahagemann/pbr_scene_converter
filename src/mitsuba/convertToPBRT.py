@@ -21,9 +21,30 @@ def pbrt_writeParams(paramList, dictionary):
 def pbrt_shapeString(shape, numberOfTabs):
     autoTab = '\t'
     s = ''
-    
+    identity = np.array([[1, 0, 0, 0], [0, 1, 0, 0], [0, 0, 1, 0], [0, 0, 0, 1]])
+
     if shape.type == 'obj' or shape.type == 'ply':
-        s += (autoTab * numberOfTabs) + 'Shape "plymesh" "string filename" [ "' + shape.getFile() + '" ]\n'
+        if shape.transform is not None:
+            if not np.array_equal(shape.transform.matrix, identity):
+                s += (autoTab * numberOfTabs) + 'TransformBegin\n'
+                s += (autoTab * (numberOfTabs + 1)) + 'Transform [ '
+                
+                m = shape.transform.matrix
+                m_T = np.transpose(m)
+
+                for i in range(0,4):
+                    for j in range(0,4):
+                        s += str(m_T[i][j])
+                        s += ' '
+                    
+                s += ']\n'
+                s += (autoTab * (numberOfTabs + 1)) + 'Shape "plymesh" "string filename" [ "' + shape.getParam('filename') + '" ]\n'
+                s += (autoTab * numberOfTabs) + 'TransformEnd\n'
+            else:
+                s += (autoTab * numberOfTabs) + 'Shape "plymesh" "string filename" [ "' + shape.getParam('filename') + '" ]\n'
+                
+        else:
+            s += (autoTab * numberOfTabs) + 'Shape "plymesh" "string filename" [ "' + shape.getParam('filename') + '" ]\n'
             
     elif shape.type == 'cube':
         # cube will be a triangle mesh (god help me)
@@ -149,11 +170,10 @@ def pbrt_lightString(emitter, numberOfTabs):
             
             m = emitter.transform.matrix
             m_T = np.transpose(m)
-            m_IT = np.linalg.inv(m_T)
 
             for i in range(0,4):
                 for j in range(0,4):
-                    s += str(m_IT[i][j])
+                    s += str(m_T[i][j])
                     s += ' '
                     
             s += ']\n'
@@ -169,20 +189,24 @@ def pbrt_lightString(emitter, numberOfTabs):
             s += '\n'
     
     elif emitter.type == 'sunsky':
-    
+        s += (autoTab * numberOfTabs) + 'LightSource "distant" '
+        
+        sunDirection = emitter.getParam('sunDirection')
+        
+        s += '"point from" [ ' + str(sunDirection[0]) + ' ' + str(sunDirection[1]) + ' ' + str(sunDirection[2]) + ' ] '
+        s += '"point to" [ 0.000000 0.000000 0.000000 ] '
+        
+        s += pbrt_writeParams(emitter.params, mtpbrt.emitterParam)
+        s += '\n'
+        
     elif emitter.type == 'spot':
+        pass
     
     elif emitter.type == 'point':
+        pass
+        
+    return s
     
-    
-
-    
-            
-
-            
-            s += (autoTab * (numberOfTabs + 2)) + 'AreaLightSource "diffuse" '
-            s += pbrt_writeParams(emitter.params, mtpbrt.emitterParam)
-
 def toPBRT(scene):
     np.set_printoptions(suppress=True)
     textures = {} # texture dictionary. entries are 'material_name' : 'texture_id'
@@ -287,7 +311,7 @@ def toPBRT(scene):
                     textures[material.adapter.mat_id] = id
                 
                     # outer texture for bumpmap is float. otherwise, spectrum
-                    outfile.write('Texture "' + id + '" "float" ')
+                    outfile.write('\tTexture "' + id + '" "float" ')
                 
                     if tex.tex_type == 'bitmap':
                         outfile.write('"imagemap" ')
@@ -321,7 +345,7 @@ def toPBRT(scene):
                     id = 'Texture' + str(tex_count).zfill(2)
                     textures[material.mat_id] = id
                 
-                    outfile.write('Texture "' + id + '" "spectrum" ')
+                    outfile.write('\tTexture "' + id + '" "spectrum" ')
                     
                     if tex.tex_type == 'bitmap':
                         outfile.write('"imagemap" ')
@@ -353,7 +377,7 @@ def toPBRT(scene):
                     id = 'Texture' + str(tex_count).zfill(2)
                     textures[material.mat_id] = id
                 
-                    outfile.write('Texture "' + id + '" "spectrum" ')
+                    outfile.write('\tTexture "' + id + '" "spectrum" ')
                 
                     if tex.tex_type == 'bitmap':
                         outfile.write('"imagemap" ')
@@ -383,7 +407,7 @@ def toPBRT(scene):
         # named material declaration
         for material in scene.materials:
             if isinstance(material, directives.BumpMap):
-                outfile.write('MakeNamedMaterial "' + material.adapter.mat_id + '" ')
+                outfile.write('\tMakeNamedMaterial "' + material.adapter.mat_id + '" ')
                 # convert material type
                 mitsubaType = material.adapter.material.mat_type
                 if mitsubaType in mtpbrt.materialType:
@@ -402,7 +426,7 @@ def toPBRT(scene):
                 outfile.write(p + '\n')
             
             elif isinstance(material, directives.AdapterMaterial):
-                outfile.write('MakeNamedMaterial "' + material.mat_id + '" ')
+                outfile.write('\tMakeNamedMaterial "' + material.mat_id + '" ')
                 
                 # convert material type
                 mitsubaType = material.material.mat_type
@@ -421,7 +445,7 @@ def toPBRT(scene):
                 outfile.write(p + '\n')
 
             else:
-                outfile.write('MakeNamedMaterial "' + material.mat_id + '" ')
+                outfile.write('\tMakeNamedMaterial "' + material.mat_id + '" ')
 
                 # convert material type
                 mitsubaType = material.mat_type
@@ -445,39 +469,35 @@ def toPBRT(scene):
         currentRefMaterial = ''
         for shape in scene.shapes:
             if shape.emitter is not None:
-                if shape.emitter.type == 'area':
-                    outfile.write('AttributeBegin\n')
+                # child emitter will ALWAYS be area emitter
+                outfile.write('AttributeBegin\n')
                         
-                    outfile.write('\tAreaLightSource "diffuse" ')
-                    #p = pbrt_writeParams(shape.emitter.params, mtpbrt.emitterParam)
-                    outfile.write(p + '\n')
+                outfile.write('\tAreaLightSource "diffuse" ')
+                p = pbrt_writeParams(shape.emitter.params, mtpbrt.emitterParam)
+                outfile.write(p + '\n')
                         
-                    shapeString = pbrt_shapeString(shape, 1)
-                    outfile.write(shapeString)
+                shapeString = pbrt_shapeString(shape, 2)
+                outfile.write(shapeString)
                         
-                    ref = shape.getRefMaterial()
-                    print ref
-                        
-                    if not ref == '':
-                        if ref != currentRefMaterial:
-                            outfile.write('\tNamedMaterial "' + ref + '"\n')
-                            currentRefMaterial = ref
-                        
-                    outfile.write('AttributeEnd\n')
-                        
-                else:
-                    pass
-                    
-                    
-            else:
-                # if shape has ref material, then make reference
-                shapeString = pbrt_shapeString(shape,0)
-                
-                ref = shape.getRefMaterial()
+                ref = shape.getParam('id')
+                print ref
                         
                 if not ref == '':
                     if ref != currentRefMaterial:
-                        outfile.write('NamedMaterial "' + ref + '"\n')
+                        outfile.write('\tNamedMaterial "' + ref + '"\n')
+                        currentRefMaterial = ref
+                        
+                outfile.write('AttributeEnd\n')
+                        
+            else:
+                # if shape has ref material, then make reference
+                shapeString = pbrt_shapeString(shape,1)
+                
+                ref = shape.getParam('id')
+                        
+                if not ref == '':
+                    if ref != currentRefMaterial:
+                        outfile.write('\tNamedMaterial "' + ref + '"\n')
                         outfile.write(shapeString)
                         currentRefMaterial = ref
                     else:
@@ -485,14 +505,17 @@ def toPBRT(scene):
                 else:
                     outfile.write(shapeString)
                     
-                
-
+                    
+        for light in scene.lights:
+            l = pbrt_lightString(light, 1)
+            outfile.write(l)
+            
         # end scene description
         outfile.write('WorldEnd\n')
 
 
 def main():
-    scene = mit.read_from_xml('/home/luiza/pbr_scene_converter/test_files/mitsuba/staircase.xml')
+    scene = mit.read_from_xml('/home/luiza/pbr_scene_converter/test_files/mitsuba/classroom.xml')
     toPBRT(scene)
 
 if  __name__ =='__main__': main()
