@@ -11,10 +11,16 @@ def extract_params(element):
         param = directives.Param()
         
         param.val_type = attribute.tag
-        param.name = attribute.attrib.get('name')
+        
+        if param.val_type == 'ref':
+            param.name = 'id'    
+        else:
+            param.name = attribute.attrib.get('name')
         
         if param.val_type == 'point':
             param.value = np.array([attribute.attrib.get('x'), attribute.attrib.get('y'), attribute.attrib.get('z')])
+        elif param.val_type == 'ref':
+            param.value = attribute.attrib.get('id')
         else:
             param.value = attribute.attrib.get('value')
         
@@ -71,7 +77,7 @@ def extract_material(material):
             
             adapter.material = adapted_mat
             bumpmap.adapter = adapter
-            material_list.append(bumpmap)
+            m = bumpmap
             
         else:
             mat = directives.Material()
@@ -228,7 +234,7 @@ def load_materials(scene):
 
     return material_list
 
-def load_shapes(scene_element):
+def load_shapes(scene):
     shape_list = []
     for shape in scene.findall('shape'):
         type = shape.get('type')
@@ -241,11 +247,27 @@ def load_shapes(scene_element):
                 
         s.type = type
 
-        s.transform.name = shape.find('transform').find('name').get('value')
-        s.transform.matrix = shape.find('transform').find('matrix').get('value')
+        if shape.find('transform') is not None:
+            s.transform.name = shape.find('transform').get('name')
+            
+            matrix = shape.find('transform').find('matrix').get('value')
+            s.transform.matrix =  map(float, matrix.strip().split(' '))
+            # formats matrix into 4x4 pattern
+            s.transform.matrix = [s.transform.matrix[i:i + 4] for i in xrange(0, len(s.transform.matrix), 4)]
 
-        s.emitter.type = shape.find('emitter').get('type')
-        s.emitter.params = extract_params(shape.find('emitter'))
+        if shape.find('emitter') is not None:
+            s.emitter = directives.Emitter()
+            s.emitter.type = shape.find('emitter').get('type')
+            
+            if shape.find('emitter').find('transform') is not None:
+                s.emitter.transform = directives.Transform()
+                matrix = shape.find('emitter').find('transform').find('matrix').get('value')
+                s.emitter.transform.matrix =  map(float, matrix.strip().split(' '))
+                # formats matrix into 4x4 pattern
+                s.emitter.transform.matrix = [s.emitter.transform.matrix[i:i + 4] for i in xrange(0, len(s.emitter.transform.matrix), 4)]
+            
+            s.emitter.params = extract_params(shape.find('emitter'))
+            s.emitter.params = filter_params(s.emitter.params, 'transform')
         
         material_elem = shape.find('bsdf')
         if material_elem is not None:

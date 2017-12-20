@@ -130,10 +130,21 @@ matPlasticParam =   {
                         'alpha' : 'roughness'
                     }
 
-lightType =         {
+emitterType =       {
                         'point' : 'point',
                         'spot' : 'spot',
-                        'directional' : '',
                         'envmap' : 'infinite',
                         'sunsky' : 'distant'
                     }
+                    
+emitterParam =      {
+                        'radiance' : 'L',
+                        'intensity' : 'I',
+                        'position' : 'from',
+                        'samplingWeight' : 'samples',
+                        'cutoffAngle' : 'conedeltaangle',
+                        'beamWidth' : 'coneangle',
+                        
+
+                    }
+    

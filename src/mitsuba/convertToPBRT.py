@@ -10,11 +10,11 @@ def pbrt_writeParams(paramList, dictionary):
     for param in paramList:
         if param.name in dictionary:
             pbrt_param = dictionary[param.name]
-            s = s + '"' + param.val_type + ' ' + pbrt_param + '" '
+            s += '"' + param.val_type + ' ' + pbrt_param + '" '
             if param.val_type is 'string' or param.val_type is 'bool':
-                s = s + '[ "' + param.value + '" ] '
+                s += '[ "' + param.value + '" ] '
             else:
-                s = s + '[ ' + param.value + ' ] '
+                s += '[ ' + param.value + ' ] '
                 
     return s
 
@@ -23,16 +23,16 @@ def pbrt_shapeString(shape, numberOfTabs):
     s = ''
     
     if shape.type == 'obj' or shape.type == 'ply':
-        s = s + (autoTab * numberOfTabs) + 'Shape "plymesh" "string filename" [ "' + shape.getFile + '" ]\n'
+        s += (autoTab * numberOfTabs) + 'Shape "plymesh" "string filename" [ "' + shape.getFile() + '" ]\n'
             
     elif shape.type == 'cube':
         # cube will be a triangle mesh (god help me)
         points = []
         
         points.append(np.sum(shape.transform.matrix * np.array([-1, -1, -1, 1]), axis = 1))
-	    points.append(np.sum(shape.transform.matrix * np.array([-1, 1, 1, 1]), axis = 1))
-	    points.append(np.sum(shape.transform.matrix * np.array([1, 1, -1, 1]), axis = 1))
-	    points.append(np.sum(shape.transform.matrix * np.array([1, -1, 1, 1]), axis = 1))
+        points.append(np.sum(shape.transform.matrix * np.array([-1, 1, 1, 1]), axis = 1))
+        points.append(np.sum(shape.transform.matrix * np.array([1, 1, -1, 1]), axis = 1))
+        points.append(np.sum(shape.transform.matrix * np.array([1, -1, 1, 1]), axis = 1))
         points.append(np.sum(shape.transform.matrix * np.array([-1, 1, -1, 1]), axis = 1))
         points.append(np.sum(shape.transform.matrix * np.array([-1, -1, 1, 1]), axis = 1))
         points.append(np.sum(shape.transform.matrix * np.array([1, -1, -1, 1]), axis = 1))
@@ -43,14 +43,14 @@ def pbrt_shapeString(shape, numberOfTabs):
         points.append(points[4]), points.append(points[1]), points.append(points[0]), points.append(points[5]) # 16, 17, 18, 19
         points.append(points[6]), points.append(points[3]), points.append(points[2]), points.append(points[7]) # 20, 21, 22, 23
                 
-        s = s + (autoTab * numberOfTabs) + 'Shape "trianglemesh" '
-        s = s + '"integer indices" [ 0 2 1 0 3 2 4 6 5 4 7 6 8 10 9 8 11 10 12 14 13 12 15 14 16 18 17 16 19 18 20 22 21 20 23 22 ] "point P" [ '
+        s += (autoTab * numberOfTabs) + 'Shape "trianglemesh" '
+        s += '"integer indices" [ 0 2 1 0 3 2 4 6 5 4 7 6 8 10 9 8 11 10 12 14 13 12 15 14 16 18 17 16 19 18 20 22 21 20 23 22 ] "point P" [ '
         
         for i in range(0, 24):
-            s = s + str(points[i][0] + ' ' + str(points[i][1]) + ' ' + str(points[i][2]) + ' '
-    
-        s = s + '] '        
-       
+            s += str(points[i][0]) + ' ' + str(points[i][1]) + ' ' + str(points[i][2]) + ' '
+            
+        s += '] '
+        
         #normal for all 4 points in a face are the same
         # faces: 1 = 0 1 2 3; 2 = 4 5 6 7; 3 = 8 9 10 11; 4 = 12 13 14 15; 5 = 16 17 18 19; 6 = 20 21 22 23;
         normalFace1 = np.cross(points[2] - points[0], points[3] - points[1])
@@ -60,32 +60,32 @@ def pbrt_shapeString(shape, numberOfTabs):
         normalFace5 = np.cross(points[18] - points[16], points[19] - points[17])
         normalFace6 = np.cross(points[22] - points[20], points[23] - points[21])
         
-        s = s + '"normal N" [ '
+        s += '"normal N" [ '
         for i in range(0, 4):
-            s = s + str(normalFace1[0] + ' ' + str(normalFace1[1]) + ' ' + str(normalFace1[2]) + ' '
+            s += str(normalFace1[0]) + ' ' + str(normalFace1[1]) + ' ' + str(normalFace1[2]) + ' '
         for i in range(0, 4):
-            s = s + str(normalFace2[0] + ' ' + str(normalFace2[1]) + ' ' + str(normalFace2[2]) + ' '
+            s += str(normalFace2[0]) + ' ' + str(normalFace2[1]) + ' ' + str(normalFace2[2]) + ' '
         for i in range(0, 4):
-            s = s + str(normalFace3[0] + ' ' + str(normalFace3[1]) + ' ' + str(normalFace3[2]) + ' '
+            s += str(normalFace3[0]) + ' ' + str(normalFace3[1]) + ' ' + str(normalFace3[2]) + ' '
         for i in range(0, 4):
-            s = s + str(normalFace4[0] + ' ' + str(normalFace4[1]) + ' ' + str(normalFace4[2]) + ' '
+            s += str(normalFace4[0]) + ' ' + str(normalFace4[1]) + ' ' + str(normalFace4[2]) + ' '
         for i in range(0, 4):
-            s = s + str(normalFace5[0] + ' ' + str(normalFace5[1]) + ' ' + str(normalFace5[2]) + ' '
+            s += str(normalFace5[0]) + ' ' + str(normalFace5[1]) + ' ' + str(normalFace5[2]) + ' '
         for i in range(0, 4):
-            s = s + str(normalFace6[0] + ' ' + str(normalFace6[1]) + ' ' + str(normalFace6[2]) + ' '
+            s += str(normalFace6[0]) + ' ' + str(normalFace6[1]) + ' ' + str(normalFace6[2]) + ' '
         
-        s = s + '] '
+        s += '] '
         
         # default uv
-        s = s + '"float uv" [ 0 0 1 0 1 1 0 1 0 0 1 0 1 1 0 1 0 0 1 0 1 1 0 1 0 0 1 0 1 1 0 1 0 0 1 0 1 1 0 1 0 0 1 0 1 1 0 1 ]\n'
+        s += '"float uv" [ 0 0 1 0 1 1 0 1 0 0 1 0 1 1 0 1 0 0 1 0 1 1 0 1 0 0 1 0 1 1 0 1 0 0 1 0 1 1 0 1 0 0 1 0 1 1 0 1 ]\n'
             
     elif shape.type == 'sphere':
-        s = s + (autoTab * numberOfTabs) + 'TransformBegin\n'
-        s = s + (autoTab * (numberOfTabs + 1)) + 'Transform [ 1 0 0 0 0 1 0 0 0 0 1 0 ' + str(shape.center[0]) + ' ' + str(shape.center[1]) + ' ' + str(shape.center[2]) + ' ' + ' 1 ]\n'
-        s = s + (autoTab * (numberOfTabs + 1)) 'Shape "sphere" '
-        s = s + pbrt_writeParams(shape.params, mtpbrt.shapeParam)
-        s = s + '\n'
-        s = s + (autoTab * numberOfTabs) + 'TransformEnd\n'
+        s += (autoTab * numberOfTabs) + 'TransformBegin\n'
+        s += (autoTab * (numberOfTabs + 1)) + 'Transform [ 1 0 0 0 0 1 0 0 0 0 1 0 ' + str(shape.center[0]) + ' ' + str(shape.center[1]) + ' ' + str(shape.center[2]) + ' ' + ' 1 ]\n'
+        s += (autoTab * (numberOfTabs + 1)) + 'Shape "sphere" '
+        s += pbrt_writeParams(shape.params, mtpbrt.shapeParam)
+        s += '\n'
+        s += (autoTab * numberOfTabs) + 'TransformEnd\n'
         
     elif shape.type == 'cylinder':
         pass
@@ -97,20 +97,20 @@ def pbrt_shapeString(shape, numberOfTabs):
         p2 = np.sum(shape.transform.matrix * np.array([1, 1, 0, 1]), axis = 1)
         p3 = np.sum(shape.transform.matrix * np.array([-1, 1, 0, 1]), axis = 1)        
 
-        s = s + (autoTab * numberOfTabs) + 'Shape "trianglemesh" "integer indices" [ 0 1 2 0 2 3 ] "point P" '
-        s = s + '[ ' + str(p0[0]) + ' ' + str(p0[1]) + ' ' + str(p0[2]) + ' '
-        s = s + str(p1[0]) + ' ' + str(p1[1]) + ' ' + str(p1[2]) + ' '
-        s = s + str(p2[0]) + ' ' + str(p2[1]) + ' ' + str(p2[2]) + ' '
-        s = s + str(p3[0]) + ' ' + str(p3[1]) + ' ' + str(p3[2]) + ' ] '
+        s += (autoTab * numberOfTabs) + 'Shape "trianglemesh" "integer indices" [ 0 1 2 0 2 3 ] "point P" '
+        s += '[ ' + str(p0[0]) + ' ' + str(p0[1]) + ' ' + str(p0[2]) + ' '
+        s += str(p1[0]) + ' ' + str(p1[1]) + ' ' + str(p1[2]) + ' '
+        s += str(p2[0]) + ' ' + str(p2[1]) + ' ' + str(p2[2]) + ' '
+        s += str(p3[0]) + ' ' + str(p3[1]) + ' ' + str(p3[2]) + ' ] '
                 
         # normal for all 4 points in a rectangle is the same as face normal
-        normal = np.cross(p2 - p0, p3 - p1)
-        s = s + '"normal N" ['
+        normal = np.cross((p2 - p0)[:3], (p3 - p1)[:3])
+        s += '"normal N" ['
         for i in range(0,4):
-            s = s + str(normal[0] + ' ' + str(normal[1]) + ' ' + str(normal[2]) + ' '
+            s += str(normal[0]) + ' ' + str(normal[1]) + ' ' + str(normal[2]) + ' '
 
         # default uv
-        s = s + '"float uv" [ 0 0 1 0 1 1 0 1 ]\n'
+        s += '"float uv" [ 0 0 1 0 1 1 0 1 ]\n'
             
     elif shape.type == 'disk':
         pass
@@ -118,28 +118,70 @@ def pbrt_shapeString(shape, numberOfTabs):
     elif shape.type == 'hair':
         pass
                         
-    if s.
+    if shape.material is not None:
+        s += (autoTab * numberOfTabs) + 'Material "'
                         
-    if s.material is not None:
-        s = s + 'Material "'
-                        
-        if isinstance(s.material, directives.AdapterMaterial):
+        if isinstance(shape.material, directives.AdapterMaterial):
             # convert material type
                         
-            s = s + '" '
-            params = pbrt_writeParams(s.material.material.params, mtpbrt.materialParam)
-            s = s + params + '\n'
+            s += '" '
+            params = pbrt_writeParams(shape.material.material.params, mtpbrt.materialParam)
+            s += params + '\n'
                         
                         
-        elif is instance(s.material, directives.Material):
+        elif isinstance(shape.material, directives.Material):
             # convert material type
                         
-            s = s + '" '
-            params = pbrt_writeParams(s.material.params, mtpbrt.materialParam)
-            s = s + params + '\n'
+            s += '" '
+            params = pbrt_writeParams(shape.material.params, mtpbrt.materialParam)
+            s += params + '\n'
                 
     return s
 
+def pbrt_lightString(emitter, numberOfTabs):
+    s = ''
+    autoTab = '\t'
+    
+    if emitter.type == 'envmap':
+        if emitter.transform is not None:
+            s += (autoTab * numberOfTabs) + 'TransformBegin\n'
+            s += (autoTab * (numberOfTabs + 1)) + 'Transform '
+            
+            m = emitter.transform.matrix
+            m_T = np.transpose(m)
+            m_IT = np.linalg.inv(m_T)
+
+            for i in range(0,4):
+                for j in range(0,4):
+                    s += str(m_IT[i][j])
+                    s += ' '
+                    
+            s += ']\n'
+            
+            s += (autoTab * (numberOfTabs + 1)) + 'LightSource "infinite" '
+            s += pbrt_writeParams(emitter.params, mtpbrt.emitterParam)
+            s += '\n'
+            s += (autoTab * numberOfTabs) + 'TransformEnd\n'
+            
+        else:
+            s += (autoTab * numberOfTabs) + 'LightSource "infinite" '
+            s += pbrt_writeParams(emitter.params, mtpbrt.emitterParam)
+            s += '\n'
+    
+    elif emitter.type == 'sunsky':
+    
+    elif emitter.type == 'spot':
+    
+    elif emitter.type == 'point':
+    
+    
+
+    
+            
+
+            
+            s += (autoTab * (numberOfTabs + 2)) + 'AreaLightSource "diffuse" '
+            s += pbrt_writeParams(emitter.params, mtpbrt.emitterParam)
 
 def toPBRT(scene):
     np.set_printoptions(suppress=True)
@@ -346,7 +388,7 @@ def toPBRT(scene):
                 mitsubaType = material.adapter.material.mat_type
                 if mitsubaType in mtpbrt.materialType:
                     pbrtType = mtpbrt.materialType[mitsubaType]
-                    outfile.write('"string type" [ "' + pbrtType '" ] ')
+                    outfile.write('"string type" [ "' + pbrtType + '" ] ')
                 else:  
                     outfile.write('"string type" [ "matte" ] ')
 
@@ -366,7 +408,7 @@ def toPBRT(scene):
                 mitsubaType = material.material.mat_type
                 if mitsubaType in mtpbrt.materialType:
                     pbrtType = mtpbrt.materialType[mitsubaType]
-                    outfile.write('"string type" [ "' + pbrtType '" ] ')
+                    outfile.write('"string type" [ "' + pbrtType + '" ] ')
                 else:  
                     outfile.write('"string type" [ "matte" ] ')
             
@@ -385,7 +427,7 @@ def toPBRT(scene):
                 mitsubaType = material.mat_type
                 if mitsubaType in mtpbrt.materialType:
                     pbrtType = mtpbrt.materialType[mitsubaType]
-                    outfile.write('"string type" [ "' + pbrtType '" ] ')
+                    outfile.write('"string type" [ "' + pbrtType + '" ] ')
                 else:  
                     outfile.write('"string type" [ "matte" ] ')
             
@@ -407,20 +449,19 @@ def toPBRT(scene):
                     outfile.write('AttributeBegin\n')
                         
                     outfile.write('\tAreaLightSource "diffuse" ')
-                    p = pbrt_writeParams(shape.emitter.params, mtpbrt.emitterParam)
+                    #p = pbrt_writeParams(shape.emitter.params, mtpbrt.emitterParam)
                     outfile.write(p + '\n')
                         
                     shapeString = pbrt_shapeString(shape, 1)
-                    outfile.write(shapeString + '\n')
+                    outfile.write(shapeString)
                         
-                    ref = shape.getReferenceMaterial()
+                    ref = shape.getRefMaterial()
+                    print ref
                         
                     if not ref == '':
                         if ref != currentRefMaterial:
                             outfile.write('\tNamedMaterial "' + ref + '"\n')
-                            outfile.write(shapeString)
-                        else:
-                            outfile.write(shapeString)
+                            currentRefMaterial = ref
                         
                     outfile.write('AttributeEnd\n')
                         
@@ -432,14 +473,17 @@ def toPBRT(scene):
                 # if shape has ref material, then make reference
                 shapeString = pbrt_shapeString(shape,0)
                 
-                ref = shape.getReferenceMaterial()
+                ref = shape.getRefMaterial()
                         
                 if not ref == '':
                     if ref != currentRefMaterial:
                         outfile.write('NamedMaterial "' + ref + '"\n')
                         outfile.write(shapeString)
+                        currentRefMaterial = ref
                     else:
                         outfile.write(shapeString)
+                else:
+                    outfile.write(shapeString)
                     
                 
 
@@ -448,7 +492,7 @@ def toPBRT(scene):
 
 
 def main():
-    scene = mit.read_from_xml('/Users/luiza.hagemann/Development/pbr_scene_converter/test_files/mitsuba/staircase.xml')
+    scene = mit.read_from_xml('/home/luiza/pbr_scene_converter/test_files/mitsuba/staircase.xml')
     toPBRT(scene)
 
 if  __name__ =='__main__': main()

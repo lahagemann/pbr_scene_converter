@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 
+import numpy as np
+
 # GENERIC
 
 class Param:
@@ -60,20 +62,30 @@ class BumpMap:
 # WORLD DECLARATION
 class Emitter:
     type = ''
+    transform = None
     params = []
 
 class Shape:
     type = '' 
     center = np.array([0,0,0])
     transform = Transform()
-    emitter = Emitter()
+    emitter = None
     material = None
     params = []
 
     def getRefMaterial(self):
         ref = [x for x in self.params if not x.name != 'id']
+        for i in self.params:
+            print i.name 
         if len(ref) == 1:
             return ref[0].value
+        else:
+            return ''
+            
+    def getFile(self):
+        f = [x for x in self.params if not x.name != 'filename']
+        if len(f) == 1:
+            return f[0].value
         else:
             return ''
 
