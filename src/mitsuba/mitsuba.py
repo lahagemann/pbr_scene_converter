@@ -3,6 +3,7 @@
 import xml.etree.ElementTree as ET
 import numpy as np
 import classes as directives
+import copy as cp
 
 
 def extract_params(element):
@@ -252,9 +253,10 @@ def load_shapes(scene):
             s.transform.name = shape.find('transform').get('name')
             
             matrix = shape.find('transform').find('matrix').get('value')
-            s.transform.matrix =  map(float, matrix.strip().split(' '))
-            # formats matrix into 4x4 pattern
-            s.transform.matrix = [s.transform.matrix[i:i + 4] for i in xrange(0, len(s.transform.matrix), 4)]
+            m = map(float, matrix.strip().split(' '))
+            mat = [m[i:i + 4] for i in xrange(0, len(m), 4)]
+            print mat
+            s.transform.matrix =  cp.deepcopy(mat)
             
         if shape.find('emitter') is not None:
             s.emitter = directives.Emitter()
@@ -263,9 +265,9 @@ def load_shapes(scene):
             if shape.find('emitter').find('transform') is not None:
                 s.emitter.transform = directives.Transform()
                 matrix = shape.find('emitter').find('transform').find('matrix').get('value')
-                s.emitter.transform.matrix =  map(float, matrix.strip().split(' '))
+                s.emitter.transform.matrix =  cp.deepcopy(map(float, matrix.strip().split(' ')))
                 # formats matrix into 4x4 pattern
-                s.emitter.transform.matrix = [s.emitter.transform.matrix[i:i + 4] for i in xrange(0, len(s.emitter.transform.matrix), 4)]
+                s.emitter.transform.matrix = cp.deepcopy([s.emitter.transform.matrix[i:i + 4] for i in xrange(0, len(s.emitter.transform.matrix), 4)])
             
             s.emitter.params = extract_params(shape.find('emitter'))
             s.emitter.params = filter_params(s.emitter.params, 'transform')
@@ -279,8 +281,6 @@ def load_shapes(scene):
         s.params = filter_params(s.params, 'transform')
         s.params = filter_params(s.params, 'bsdf')
         s.params = filter_params(s.params, 'emitter')
-        
-        print s.transform.matrix
         
         shape_list.append(s)
         
