@@ -2,7 +2,7 @@
 
 import xml.etree.ElementTree as ET
 import numpy as np
-import core
+from Directives import *
 
 def readFromXML(filename):
     tree = ET.parse(filename)
@@ -24,48 +24,53 @@ def loadScene(element):
     return scene
 
 def loadIntegrator(element):
-    integrator_element = element.find('integrator')
-    type = integrator_element.attrib.get('type')
+    integratorElement = element.find('integrator')
+    type = integratorElement.attrib.get('type')
 
     integrator = Integrator(type)
     
-    integrator.params = extractParams(integrator_element)
+    integrator.params = extractParams(integratorElement)
     
     return integrator
 
 def loadSensor(scene):
     np.set_printoptions(suppress=True)
     
-    sensor_element = scene.find('sensor')
-    type = sensor_element.attrib.get('type')
+    sensorElement = scene.find('sensor')
+    type = sensorElement.attrib.get('type')
 
-    sensor = directives.Sensor()
+    sensor = Sensor()
 
     # transform setup
-    name = sensor_element.find('transform').get('name')
+    name = sensorElement.find('transform').get('name')
     sensor.transform = Transform(name)
     
-    matrix = sensor_element.find('transform').find('matrix').get('value')
-    sensor.transform.matrix = map(float, matrix.strip().split(' '))
-    sensor.transform.matrix = [sensor.transform.matrix[i:i + 4] for i in xrange(0, len(sensor.transform.matrix), 4)]
+    matrixElement = sensorElement.find('transform').find('matrix')
+    if matrixElement is not None:
+        matrix = matrixElement.get('value')
+        sensor.transform.matrix = map(float, matrix.strip().split(' '))
+        sensor.transform.matrix = [sensor.transform.matrix[i:i + 4] for i in xrange(0, len(sensor.transform.matrix), 4)]
+    else:
+        #search for lookat translate scale
+        pass
 
     # sampler setup
-    sampler_element = sensor_element.find('sampler')
-    type = sampler_element.get('type')
+    samplerElement = sensorElement.find('sampler')
+    type = samplerElement.get('type')
     sensor.sampler = Sampler(type)
-    sensor.sampler.params = extractParams(sampler_element)
+    sensor.sampler.params = extractParams(samplerElement)
     
     # film setup
-    film_element = sensor_element.find('film')
-    type = film_element.get('type')
-    filter = film_element.find('rfilter').get('type')
+    filmElement = sensorElement.find('film')
+    type = filmElement.get('type')
+    filter = filmElement.find('rfilter').get('type')
     sensor.film = Film(type, filter)
 
-    sensor.film.params = extractParams(film_element)
+    sensor.film.params = extractParams(filmElement)
     sensor.film.params.pop('rfilter', None)
     
     # other params
-    sensor.params = extractParams(sensor_element)
+    sensor.params = extractParams(sensorElement)
     sensor.params.pop('transform', None)
     sensor.params.pop('film', None)
     sensor.params.pop('sampler', None)
@@ -75,59 +80,90 @@ def loadSensor(scene):
 def loadMaterials(scene):
     materials = []
     
-    for material in scene.findall('bsdf'):
-        mat = extractMaterial(material)
-        if mat is not None:
-            material_list.append(mat)
+    for materialElement in scene.findall('bsdf'):
+        material = extractMaterial(materialElement)
+        if material is not None:
+            materials.append(material)
 
     return materials
 
 def loadShapes(scene):
     shapes = []
-    for shape in scene.findall('shape'):
-        type = shape.get('type')
-        s = directives.Shape()
+    for shapeElement in scene.findall('shape'):
+        type = shapeElement.get('type')
+        shape = Shape(type)
         
+        # isso tem que morrer
         if type == 'sphere':
-            p = shape.find('point')
+            p = shapeElement.find('point')
             if p is not None:
-                s.center = np.array([p.get('x'), p.get('y'), p.get('z')])
+                shape.center = np.array([p.get('x'), p.get('y'), p.get('z')])
                 
-        s.type = type
+        if shapeElement.find('transform') is not None:
+            name = shapeElement.find('transform').get('name')
+            shape.transform = Transform(name)
+            
+            # checar se não são os outros tipos de transform
+            matrix = shapeElement.find('transform').find('matrix').get('value')
+            matrix = map(float, matrix.strip().split(' '))
+            shape.transform.matrix = [matrix[i:i + 4] for i in xrange(0, len(matrix), 4)]
+            
+        if shapeElement.find('emitter') is not None:
+            type = shapeElement.find('emitter').get('type')
+            shape.emitter = Emitter(type)
+            
+            if shapeElement.find('emitter').find('transform') is not None:
+                shape.emitter.transform = Transform()
+                matrix = shapeElement.find('emitter').find('transform').find('matrix').get('value')
+                matrix =  map(float, matrix.strip().split(' '))
+                shape.emitter.transform.matrix = [matrix[i:i + 4] for i in xrange(0, len(matrix), 4)]
+            
+            shape.emitter.params = extractParams(shapeElement.find('emitter'))
+            shape.emitter.params.pop('transform', None)
+        
+        materialElement = shapeElement.find('bsdf')
+        
+        if materialElement is not None:
+            shape.material = extractMaterial(materialElement)
 
-        if shape.find('transform') is not None:
-            s.transform = directives.Transform()
-            s.transform.name = shape.find('transform').get('name')
-            
-            matrix = shape.find('transform').find('matrix').get('value')
-            m = map(float, matrix.strip().split(' '))
-            s.transform.matrix = [m[i:i + 4] for i in xrange(0, len(m), 4)]
-            
-        if shape.find('emitter') is not None:
-            s.emitter = directives.Emitter()
-            s.emitter.type = shape.find('emitter').get('type')
-            
-            if shape.find('emitter').find('transform') is not None:
-                s.emitter.transform = directives.Transform()
-                matrix = shape.find('emitter').find('transform').find('matrix').get('value')
-                s.emitter.transform.matrix =  cp.deepcopy(map(float, matrix.strip().split(' ')))
-                # formats matrix into 4x4 pattern
-                s.emitter.transform.matrix = cp.deepcopy([s.emitter.transform.matrix[i:i + 4] for i in xrange(0, len(s.emitter.transform.matrix), 4)])
-            
-            s.emitter.params = extract_params(shape.find('emitter'))
-            s.emitter.params = filter_params(s.emitter.params, 'transform')
+        shape.params = extractParams(shapeElement)
+        shape.params.pop('transform', None)
+        shape.params.pop('bsdf', None)
+        shape.params.pop('emitter', None)
         
-        material_elem = shape.find('bsdf')
+        shapes.append(shape)
         
-        if material_elem is not None:
-            s.material = extract_material(material_elem)
+    return shapes
 
-        s.params = extract_params(shape)
-        s.params = filter_params(s.params, 'transform')
-        s.params = filter_params(s.params, 'bsdf')
-        s.params = filter_params(s.params, 'emitter')
+def loadLights(scene):
+    lights = []
+    
+    for emitterElement in scene.findall('emitter'):    
+        type = emitterElement.get('type')
+        emitter = Emitter(type)
+            
+        if emitterElement.find('transform') is not None:
+            emitter.transform = Transform()
+            matrix = emitterElement.find('transform').find('matrix').get('value')
+            emitter.transform.matrix =  map(float, matrix.strip().split(' '))
+            emitter.transform.matrix = [emitter.transform.matrix[i:i + 4] for i in xrange(0, len(emitter.transform.matrix), 4)]
+            
+        emitter.params = extractParams(emitterElement)
+        emitter.params.pop('transform', None)
         
-        shape_list.append(s)
-        
-    return shape_list
+        lights.append(emitter)
+    
+    return lights
 
+def extractParams(element):
+    return {}
+
+def extractMaterial(element):
+    return None
+
+def main():
+    scene = readFromXML('/home/grad/lahagemann/pbr_scene_converter/test_files/mitsuba/teapot.xml')
+    print 'Shapes: ' + str(len(scene.shapes))
+    print 'Materials: ' + str(len(scene.materials))
+
+if  __name__ =='__main__':main()

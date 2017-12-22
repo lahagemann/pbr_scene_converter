@@ -52,7 +52,7 @@ class Material:
 		self.name = name
 		self.id = id
 		self.texture = Texture('', '')
-		self.params = params {}
+		self.params = {}
 
 class BumpMap:
 	def __init__(sefl, name, id):
@@ -60,7 +60,7 @@ class BumpMap:
 		self.id = id
 		self.texture = Texture()
 		self.material = Material('', '')
-		self.params
+		self.params = {}
 
 class Emitter:
 	def __init__(self, type):

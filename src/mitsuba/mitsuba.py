@@ -308,7 +308,9 @@ def load_lights(scene):
           
            
 def main():
-    scene = read_from_xml('/home/grad/lahagemann/pbr_scene_converter/test_files/mitsuba/staircase.xml')
+    scene = read_from_xml('/home/grad/lahagemann/pbr_scene_converter/test_files/mitsuba/teapot.xml')
+    print 'Shapes: ' + len(scene.shapes)
+    print 'Materials: ' + len(scene.materials)
 
 if  __name__ =='__main__':main()
 
