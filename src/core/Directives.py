@@ -48,17 +48,15 @@ class Texture:
 		self.params = {}
 
 class Material:
-	def __init__(self, name, id):
-		self.name = name
+	def __init__(self, type, id):
+		self.type = type
 		self.id = id
 		self.texture = Texture('', '')
 		self.params = {}
 
 class BumpMap:
-	def __init__(sefl, name, id):
-		self.name = name
-		self.id = id
-		self.texture = Texture()
+	def __init__(self):
+		self.texture = Texture('','')
 		self.material = Material('', '')
 		self.params = {}
 
