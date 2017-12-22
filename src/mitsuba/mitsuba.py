@@ -250,13 +250,12 @@ def load_shapes(scene):
         s.type = type
 
         if shape.find('transform') is not None:
+            s.transform = directives.Transform()
             s.transform.name = shape.find('transform').get('name')
             
             matrix = shape.find('transform').find('matrix').get('value')
             m = map(float, matrix.strip().split(' '))
-            mat = [m[i:i + 4] for i in xrange(0, len(m), 4)]
-            print mat
-            s.transform.matrix =  cp.deepcopy(mat)
+            s.transform.matrix = [m[i:i + 4] for i in xrange(0, len(m), 4)]
             
         if shape.find('emitter') is not None:
             s.emitter = directives.Emitter()
@@ -283,9 +282,6 @@ def load_shapes(scene):
         s.params = filter_params(s.params, 'emitter')
         
         shape_list.append(s)
-        
-    for s in shape_list:
-        print s.transform.matrix
         
     return shape_list
     

@@ -75,7 +75,7 @@ class Emitter:
 class Shape:
     type = '' 
     center = np.array([0,0,0])
-    transform = Transform()
+    transform = None#Transform()
     emitter = None
     material = None
     params = []

@@ -1,437 +1,134 @@
-Integrator "path" "integer maxdepth" [ 17 ] 
-Transform [ -0.988479974356 -0.00428442510763 0.151294480342 0.0 -1.50337072575e-08 0.999599546565 0.0283071332954 0.0 -0.151354784634 0.0279810061628 -0.988083754136 0.0 -0.78006101234 -1.44302460143 6.03615168275 1.0 ]
+Integrator "path" "integer maxdepth" [ 65 ] 
+Transform [ -0.999914783059 0.000835628392017 0.0130579981002 0.0 -3.917303165e-09 0.997958346283 -0.0638630615743 0.0 -0.0130847181826 -0.0638575271935 -0.997873478849 0.0 -0.460158192827 -2.13583902334 9.87771047611 1.0 ]
 Sampler "sobol" "integer pixelsamples" [ 64 ] 
 PixelFilter "triangle" 
 Film "image" "integer xresolution" [ 1280 ] "integer yresolution" [ 720 ] 
 Camera "perspective" "float fov" [ 60 ] 
 WorldBegin
-	Texture "Texture01" "spectrum" "imagemap" "string filename" [ "textures/wood1.jpg" ] "bool trilinear" [ "true" ] 
-	Texture "Texture02" "spectrum" "imagemap" "string filename" [ "textures/wood2.jpg" ] "bool trilinear" [ "true" ] 
-	Texture "Texture03" "spectrum" "imagemap" "string filename" [ "textures/blackboard.jpg" ] "bool trilinear" [ "true" ] 
-	MakeNamedMaterial "Walls" "string type" [ "matte" ] "rgb Kd" [ 0.654071, 0.67408, 0.8 ] 
-	MakeNamedMaterial "Lectern" "string type" [ "matte" ] "texture Kd" [ "Texture01" ] 
-	MakeNamedMaterial "FlagRed" "string type" [ "matte" ] "rgb Kd" [ 0.8, 0.008214, 0 ] 
-	MakeNamedMaterial "FlagWhite" "string type" [ "matte" ] "rgb Kd" [ 1, 1, 1 ] 
-	MakeNamedMaterial "FlagBase" "string type" [ "matte" ] "rgb Kd" [ 0.779661, 0.653162, 0.349188 ] 
-	MakeNamedMaterial "ChalkHolder" "string type" [ "matte" ] "rgb Kd" [ 0.8, 0.644901, 0.412119 ] 
-	MakeNamedMaterial "ProjectorScreen" "string type" [ "matte" ] "rgb Kd" [ 1, 1, 1 ] 
-	MakeNamedMaterial "StickyNote1" "string type" [ "matte" ] "rgb Kd" [ 0.612066, 0.612066, 0.612066 ] 
-	MakeNamedMaterial "Whiteboard" "string type" [ "matte" ] "rgb Kd" [ 1, 1, 1 ] 
-	MakeNamedMaterial "StickyNote7" "string type" [ "matte" ] "rgb Kd" [ 0.612066, 0.612066, 0.612066 ] 
-	MakeNamedMaterial "StickyNote8" "string type" [ "matte" ] "rgb Kd" [ 0.612066, 0.612066, 0.612066 ] 
-	MakeNamedMaterial "Bin2" "string type" [ "matte" ] "rgb Kd" [ 0.8, 0.717509, 0.190456 ] 
-	MakeNamedMaterial "Boxes2" "string type" [ "matte" ] "rgb Kd" [ 0.8, 0.791642, 0.388399 ] 
-	MakeNamedMaterial "Boxes1" "string type" [ "matte" ] "rgb Kd" [ 0.64, 0.472188, 0.319233 ] 
-	MakeNamedMaterial "StickyNote4" "string type" [ "matte" ] "rgb Kd" [ 0.612066, 0.612066, 0.612066 ] 
-	MakeNamedMaterial "Whiteboard2" "string type" [ "matte" ] "rgb Kd" [ 0.79311, 0.79311, 0.79311 ] 
-	MakeNamedMaterial "BluePencil" "string type" [ "matte" ] "rgb Kd" [ 0, 0.030764, 0.8 ] 
-	MakeNamedMaterial "GreenPencil" "string type" [ "matte" ] "rgb Kd" [ 0.145676, 0.64, 0 ] 
-	MakeNamedMaterial "RedPencil" "string type" [ "matte" ] "rgb Kd" [ 0.626651, 0, 0 ] 
-	MakeNamedMaterial "Bookshelf" "string type" [ "matte" ] "rgb Kd" [ 0.491301, 0.305177, 0.8 ] 
-	MakeNamedMaterial "Hallway" "string type" [ "matte" ] "rgb Kd" [ 0.784314, 0.784314, 0.784314 ] 
-	MakeNamedMaterial "CeilingLight" "string type" [ "substrate" ] "float roughness" [ 0.1 ] "float eta" [ 1.5 ] "rgb Kd" [ 0.647814, 0.647814, 0.647814 ] 
-	MakeNamedMaterial "Black" "string type" [ "matte" ] "rgb Kd" [ 0.00631, 0.00631, 0.00631 ] 
-	MakeNamedMaterial "BlackPlastic" "string type" [ "substrate" ] "float roughness" [ 0.1 ] "float eta" [ 1.5 ] "rgb Kd" [ 0.00631, 0.00631, 0.00631 ] 
-	MakeNamedMaterial "Projector" "string type" [ "matte" ] "rgb Kd" [ 0.00631, 0.00631, 0.00631 ] 
-	MakeNamedMaterial "ScreenEnds" "string type" [ "matte" ] "rgb Kd" [ 0.028991, 0.028991, 0.028991 ] 
-	MakeNamedMaterial "FoamEraser" "string type" [ "matte" ] "rgb Kd" [ 0.684615, 0.684615, 0.684615 ] 
-	MakeNamedMaterial "Whiteboard3" "string type" [ "substrate" ] "float roughness" [ 0.05 ] "float eta" [ 1.5 ] "rgb Kd" [ 1, 1, 1 ] 
-	MakeNamedMaterial "ChairWood" "string type" [ "substrate" ] "texture Kd" [ "Texture02" ] "float roughness" [ 0.05 ] "float eta" [ 1.5 ] 
-	MakeNamedMaterial "ChairFrame" "string type" [ "metal" ] "float roughness" [ 0.1 ] "rgb Kr" [ 0.751534, 0.751534, 0.751534 ] "rgb eta" [ 1.65746, 0.880369, 0.521229 ] "rgb k" [ 9.22387, 6.26952, 4.837 ] 
-	MakeNamedMaterial "ChairStainless" "string type" [ "metal" ] "rgb Kr" [ 1, 1, 1 ] "rgb eta" [ 1.65746, 0.880369, 0.521229 ] "rgb k" [ 9.22387, 6.26952, 4.837 ] 
-	MakeNamedMaterial "Floor" "string type" [ "matte" ] "rgb Kd" [ 0.659224, 0.592438, 0.517401 ] 
-	MakeNamedMaterial "WoodFrame" "string type" [ "matte" ] "texture Kd" [ "Texture03" ] 
-	MakeNamedMaterial "WhiteboardFrame" "string type" [ "matte" ] "rgb Kd" [ 0.056173, 0.056173, 0.056173 ] 
-	MakeNamedMaterial "StickyNote3" "string type" [ "matte" ] "rgb Kd" [ 0.612066, 0.612066, 0.612066 ] 
-	MakeNamedMaterial "StickyNote5" "string type" [ "matte" ] "rgb Kd" [ 0.612066, 0.612066, 0.612066 ] 
-	MakeNamedMaterial "StickyNote6" "string type" [ "matte" ] "rgb Kd" [ 0.612066, 0.612066, 0.612066 ] 
-	MakeNamedMaterial "Speakers" "string type" [ "matte" ] "rgb Kd" [ 0.03598, 0.03598, 0.03598 ] 
-	MakeNamedMaterial "Wall" "string type" [ "matte" ] "rgb Kd" [ 0.450837, 0.453663, 0.499605 ] 
-	MakeNamedMaterial "WindowFrame" "string type" [ "metal" ] "float roughness" [ 0.1 ] "rgb Kr" [ 0.471008, 0.471008, 0.471008 ] "rgb eta" [ 1.65746, 0.880369, 0.521229 ] "rgb k" [ 9.22387, 6.26952, 4.837 ] 
-	MakeNamedMaterial "Bin1" "string type" [ "matte" ] "rgb Kd" [ 0.327125, 0.578596, 0.280561 ] 
-	MakeNamedMaterial "Rubber" "string type" [ "matte" ] "rgb Kd" [ 0.687031, 0.715465, 0.560499 ] 
-	MakeNamedMaterial "FluorescentTube" "string type" [ "plastic" ] "float eta" [ 1.5 ] "rgb Kd" [ 0.612066, 0.612066, 0.612066 ] 
-	MakeNamedMaterial "StickyNote2" "string type" [ "matte" ] "rgb Kd" [ 0.612066, 0.612066, 0.612066 ] 
-	NamedMaterial "Walls"
-	TransformBegin
-		Transform [ 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 -0.0734223 0.0 1.0 ]
-		Shape "plymesh" "string filename" [ "models/Mesh036.obj" ]
-	TransformEnd
-	NamedMaterial "FluorescentTube"
-	TransformBegin
-		Transform [ 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 -0.0734223 0.0 1.0 ]
-		Shape "plymesh" "string filename" [ "models/Mesh048.obj" ]
-	TransformEnd
-	NamedMaterial "CeilingLight"
-	TransformBegin
-		Transform [ 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 -0.0734223 0.0 1.0 ]
-		Shape "plymesh" "string filename" [ "models/Mesh062.obj" ]
-	TransformEnd
-	NamedMaterial "FluorescentTube"
-	TransformBegin
-		Transform [ 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 -0.0734223 0.0 1.0 ]
-		Shape "plymesh" "string filename" [ "models/Mesh038.obj" ]
-	TransformEnd
-	NamedMaterial "Black"
-	TransformBegin
-		Transform [ 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 -0.0734223 0.0 1.0 ]
-		Shape "plymesh" "string filename" [ "models/Mesh054.obj" ]
-	TransformEnd
-	TransformBegin
-		Transform [ 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 -0.0734223 0.0 1.0 ]
-		Shape "plymesh" "string filename" [ "models/Mesh077.obj" ]
-	TransformEnd
-	NamedMaterial "BlackPlastic"
-	TransformBegin
-		Transform [ 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 -0.0734223 0.0 1.0 ]
-		Shape "plymesh" "string filename" [ "models/Mesh052.obj" ]
-	TransformEnd
-	NamedMaterial "Black"
-	TransformBegin
-		Transform [ 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 -0.0734223 0.0 1.0 ]
-		Shape "plymesh" "string filename" [ "models/Mesh061.obj" ]
-	TransformEnd
-	NamedMaterial "Projector"
-	TransformBegin
-		Transform [ 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 -0.0734223 0.0 1.0 ]
-		Shape "plymesh" "string filename" [ "models/Mesh031.obj" ]
-	TransformEnd
-	TransformBegin
-		Transform [ 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 -0.0734223 0.0 1.0 ]
-		Shape "plymesh" "string filename" [ "models/Mesh030.obj" ]
-	TransformEnd
-	NamedMaterial "Black"
-	TransformBegin
-		Transform [ 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 -0.0734223 0.0 1.0 ]
-		Shape "plymesh" "string filename" [ "models/Mesh057.obj" ]
-	TransformEnd
-	NamedMaterial "Walls"
-	TransformBegin
-		Transform [ 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 -0.0734223 0.0 1.0 ]
-		Shape "plymesh" "string filename" [ "models/Mesh023.obj" ]
-	TransformEnd
-	TransformBegin
-		Transform [ 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 -0.0734223 0.0 1.0 ]
-		Shape "plymesh" "string filename" [ "models/Mesh027.obj" ]
-	TransformEnd
-	NamedMaterial "Bin2"
-	TransformBegin
-		Transform [ 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 -0.0734223 0.0 1.0 ]
-		Shape "plymesh" "string filename" [ "models/Mesh047.obj" ]
-	TransformEnd
-	NamedMaterial "Boxes1"
-	TransformBegin
-		Transform [ 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 -0.0734223 0.0 1.0 ]
-		Shape "plymesh" "string filename" [ "models/Mesh049.obj" ]
-	TransformEnd
-	NamedMaterial "Black"
-	TransformBegin
-		Transform [ 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 -0.0734223 0.0 1.0 ]
-		Shape "plymesh" "string filename" [ "models/Mesh022.obj" ]
-	TransformEnd
-	TransformBegin
-		Transform [ 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 -0.0734223 0.0 1.0 ]
-		Shape "plymesh" "string filename" [ "models/Mesh029.obj" ]
-	TransformEnd
-	NamedMaterial "Whiteboard"
-	TransformBegin
-		Transform [ 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 -0.0734223 0.0 1.0 ]
-		Shape "plymesh" "string filename" [ "models/Mesh033.obj" ]
-	TransformEnd
-	NamedMaterial "Walls"
-	TransformBegin
-		Transform [ 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 -0.0734223 0.0 1.0 ]
-		Shape "plymesh" "string filename" [ "models/Mesh040.obj" ]
-	TransformEnd
-	NamedMaterial "Black"
-	TransformBegin
-		Transform [ 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 -0.0734223 0.0 1.0 ]
-		Shape "plymesh" "string filename" [ "models/Mesh028.obj" ]
-	TransformEnd
-	NamedMaterial "ProjectorScreen"
-	TransformBegin
-		Transform [ 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 -0.0734223 0.0 1.0 ]
-		Shape "plymesh" "string filename" [ "models/Mesh076.obj" ]
-	TransformEnd
-	NamedMaterial "ScreenEnds"
-	TransformBegin
-		Transform [ 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 -0.0734223 0.0 1.0 ]
-		Shape "plymesh" "string filename" [ "models/Mesh050.obj" ]
-	TransformEnd
-	NamedMaterial "FlagBase"
-	TransformBegin
-		Transform [ 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 -0.0734223 0.0 1.0 ]
-		Shape "plymesh" "string filename" [ "models/Mesh055.obj" ]
-	TransformEnd
-	NamedMaterial "FoamEraser"
-	TransformBegin
-		Transform [ 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 -0.0734223 0.0 1.0 ]
-		Shape "plymesh" "string filename" [ "models/Mesh053.obj" ]
-	TransformEnd
-	NamedMaterial "ChalkHolder"
-	TransformBegin
-		Transform [ 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 -0.0734223 0.0 1.0 ]
-		Shape "plymesh" "string filename" [ "models/Mesh058.obj" ]
-	TransformEnd
-	NamedMaterial "ChairWood"
-	TransformBegin
-		Transform [ 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 -0.0734223 0.0 1.0 ]
-		Shape "plymesh" "string filename" [ "models/Mesh060.obj" ]
-	TransformEnd
-	NamedMaterial "ChairStainless"
-	TransformBegin
-		Transform [ 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 -0.0734223 0.0 1.0 ]
-		Shape "plymesh" "string filename" [ "models/Mesh063.obj" ]
-	TransformEnd
-	NamedMaterial "ChairFrame"
-	TransformBegin
-		Transform [ 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 -0.0734223 0.0 1.0 ]
-		Shape "plymesh" "string filename" [ "models/Mesh064.obj" ]
-	TransformEnd
-	NamedMaterial "ChairWood"
-	TransformBegin
-		Transform [ 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 -0.0734223 0.0 1.0 ]
-		Shape "plymesh" "string filename" [ "models/Mesh037.obj" ]
-	TransformEnd
-	TransformBegin
-		Transform [ 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 -0.0734223 0.0 1.0 ]
-		Shape "plymesh" "string filename" [ "models/Mesh067.obj" ]
-	TransformEnd
-	TransformBegin
-		Transform [ 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 -0.0734223 0.0 1.0 ]
-		Shape "plymesh" "string filename" [ "models/Mesh073.obj" ]
-	TransformEnd
-	TransformBegin
-		Transform [ 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 -0.0734223 0.0 1.0 ]
-		Shape "plymesh" "string filename" [ "models/Mesh024.obj" ]
-	TransformEnd
-	TransformBegin
-		Transform [ 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 -0.0734223 0.0 1.0 ]
-		Shape "plymesh" "string filename" [ "models/Mesh041.obj" ]
-	TransformEnd
-	NamedMaterial "Rubber"
-	TransformBegin
-		Transform [ 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 -0.0734223 0.0 1.0 ]
-		Shape "plymesh" "string filename" [ "models/Mesh026.obj" ]
-	TransformEnd
-	NamedMaterial "ChairWood"
-	TransformBegin
-		Transform [ 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 -0.0734223 0.0 1.0 ]
-		Shape "plymesh" "string filename" [ "models/Mesh069.obj" ]
-	TransformEnd
-	NamedMaterial "Floor"
-	TransformBegin
-		Transform [ 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 -0.0734223 0.0 1.0 ]
-		Shape "plymesh" "string filename" [ "models/Mesh035.obj" ]
-	TransformEnd
-	NamedMaterial "WoodFrame"
-	TransformBegin
-		Transform [ 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 -0.0734223 0.0 1.0 ]
-		Shape "plymesh" "string filename" [ "models/Mesh043.obj" ]
-	TransformEnd
-	NamedMaterial "Whiteboard2"
-	TransformBegin
-		Transform [ 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 -0.0734223 0.0 1.0 ]
-		Shape "plymesh" "string filename" [ "models/Mesh072.obj" ]
-	TransformEnd
-	NamedMaterial "StickyNote1"
-	TransformBegin
-		Transform [ 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 -0.0734223 0.0 1.0 ]
-		Shape "plymesh" "string filename" [ "models/Mesh045.obj" ]
-	TransformEnd
-	NamedMaterial "StickyNote2"
-	TransformBegin
-		Transform [ 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 -0.0734223 0.0 1.0 ]
-		Shape "plymesh" "string filename" [ "models/Mesh044.obj" ]
-	TransformEnd
-	NamedMaterial "RedPencil"
-	TransformBegin
-		Transform [ 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 -0.0734223 0.0 1.0 ]
-		Shape "plymesh" "string filename" [ "models/Mesh074.obj" ]
-	TransformEnd
-	NamedMaterial "BluePencil"
-	TransformBegin
-		Transform [ 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 -0.0734223 0.0 1.0 ]
-		Shape "plymesh" "string filename" [ "models/Mesh070.obj" ]
-	TransformEnd
-	NamedMaterial "GreenPencil"
-	TransformBegin
-		Transform [ 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 -0.0734223 0.0 1.0 ]
-		Shape "plymesh" "string filename" [ "models/Mesh078.obj" ]
-	TransformEnd
-	NamedMaterial "Whiteboard3"
-	TransformBegin
-		Transform [ 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 -0.0734223 0.0 1.0 ]
-		Shape "plymesh" "string filename" [ "models/Mesh021.obj" ]
-	TransformEnd
-	NamedMaterial "WhiteboardFrame"
-	TransformBegin
-		Transform [ 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 -0.0734223 0.0 1.0 ]
-		Shape "plymesh" "string filename" [ "models/Mesh018.obj" ]
-	TransformEnd
-	NamedMaterial "Lectern"
-	TransformBegin
-		Transform [ 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 -0.0734223 0.0 1.0 ]
-		Shape "plymesh" "string filename" [ "models/Mesh017.obj" ]
-	TransformEnd
-	TransformBegin
-		Transform [ 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 -0.0734223 0.0 1.0 ]
-		Shape "plymesh" "string filename" [ "models/Mesh066.obj" ]
-	TransformEnd
-	TransformBegin
-		Transform [ 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 -0.0734223 0.0 1.0 ]
-		Shape "plymesh" "string filename" [ "models/Mesh056.obj" ]
-	TransformEnd
-	TransformBegin
-		Transform [ 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 -0.0734223 0.0 1.0 ]
-		Shape "plymesh" "string filename" [ "models/Mesh016.obj" ]
-	TransformEnd
-	TransformBegin
-		Transform [ 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 -0.0734223 0.0 1.0 ]
-		Shape "plymesh" "string filename" [ "models/Mesh015.obj" ]
-	TransformEnd
-	NamedMaterial "Hallway"
-	TransformBegin
-		Transform [ 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 -0.0734223 0.0 1.0 ]
-		Shape "plymesh" "string filename" [ "models/Mesh014.obj" ]
-	TransformEnd
-	NamedMaterial "WoodFrame"
-	TransformBegin
-		Transform [ 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 -0.0734223 0.0 1.0 ]
-		Shape "plymesh" "string filename" [ "models/Mesh025.obj" ]
-	TransformEnd
-	NamedMaterial "Whiteboard2"
-	TransformBegin
-		Transform [ 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 -0.0734223 0.0 1.0 ]
-		Shape "plymesh" "string filename" [ "models/Mesh046.obj" ]
-	TransformEnd
-	NamedMaterial "BluePencil"
-	TransformBegin
-		Transform [ 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 -0.0734223 0.0 1.0 ]
-		Shape "plymesh" "string filename" [ "models/Mesh012.obj" ]
-	TransformEnd
-	NamedMaterial "GreenPencil"
-	TransformBegin
-		Transform [ 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 -0.0734223 0.0 1.0 ]
-		Shape "plymesh" "string filename" [ "models/Mesh011.obj" ]
-	TransformEnd
-	TransformBegin
-		Transform [ 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 -0.0734223 0.0 1.0 ]
-		Shape "plymesh" "string filename" [ "models/Mesh010.obj" ]
-	TransformEnd
-	TransformBegin
-		Transform [ 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 -0.0734223 0.0 1.0 ]
-		Shape "plymesh" "string filename" [ "models/Mesh009.obj" ]
-	TransformEnd
-	NamedMaterial "BluePencil"
-	TransformBegin
-		Transform [ 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 -0.0734223 0.0 1.0 ]
-		Shape "plymesh" "string filename" [ "models/Mesh008.obj" ]
-	TransformEnd
-	NamedMaterial "RedPencil"
-	TransformBegin
-		Transform [ 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 -0.0734223 0.0 1.0 ]
-		Shape "plymesh" "string filename" [ "models/Mesh059.obj" ]
-	TransformEnd
-	NamedMaterial "Bookshelf"
-	TransformBegin
-		Transform [ 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 -0.0734223 0.0 1.0 ]
-		Shape "plymesh" "string filename" [ "models/Mesh065.obj" ]
-	TransformEnd
-	NamedMaterial "StickyNote3"
-	TransformBegin
-		Transform [ 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 -0.0734223 0.0 1.0 ]
-		Shape "plymesh" "string filename" [ "models/Mesh032.obj" ]
-	TransformEnd
-	NamedMaterial "StickyNote4"
-	TransformBegin
-		Transform [ 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 -0.0734223 0.0 1.0 ]
-		Shape "plymesh" "string filename" [ "models/Mesh007.obj" ]
-	TransformEnd
-	NamedMaterial "StickyNote5"
-	TransformBegin
-		Transform [ 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 -0.0734223 0.0 1.0 ]
-		Shape "plymesh" "string filename" [ "models/Mesh075.obj" ]
-	TransformEnd
-	NamedMaterial "StickyNote6"
-	TransformBegin
-		Transform [ 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 -0.0734223 0.0 1.0 ]
-		Shape "plymesh" "string filename" [ "models/Mesh071.obj" ]
-	TransformEnd
-	NamedMaterial "StickyNote7"
-	TransformBegin
-		Transform [ 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 -0.0734223 0.0 1.0 ]
-		Shape "plymesh" "string filename" [ "models/Mesh039.obj" ]
-	TransformEnd
-	NamedMaterial "StickyNote8"
-	TransformBegin
-		Transform [ 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 -0.0734223 0.0 1.0 ]
+	Texture "Texture01" "spectrum" "imagemap" "string filename" [ "textures/picture3.jpg" ] "bool trilinear" [ "true" ] 
+	Texture "Texture02" "spectrum" "imagemap" "string filename" [ "textures/Tiles.jpg" ] "bool trilinear" [ "true" ] 
+	Texture "Texture03" "spectrum" "imagemap" "string filename" [ "textures/Teacup.png" ] "bool trilinear" [ "true" ] 
+	MakeNamedMaterial "WhitePlastic" "string type" [ "substrate" ] "float roughness" [ 0.1 ] "float eta" [ 1.5 ] "rgb Kd" [ 1, 1, 1 ] 
+	MakeNamedMaterial "Chrome" "string type" [ "metal" ] "float roughness" [ 0.05 ] "rgb Kr" [ 1, 1, 1 ] "rgb eta" [ 4.36968, 2.9167, 1.6547 ] "rgb k" [ 5.20643, 4.23136, 3.75495 ] 
+	MakeNamedMaterial "BlackRubber" "string type" [ "substrate" ] "float roughness" [ 0.2 ] "float eta" [ 1.5 ] "rgb Kd" [ 0.05, 0.05, 0.05 ] 
+	MakeNamedMaterial "Walls" "string type" [ "matte" ] "rgb Kd" [ 0.2, 0.2, 0.2 ] 
+	MakeNamedMaterial "Artwork" "string type" [ "matte" ] "texture Kd" [ "Texture01" ] 
+	MakeNamedMaterial "None" "string type" [ "matte" ] "rgb Kd" [ 0, 0, 0 ] 
+	MakeNamedMaterial "FloorTiles" "string type" [ "matte" ] "texture Kd" [ "Texture02" ] 
+	MakeNamedMaterial "BlackPaint" "string type" [ "substrate" ] "float roughness" [ 0.2 ] "float eta" [ 1.5 ] "rgb Kd" [ 0.01, 0.01, 0.01 ] 
+	MakeNamedMaterial "WhiteMarble" "string type" [ "matte" ] "rgb Kd" [ 0.325037, 0.325037, 0.325037 ] 
+	MakeNamedMaterial "Gold" "string type" [ "metal" ] "float roughness" [ 0.1 ] "rgb Kr" [ 1, 1, 1 ] "rgb eta" [ 0.143119, 0.374957, 1.44248 ] "rgb k" [ 3.98316, 2.38572, 1.60322 ] 
+	MakeNamedMaterial "Ceramic" "string type" [ "substrate" ] "float roughness" [ 0.01 ] "float eta" [ 1.5 ] "rgb Kd" [ 1, 1, 1 ] 
+	MakeNamedMaterial "RoughMetal" "string type" [ "metal" ] "float roughness" [ 0.1 ] "rgb Kr" [ 1, 1, 1 ] "rgb eta" [ 1.65746, 0.880369, 0.521229 ] "rgb k" [ 9.22387, 6.26952, 4.837 ] 
+	MakeNamedMaterial "PaintedCeramic" "string type" [ "substrate" ] "texture Kd" [ "Texture03" ] "float roughness" [ 0.01 ] "float eta" [ 1.5 ] 
+	MakeNamedMaterial "SkirtWood" "string type" [ "substrate" ] "float roughness" [ 0.1 ] "float eta" [ 1.5 ] "rgb Kd" [ 0.684615, 0.684615, 0.684615 ] 
+	MakeNamedMaterial "FrostedGlass" "string type" [ "substrate" ] "float roughness" [ 0.1 ] "float eta" [ 1.5 ] "rgb Kd" [ 0.79311, 0.79311, 0.79311 ] 
+	NamedMaterial "FrostedGlass"
+	Shape "plymesh" "string filename" [ "models/Mesh013.obj" ]
+	NamedMaterial "WhitePlastic"
+	Shape "plymesh" "string filename" [ "models/Mesh016.obj" ]
+	Shape "plymesh" "string filename" [ "models/Mesh015.obj" ]
+	NamedMaterial "FrostedGlass"
+	Shape "plymesh" "string filename" [ "models/Mesh023.obj" ]
+	NamedMaterial "WhitePlastic"
+	Shape "plymesh" "string filename" [ "models/Mesh020.obj" ]
+	Shape "plymesh" "string filename" [ "models/Mesh017.obj" ]
+	NamedMaterial "None"
+	Shape "plymesh" "string filename" [ "models/Mesh024.obj" ]
+	NamedMaterial "BlackPaint"
+	Shape "plymesh" "string filename" [ "models/Mesh041.obj" ]
+	Shape "plymesh" "string filename" [ "models/Mesh011.obj" ]
+	NamedMaterial "Ceramic"
+	Shape "plymesh" "string filename" [ "models/Mesh026.obj" ]
+	NamedMaterial "Gold"
+	Shape "plymesh" "string filename" [ "models/Mesh018.obj" ]
+	NamedMaterial "RoughMetal"
+	Shape "plymesh" "string filename" [ "models/Mesh007.obj" ]
+	NamedMaterial "PaintedCeramic"
+	Shape "plymesh" "string filename" [ "models/Mesh005.obj" ]
+	NamedMaterial "Gold"
+	Shape "plymesh" "string filename" [ "models/Mesh019.obj" ]
+	NamedMaterial "Ceramic"
+	Shape "plymesh" "string filename" [ "models/Mesh021.obj" ]
+	Shape "plymesh" "string filename" [ "models/Mesh037.obj" ]
+	NamedMaterial "Gold"
+	Shape "plymesh" "string filename" [ "models/Mesh004.obj" ]
+	NamedMaterial "PaintedCeramic"
+	Shape "plymesh" "string filename" [ "models/Mesh014.obj" ]
+	NamedMaterial "Gold"
+	Shape "plymesh" "string filename" [ "models/Mesh012.obj" ]
+	NamedMaterial "Ceramic"
+	Shape "plymesh" "string filename" [ "models/Mesh028.obj" ]
+	NamedMaterial "RoughMetal"
+	Shape "plymesh" "string filename" [ "models/Mesh025.obj" ]
+	NamedMaterial "Ceramic"
+	Shape "plymesh" "string filename" [ "models/Mesh008.obj" ]
+	NamedMaterial "WhitePlastic"
+	Shape "plymesh" "string filename" [ "models/Mesh032.obj" ]
+	NamedMaterial "Chrome"
+	Shape "plymesh" "string filename" [ "models/Mesh035.obj" ]
+	NamedMaterial "BlackRubber"
+	Shape "plymesh" "string filename" [ "models/Mesh042.obj" ]
+	NamedMaterial "WhitePlastic"
+	Shape "plymesh" "string filename" [ "models/Mesh010.obj" ]
+	NamedMaterial "Chrome"
+	Shape "plymesh" "string filename" [ "models/Mesh036.obj" ]
+	NamedMaterial "BlackRubber"
+	Shape "plymesh" "string filename" [ "models/Mesh027.obj" ]
+	NamedMaterial "WhitePlastic"
+	Shape "plymesh" "string filename" [ "models/Mesh043.obj" ]
+	NamedMaterial "Chrome"
+	Shape "plymesh" "string filename" [ "models/Mesh044.obj" ]
+	NamedMaterial "BlackRubber"
+	Shape "plymesh" "string filename" [ "models/Mesh031.obj" ]
+	NamedMaterial "WhitePlastic"
+	Shape "plymesh" "string filename" [ "models/Mesh022.obj" ]
+	NamedMaterial "Chrome"
+	Shape "plymesh" "string filename" [ "models/Mesh038.obj" ]
+	NamedMaterial "BlackRubber"
+	Shape "plymesh" "string filename" [ "models/Mesh030.obj" ]
+	NamedMaterial "WhitePlastic"
+	Shape "plymesh" "string filename" [ "models/Mesh046.obj" ]
+	NamedMaterial "Chrome"
+	Shape "plymesh" "string filename" [ "models/Mesh047.obj" ]
+	NamedMaterial "BlackRubber"
+	Shape "plymesh" "string filename" [ "models/Mesh034.obj" ]
+	NamedMaterial "WhiteMarble"
+	Shape "plymesh" "string filename" [ "models/Mesh033.obj" ]
+	NamedMaterial "FloorTiles"
+	TransformBegin
+		Transform [ 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 0.0 0.0 1.05106 0.0 0.0 0.0 -0.452102 1.0 ]
 		Shape "plymesh" "string filename" [ "models/Mesh006.obj" ]
 	TransformEnd
-	NamedMaterial "Black"
-	TransformBegin
-		Transform [ 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 -0.0734223 0.0 1.0 ]
-		Shape "plymesh" "string filename" [ "models/Mesh051.obj" ]
-	TransformEnd
-	NamedMaterial "FlagRed"
-	TransformBegin
-		Transform [ 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 -0.0734223 0.0 1.0 ]
-		Shape "plymesh" "string filename" [ "models/Mesh013.obj" ]
-	TransformEnd
-	NamedMaterial "FlagWhite"
-	TransformBegin
-		Transform [ 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 -0.0734223 0.0 1.0 ]
-		Shape "plymesh" "string filename" [ "models/Mesh005.obj" ]
-	TransformEnd
 	NamedMaterial "Walls"
+	Shape "plymesh" "string filename" [ "models/Mesh048.obj" ]
+	NamedMaterial "WhitePlastic"
+	Shape "plymesh" "string filename" [ "models/Mesh049.obj" ]
+	NamedMaterial "Chrome"
+	Shape "plymesh" "string filename" [ "models/Mesh051.obj" ]
+	NamedMaterial "BlackRubber"
+	Shape "plymesh" "string filename" [ "models/Mesh040.obj" ]
+	NamedMaterial "Ceramic"
+	Shape "plymesh" "string filename" [ "models/Mesh003.obj" ]
+	Shape "plymesh" "string filename" [ "models/Mesh002.obj" ]
+	NamedMaterial "Gold"
+	Shape "plymesh" "string filename" [ "models/Mesh009.obj" ]
+	NamedMaterial "RoughMetal"
+	Shape "plymesh" "string filename" [ "models/Mesh045.obj" ]
+	NamedMaterial "PaintedCeramic"
+	Shape "plymesh" "string filename" [ "models/Mesh029.obj" ]
+	NamedMaterial "Gold"
+	Shape "plymesh" "string filename" [ "models/Mesh039.obj" ]
+	NamedMaterial "Ceramic"
+	Shape "plymesh" "string filename" [ "models/Mesh050.obj" ]
+	NamedMaterial "Artwork"
 	TransformBegin
-		Transform [ 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 -0.0734223 0.0 1.0 ]
-		Shape "plymesh" "string filename" [ "models/Mesh042.obj" ]
-	TransformEnd
-	NamedMaterial "Speakers"
-	TransformBegin
-		Transform [ 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 -0.0734223 0.0 1.0 ]
-		Shape "plymesh" "string filename" [ "models/Mesh003.obj" ]
-	TransformEnd
-	NamedMaterial "FluorescentTube"
-	TransformBegin
-		Transform [ 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 -0.0734223 0.0 1.0 ]
-		Shape "plymesh" "string filename" [ "models/Mesh020.obj" ]
-	TransformEnd
-	NamedMaterial "CeilingLight"
-	TransformBegin
-		Transform [ 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 -0.0734223 0.0 1.0 ]
-		Shape "plymesh" "string filename" [ "models/Mesh002.obj" ]
-	TransformEnd
-	NamedMaterial "Wall"
-	TransformBegin
-		Transform [ 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 -0.0734223 0.0 1.0 ]
-		Shape "plymesh" "string filename" [ "models/Mesh019.obj" ]
-	TransformEnd
-	NamedMaterial "WindowFrame"
-	TransformBegin
-		Transform [ 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 -0.0734223 0.0 1.0 ]
-		Shape "plymesh" "string filename" [ "models/Mesh068.obj" ]
-	TransformEnd
-	NamedMaterial "Bin1"
-	TransformBegin
-		Transform [ 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 -0.0734223 0.0 1.0 ]
+		Transform [ -1.0 0.0 1.50996e-07 0.0 0.0 1.0 0.0 0.0 -1.50996e-07 0.0 -1.0 0.0 -0.621391 4.02309 -4.47482 1.0 ]
 		Shape "plymesh" "string filename" [ "models/Mesh001.obj" ]
 	TransformEnd
-	NamedMaterial "Boxes1"
-	TransformBegin
-		Transform [ 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 -0.0734223 0.0 1.0 ]
-		Shape "plymesh" "string filename" [ "models/Mesh004.obj" ]
-	TransformEnd
-	NamedMaterial "Boxes2"
-	TransformBegin
-		Transform [ 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 -0.0734223 0.0 1.0 ]
-		Shape "plymesh" "string filename" [ "models/Mesh034.obj" ]
-	TransformEnd
-	NamedMaterial "Boxes1"
-	TransformBegin
-		Transform [ 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 -0.0734223 0.0 1.0 ]
-		Shape "plymesh" "string filename" [ "models/Mesh000.obj" ]
-	TransformEnd
-	LightSource "distant" "point from" [ -0.865804 0.416766 -0.276929 ] "point to" [ 0.000000 0.000000 0.000000 ] 
+	NamedMaterial "SkirtWood"
+	Shape "plymesh" "string filename" [ "models/Mesh000.obj" ]
+	NamedMaterial "Walls"
+	Shape "trianglemesh" "integer indices" [ 0 1 2 0 2 3 ] "point P" [ -6.2999895907 8.03075 10.044 -6.29999000803 -1.51685 10.044 -6.2999904093 -1.51685 -4.644 -6.29998999197 8.03075 -4.644 ] "normal N" [280.4702976 -1.22597210796e-05 -7.66233089351e-06 280.4702976 -1.22597210796e-05 -7.66233089351e-06 280.4702976 -1.22597210796e-05 -7.66233089351e-06 280.4702976 -1.22597210796e-05 -7.66233089351e-06 "float uv" [ 0 0 1 0 1 1 0 1 ]
+	LightSource "distant" "point from" [ 0.88698 0.288862 0.360313 ] "point to" [ 0.000000 0.000000 0.000000 ] 
 WorldEnd

@@ -74,12 +74,12 @@ def pbrt_shapeString(shape, numberOfTabs):
         
         #normal for all 4 points in a face are the same
         # faces: 1 = 0 1 2 3; 2 = 4 5 6 7; 3 = 8 9 10 11; 4 = 12 13 14 15; 5 = 16 17 18 19; 6 = 20 21 22 23;
-        normalFace1 = np.cross(points[2] - points[0], points[3] - points[1])
-        normalFace2 = np.cross(points[6] - points[4], points[7] - points[5])
-        normalFace3 = np.cross(points[10] - points[8], points[11] - points[9])
-        normalFace4 = np.cross(points[14] - points[12], points[15] - points[13])
-        normalFace5 = np.cross(points[18] - points[16], points[19] - points[17])
-        normalFace6 = np.cross(points[22] - points[20], points[23] - points[21])
+        normalFace1 = np.cross((points[2] - points[0])[:3], (points[3] - points[1])[:3])
+        normalFace2 = np.cross((points[6] - points[4])[:3], (points[7] - points[5])[:3])
+        normalFace3 = np.cross((points[10] - points[8])[:3], (points[11] - points[9])[:3])
+        normalFace4 = np.cross((points[14] - points[12])[:3], (points[15] - points[13])[:3])
+        normalFace5 = np.cross((points[18] - points[16])[:3], (points[19] - points[17])[:3])
+        normalFace6 = np.cross((points[22] - points[20])[:3], (points[23] - points[21])[:3])
         
         s += '"normal N" [ '
         for i in range(0, 4):
@@ -104,7 +104,7 @@ def pbrt_shapeString(shape, numberOfTabs):
         s += (autoTab * numberOfTabs) + 'TransformBegin\n'
         s += (autoTab * (numberOfTabs + 1)) + 'Transform [ 1 0 0 0 0 1 0 0 0 0 1 0 ' + str(shape.center[0]) + ' ' + str(shape.center[1]) + ' ' + str(shape.center[2]) + ' ' + ' 1 ]\n'
         s += (autoTab * (numberOfTabs + 1)) + 'Shape "sphere" '
-        s += pbrt_writeParams(shape.params, mtpbrt.shapeParam)
+        #s += pbrt_writeParams(shape.params, mtpbrt.shapeParam)
         s += '\n'
         s += (autoTab * numberOfTabs) + 'TransformEnd\n'
         
@@ -330,7 +330,7 @@ def toPBRT(scene):
                                 outfile.write('"bool trilinear" [ "true" ] ')
                         else:
                             # search the dictionary
-                            p = pbrt_writeParams(shape.params, mtpbrt.textureParam)
+                            p = pbrt_writeParams(tex.params, mtpbrt.textureParam)
                             outfile.write(p + '\n')
         
     
@@ -364,7 +364,7 @@ def toPBRT(scene):
                                 outfile.write('"bool trilinear" [ "true" ] ')
                         else:
                             # search the dictionary
-                            p = pbrt_writeParams(shape.params, mtpbrt.textureParam)
+                            p = pbrt_writeParams(tex.params, mtpbrt.textureParam)
                             outfile.write(p + '\n')
         
                     tex_count += 1
@@ -396,7 +396,7 @@ def toPBRT(scene):
                                 outfile.write('"bool trilinear" [ "true" ] ')
                         else:
                             # search the dictionary
-                            p = pbrt_writeParams(shape.params, mtpbrt.textureParam)
+                            p = pbrt_writeParams(tex.params, mtpbrt.textureParam)
                             outfile.write(p + '\n')
         
 
@@ -515,7 +515,7 @@ def toPBRT(scene):
 
 
 def main():
-    scene = mit.read_from_xml('/home/luiza/pbr_scene_converter/test_files/mitsuba/classroom.xml')
+    scene = mit.read_from_xml('/Users/luiza.hagemann/Development/pbr_scene_converter/test_files/mitsuba/dining-room.xml')
     toPBRT(scene)
 
 if  __name__ =='__main__': main()
