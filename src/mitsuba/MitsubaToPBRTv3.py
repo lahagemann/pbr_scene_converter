@@ -393,3 +393,20 @@ class MitsubaToPBRTv3:
 	        pass
 	        
 	    return s
+
+    def paramsToPBRT(params, dictionary):
+    	output = ''
+	    for key in params:
+	        if key in dictionary:
+	            pbrtParam = dictionary[key]
+	            mitsubaParam = params[key]
+	            output += '"' + mitsubaParam.type + ' ' + pbrtParam + '" '
+
+	            if mitsubaParam.type is 'string' or mitsubaParam.type is 'bool':
+	                output += '[ "' + mitsubaParam.value + '" ] '
+	            elif mitsubaParam.type is 'rgb':
+	                output += '[ ' + mitsubaParam.value + ' ] '
+	                
+        output += '\n'
+
+	    return output
