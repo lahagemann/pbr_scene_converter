@@ -27,13 +27,14 @@ class MitsubaLoader:
 
     def loadIntegrator(element):
         integratorElement = element.find('integrator')
-        type = integratorElement.attrib.get('type')
-
-        integrator = Integrator(type)
+        if integratorElement is not None:
+            type = integratorElement.attrib.get('type')
+            integrator = Integrator(type)
+            integrator.params = extractParams(integratorElement)
         
-        integrator.params = extractParams(integratorElement)
-        
-        return integrator
+            return integrator
+        else:
+            return None
 
     def loadSensor(scene):
         np.set_printoptions(suppress=True)
