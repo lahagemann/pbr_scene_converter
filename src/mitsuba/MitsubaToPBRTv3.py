@@ -10,6 +10,9 @@ class MitsubaToPBRTv3:
 			worldDescription = worldDescriptionToPBRT(scene)
 			outfile.write(worldDescription)
 
+		if self.copySkydome:
+			pass
+
 	def sceneDirectivesToPBRT(scene):
 		output = ''
 
@@ -352,12 +355,20 @@ class MitsubaToPBRTv3:
 	            output += ']\n'
 	            
 	            output += ('\t' * (identation + 1)) + 'LightSource "infinite" '
+
+	            if 'filename' in emitter.params:
+            		output += '"string mapname" [ "' + emitter.params['filename'].value + '" ] '
+
 	            output += paramsToPBRT(emitter.params, mtpbrt.emitterParam)
 	            output += '\n'
 	            output += ('\t' * identation) + 'TransformEnd\n'
 	            
 	        else:
 	            output += ('\t' * identation) + 'LightSource "infinite" '
+	            
+	            if 'filename' in emitter.params:
+            		output += '"string mapname" [ "' + emitter.params['filename'].value + '" ] '
+
 	            output += paramsToPBRT(emitter.params, mtpbrt.emitterParam)
 	            output += '\n'
 	    
@@ -371,8 +382,23 @@ class MitsubaToPBRTv3:
 	        
 	        output += paramsToPBRT(emitter.params, mtpbrt.emitterParam)
 	        output += '\n'
+
+	        output += ('\t' * identation) + 'TransformBegin\n'
+	        output += ('\t' * (identation + 1)) + 'Transform [ -1 0 0 0 0 0 -1 0 0 1 0 0 0 0 0 1 ]\n'
+	        output += ('\t' * (identation + 1)) + 'LightSource "infinite" "string mapname" [ "Skydome.pfm" ]\n'
+	        output += ('\t' * identation) + 'TransformEnd\n'
+
+	        self.copySkydome = True
 	        
 	    elif emitter.type == 'sun':
+	    	output += ('\t' * identation) + 'TransformBegin\n'
+	        output += ('\t' * (identation + 1)) + 'Transform [ -1 0 0 0 0 0 -1 0 0 1 0 0 0 0 0 1 ]\n'
+	        output += ('\t' * (identation + 1)) + 'LightSource "infinite" "string mapname" [ "Skydome.pfm" ]\n'
+	        output += ('\t' * identation) + 'TransformEnd\n'
+
+	        self.copySkydome = True
+
+	    elif emitter.type == 'sky':
 	    	output += ('\t' * identation) + 'LightSource "distant" '
 	        
 	        sunDirection = emitter.getParam('sunDirection')
@@ -382,9 +408,6 @@ class MitsubaToPBRTv3:
 	        
 	        output += paramsToPBRT(emitter.params, mtpbrt.emitterParam)
 	        output += '\n'
-
-	    elif emitter.type == 'sky':
-	    	pass
 
 	    elif emitter.type == 'spot':
 	        pass
@@ -404,9 +427,40 @@ class MitsubaToPBRTv3:
 
 	            if mitsubaParam.type is 'string' or mitsubaParam.type is 'bool':
 	                output += '[ "' + mitsubaParam.value + '" ] '
-	            elif mitsubaParam.type is 'rgb':
+	            elif mitsubaParam.type is 'rgb' or mitsubaParam.type is 'spectrum':
+	            	output += '[ ' + mitsubaParam.value[0] + ' ' + mitsubaParam.value[1] + ' ' + mitsubaParam.value[2] + ' ] '
+            	else:
 	                output += '[ ' + mitsubaParam.value + ' ] '
 	                
         output += '\n'
 
 	    return output
+
+    def materialParamsToPBRT(params, dictionary, pbrtType):
+    	output = ''
+	    for key in params:
+	    	if key == 'alpha':
+	    		if pbrtType == 'metal' or pbrtType == 'substrate' or pbrtType == 'mirror':
+	    			mitsubaParam = params[key]
+	    			output += '"float uroughness" [ ' + mitsubaParam.value + '] '
+	    			output += '"float vroughness" [ ' + mitsubaParam.value + '] '
+	    			output += '"bool remaproughness" [ "false" ]'
+			else:
+		        if key in dictionary:
+		            pbrtParam = dictionary[key]
+		            mitsubaParam = params[key]
+		            output += '"' + mitsubaParam.type + ' ' + pbrtParam + '" '
+
+		            if mitsubaParam.type is 'string' or mitsubaParam.type is 'bool':
+		                output += '[ "' + mitsubaParam.value + '" ] '
+		            elif mitsubaParam.type is 'rgb' or mitsubaParam.type is 'spectrum':
+		            	output += '[ ' + mitsubaParam.value[0] + ' ' + mitsubaParam.value[1] + ' ' + mitsubaParam.value[2] + ' ] '
+	            	else:
+		                output += '[ ' + mitsubaParam.value + ' ] '
+	                
+        output += '\n'
+
+	    return output
+
+    def __init__():
+    	self.copySkydome = False
