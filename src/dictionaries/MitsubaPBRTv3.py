@@ -80,7 +80,6 @@ sensorType =        {   'perspective' : 'perspective',
                     }
 
 sensorParam =       {   #perspective
-                        'fov' : 'fov',
                         'shutterOpen' : 'shutteropen',
                         'shutterClose' : 'shutterclose',
                         # thinlens

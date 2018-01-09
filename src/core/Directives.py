@@ -51,12 +51,12 @@ class Material:
 	def __init__(self, type, id):
 		self.type = type
 		self.id = id
-		self.texture = Texture('', '')
+		self.texture = None
 		self.params = {}
 
 class BumpMap:
 	def __init__(self):
-		self.texture = Texture('','')
+		self.texture = None
 		self.material = Material('', '')
 		self.params = {}
 

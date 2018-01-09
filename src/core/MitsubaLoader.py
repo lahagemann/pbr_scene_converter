@@ -6,37 +6,45 @@ from Directives import *
 
 class MitsubaLoader:
 
-    def readFromXML(filename):
+    def readFromXML(self, filename):
         tree = ET.parse(filename)
         element = tree.getroot()
 
-        scene = loadScene(element)
+        scene = self.loadScene(element)
+
+        for material in scene.materials:
+            print material.id
+            if material.texture is not None:
+                print material.id
+                for key in material.texture.params:
+                    param = material.texture.params[key]
+                    print "type: " + param.type + ", value: " + str(param.value)
 
         return scene
 
-    def loadScene(element):
+    def loadScene(self, element):
         scene = Scene()
 
-        scene.integrator = loadIntegrator(element)
-        scene.sensor = loadSensor(element)
-        scene.materials = loadMaterials(element)
-        scene.shapes = loadShapes(element)
-        scene.lights = loadLights(element)
+        scene.integrator = self.loadIntegrator(element)
+        scene.sensor = self.loadSensor(element)
+        scene.materials = self.loadMaterials(element)
+        scene.shapes = self.loadShapes(element)
+        scene.lights = self.loadLights(element)
         
         return scene
 
-    def loadIntegrator(element):
+    def loadIntegrator(self, element):
         integratorElement = element.find('integrator')
         if integratorElement is not None:
             type = integratorElement.attrib.get('type')
             integrator = Integrator(type)
-            integrator.params = extractParams(integratorElement)
+            integrator.params = self.extractParams(integratorElement)
         
             return integrator
         else:
             return None
 
-    def loadSensor(scene):
+    def loadSensor(self, scene):
         np.set_printoptions(suppress=True)
         
         sensorElement = scene.find('sensor')
@@ -61,7 +69,7 @@ class MitsubaLoader:
         samplerElement = sensorElement.find('sampler')
         type = samplerElement.get('type')
         sensor.sampler = Sampler(type)
-        sensor.sampler.params = extractParams(samplerElement)
+        sensor.sampler.params = self.extractParams(samplerElement)
         
         # film setup
         filmElement = sensorElement.find('film')
@@ -69,48 +77,48 @@ class MitsubaLoader:
         filter = filmElement.find('rfilter').get('type')
         sensor.film = Film(type, filter)
 
-        sensor.film.params = extractParams(filmElement)
+        sensor.film.params = self.extractParams(filmElement)
         sensor.film.params.pop('rfilter', None)
         
         # other params
-        sensor.params = extractParams(sensorElement)
+        sensor.params = self.extractParams(sensorElement)
         sensor.params.pop('transform', None)
         sensor.params.pop('film', None)
         sensor.params.pop('sampler', None)
 
         return sensor
 
-    def loadMaterials(scene):
+    def loadMaterials(self, scene):
         materials = []
         
         for materialElement in scene.findall('bsdf'):
-            material = extractMaterial(materialElement)
+            material = self.extractMaterial(materialElement)
             if material is not None:
                 materials.append(material)
 
         return materials
 
-    def loadShapes(scene):
+    def loadShapes(self, scene):
         shapes = []
         for shapeElement in scene.findall('shape'):
             type = shapeElement.get('type')
             shape = Shape(type)
-            shape.transform = extractTransform(shapeElement)
+            shape.transform = self.extractTransform(shapeElement)
                 
             if shapeElement.find('emitter') is not None:
                 type = shapeElement.find('emitter').get('type')
                 shape.emitter = Emitter(type)
-                shape.emitter.transform = extractTransform(shapeElement.find('emitter'))
+                shape.emitter.transform = self.extractTransform(shapeElement.find('emitter'))
                 
-                shape.emitter.params = extractParams(shapeElement.find('emitter'))
+                shape.emitter.params = self.extractParams(shapeElement.find('emitter'))
                 shape.emitter.params.pop('transform', None)
             
             materialElement = shapeElement.find('bsdf')
             
             if materialElement is not None:
-                shape.material = extractMaterial(materialElement)
+                shape.material = self.extractMaterial(materialElement)
 
-            shape.params = extractParams(shapeElement)
+            shape.params = self.extractParams(shapeElement)
             shape.params.pop('transform', None)
             shape.params.pop('bsdf', None)
             shape.params.pop('emitter', None)
@@ -119,22 +127,22 @@ class MitsubaLoader:
             
         return shapes
 
-    def loadLights(scene):
+    def loadLights(self, scene):
         lights = []
         
         for emitterElement in scene.findall('emitter'):    
             type = emitterElement.get('type')
             emitter = Emitter(type)
-            emitter.transform = extractTransform(emitterElement)
+            emitter.transform = self.extractTransform(emitterElement)
                 
-            emitter.params = extractParams(emitterElement)
+            emitter.params = self.extractParams(emitterElement)
             emitter.params.pop('transform', None)
             
             lights.append(emitter)
         
         return lights
 
-    def extractParams(element):
+    def extractParams(self, element):
         params = {}
 
         for attribute in element:
@@ -157,7 +165,7 @@ class MitsubaLoader:
 
         return params
 
-    def extractMaterial(materialElement):
+    def extractMaterial(self, materialElement):
         materialType = materialElement.get('type')
         if materialType == 'bumpmap':
             bumpmap = BumpMap()
@@ -169,7 +177,7 @@ class MitsubaLoader:
                 type = textureElement.attrib.get('type')
                 
                 bumpmap.texture = Texture(name, type)
-                bumpmap.texture.params = extractParams(textureElement)
+                bumpmap.texture.params = self.extractParams(textureElement)
 
             else:
                 bumpmap.texture = None
@@ -192,13 +200,13 @@ class MitsubaLoader:
                     type = textureElement.attrib.get('type')
                 
                     material.texture = Texture(name, type)
-                    material.texture.params = extractParams(textureElement)
+                    material.texture.params = self.extractParams(textureElement)
 
                 else:
                     material.texture = None
 
                 # get other material parameters
-                material.params = extractParams(nestedMaterialElement)
+                material.params = self.extractParams(nestedMaterialElement)
                 material.params.pop('texture', None)
 
                 bumpmap.material = material
@@ -216,13 +224,13 @@ class MitsubaLoader:
                     type = textureElement.attrib.get('type')
                 
                     material.texture = Texture(name, type)
-                    material.texture.params = extractParams(textureElement)
+                    material.texture.params = self.extractParams(textureElement)
 
                 else:
                     material.texture = None
 
                 # get other material parameters
-                material.params = extractParams(materialElement)
+                material.params = self.extractParams(materialElement)
                 material.params.pop('texture', None)
 
                 bumpmap.material = material
@@ -246,13 +254,13 @@ class MitsubaLoader:
                     type = textureElement.attrib.get('type')
                 
                     material.texture = Texture(name, type)
-                    material.texture.params = extractParams(textureElement)
+                    material.texture.params = self.extractParams(textureElement)
 
                 else:
                     material.texture = None
 
                 # get other material parameters
-                material.params = extractParams(nestedMaterialElement)
+                material.params = self.extractParams(nestedMaterialElement)
                 material.params.pop('texture', None)
 
             # just pick the material
@@ -268,18 +276,18 @@ class MitsubaLoader:
                     type = textureElement.attrib.get('type')
                 
                     material.texture = Texture(name, type)
-                    material.texture.params = extractParams(textureElement)
+                    material.texture.params = self.extractParams(textureElement)
 
                 else:
                     material.texture = None
 
                 # get other material parameters
-                material.params = extractParams(materialElement)
+                material.params = self.extractParams(materialElement)
                 material.params.pop('texture', None)
             
             return material
 
-    def extractTransform(element):
+    def extractTransform(self, element):
         transform = None
 
         if element.find('transform') is not None:
@@ -298,5 +306,5 @@ class MitsubaLoader:
 
         return transform
 
-    def __init__(filename):
-        self.scene = readFromXML(filename)
+    def __init__(self, filename):
+        self.scene = self.readFromXML(filename)
