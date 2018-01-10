@@ -69,8 +69,8 @@ class Emitter:
 class Shape:
 	def __init__(self, type):
 		self.type = type
-		self.emitter = Emitter('')
-		self.material = Material('', '')
+		self.emitter = None
+		self.material = None
 		self.params = {}
 
 # global

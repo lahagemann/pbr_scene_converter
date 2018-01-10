@@ -12,14 +12,6 @@ class MitsubaLoader:
 
         scene = self.loadScene(element)
 
-        for material in scene.materials:
-            print material.id
-            if material.texture is not None:
-                print material.id
-                for key in material.texture.params:
-                    param = material.texture.params[key]
-                    print "type: " + param.type + ", value: " + str(param.value)
-
         return scene
 
     def loadScene(self, element):
@@ -157,6 +149,8 @@ class MitsubaLoader:
             elif type == 'rgb':
                 value = attribute.attrib.get('value').split(',')
                 [x.strip() for x in value]
+            elif type == 'ref':
+                value = attribute.attrib.get('id')
             else:
                 value = attribute.attrib.get('value')
 

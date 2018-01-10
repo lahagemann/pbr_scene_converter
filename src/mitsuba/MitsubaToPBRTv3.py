@@ -141,17 +141,30 @@ class MitsubaToPBRTv3:
                         type = mtpbrt.textureType[material.texture.type]
                         output += '"' + type + '" '
             
-                for paramName in material.texture.params:
-                    if paramName == 'filename':
-                        output += '"string filename" [ "' + material.texture.params[paramName] + '" ] '
-                    elif paramName == 'filterType':
-                        if material.texture.params[paramName] == 'ewa':
+                for key in material.texture.params:
+                    if key == 'filename':
+                        output += '"string filename" [ "' + material.texture.params[key] + '" ] '
+                    elif key == 'filterType':
+                        if material.texture.params[key] == 'ewa':
                             output += '"bool trilinear" [ "false" ] '
                         else:
                             output += '"bool trilinear" [ "true" ] '
                     else:
                         # search the dictionary
-                        output += self.paramsToPBRT(material.texture.params, mtpbrt.textureParam)
+                        if key in mtpbrt.textureParam:
+                            pbrtParam = mtpbrt.textureParam[key]
+                            mitsubaParam = material.texture.params[key]
+                            output += '"' + mitsubaParam.type + ' ' + pbrtParam + '" '
+
+                            if mitsubaParam.type == 'string' or mitsubaParam.type == 'bool':
+                                output += '[ "' + str(mitsubaParam.value) + '" ] '
+                            elif mitsubaParam.type == 'rgb' or mitsubaParam.type == 'spectrum':
+                                output += '[ ' + str(mitsubaParam.value[0]) + ' ' + str(mitsubaParam.value[1]) + ' ' + str(mitsubaParam.value[2]) + ' ] '
+                            else:
+                                output += '[ ' + str(mitsubaParam.value) + ' ] '
+                    
+                output += '\n'
+
 
                 textureCount += 1
 
@@ -174,6 +187,12 @@ class MitsubaToPBRTv3:
                 else:
                     output += '"texture Kd" [ "' + materialTextureRef[material.id] + '" ] '
                     output += self.materialParamsToPBRT(material.params, mtpbrt.materialParam, pbrtType)
+            else:
+                if isinstance(material, BumpMap):
+                    output += self.materialParamsToPBRT(material.material.params, mtpbrt.materialParam, pbrtType)
+                else:
+                    output += self.materialParamsToPBRT(material.params, mtpbrt.materialParam, pbrtType)
+
 
         currentRefMaterial = ''
         for shape in scene.shapes:
@@ -194,10 +213,10 @@ class MitsubaToPBRTv3:
                 output += '\tAttributeEnd\n'
 
             else:
-                # if shape has ref material, then make reference  
-                if 'id' in shape.params:        
-                    if shape.params['id'] != currentRefMaterial:
-                        output += '\tNamedMaterial "' + ref + '"\n'
+                # if shape has ref material, then make reference
+                if 'id' in shape.params:
+                    if shape.params['id'].value != currentRefMaterial:
+                        output += '\tNamedMaterial "' + shape.params['id'].value + '"\n'
                         output += self.shapeToPBRT(shape, 1)
                         currentRefMaterial = shape.params['id']
                     else:
@@ -449,9 +468,9 @@ class MitsubaToPBRTv3:
                 mitsubaParam = params[key]
                 output += '"' + mitsubaParam.type + ' ' + pbrtParam + '" '
 
-                if mitsubaParam.type is 'string' or mitsubaParam.type is 'bool':
+                if mitsubaParam.type == 'string' or mitsubaParam.type == 'bool':
                     output += '[ "' + str(mitsubaParam.value) + '" ] '
-                elif mitsubaParam.type is 'rgb' or mitsubaParam.type is 'spectrum':
+                elif mitsubaParam.type == 'rgb' or mitsubaParam.type == 'spectrum':
                     output += '[ ' + str(mitsubaParam.value[0]) + ' ' + str(mitsubaParam.value[1]) + ' ' + str(mitsubaParam.value[2]) + ' ] '
                 else:
                     output += '[ ' + str(mitsubaParam.value) + ' ] '
@@ -470,15 +489,14 @@ class MitsubaToPBRTv3:
                     output += '"float vroughness" [ ' + str(mitsubaParam.value) + '] '
                     output += '"bool remaproughness" [ "false" ]'
             else:
-                print "oi"
                 if key in dictionary:
                     pbrtParam = dictionary[key]
                     mitsubaParam = params[key]
                     output += '"' + mitsubaParam.type + ' ' + pbrtParam + '" '
 
-                    if mitsubaParam.type is 'string' or mitsubaParam.type is 'bool':
+                    if mitsubaParam.type == 'string' or mitsubaParam.type == 'bool':
                         output += '[ "' + str(mitsubaParam.value) + '" ] '
-                    elif mitsubaParam.type is 'rgb' or mitsubaParam.type is 'spectrum':
+                    elif mitsubaParam.type == 'rgb' or mitsubaParam.type == 'spectrum':
                         output += '[ ' + str(mitsubaParam.value[0]) + ' ' + str(mitsubaParam.value[1]) + ' ' + str(mitsubaParam.value[2]) + ' ] '
                     else:
                         output += '[ ' + str(mitsubaParam.value) + ' ] '
