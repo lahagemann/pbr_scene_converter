@@ -111,22 +111,19 @@ materialType =      {
                     }
 
 materialParam =     {
-                        'reflectance' : 'Kd',
                         'diffuseReflectance' : 'Kd',
                         'intIOR' : 'eta',
                         'specularReflectance' : 'Kr',
                         'specularTransmittance' : 'Kt',
                         'alphaU' : 'uroughness',
                         'alphaV' : 'vroughness',
-                        'eta' : 'eta',
                         'k' : 'k',
                         'alpha' : 'roughness'
                     }
 
 matPlasticParam =   {
                         'diffuseReflectance' : 'Kd',
-                        'specularReflectance' : 'Ks',
-                        'alpha' : 'roughness'
+                        'specularReflectance' : 'Ks'
                     }
 
 emitterType =       {

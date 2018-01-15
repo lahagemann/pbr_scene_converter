@@ -165,15 +165,18 @@ class MitsubaToPBRTv3:
                     
                 output += '\n'
 
-
                 textureCount += 1
 
         for material in scene.materials:
             if isinstance(material, BumpMap):
                 output += '\tMakeNamedMaterial "' + material.material.id + '" '
+                id = material.material.id
+                params = material.material.params
                 mitsubaType = material.material.type
             else:
                 output += '\tMakeNamedMaterial "' + material.id + '" '
+                id = material.id
+                params = material.params
                 mitsubaType = material.type
 
             if mitsubaType in mtpbrt.materialType:
@@ -182,17 +185,35 @@ class MitsubaToPBRTv3:
 
             if material.texture is not None:
                 if isinstance(material, BumpMap):
-                    output += '"texture bumpmap" [ "' + materialTextureRef[material.material.id] + '" ] '
-                    output += self.materialParamsToPBRT(material.material.params, mtpbrt.materialParam, pbrtType)
+                    output += '"texture bumpmap" [ "' + materialTextureRef[id] + '" ] '
                 else:
-                    output += '"texture Kd" [ "' + materialTextureRef[material.id] + '" ] '
-                    output += self.materialParamsToPBRT(material.params, mtpbrt.materialParam, pbrtType)
-            else:
-                if isinstance(material, BumpMap):
-                    output += self.materialParamsToPBRT(material.material.params, mtpbrt.materialParam, pbrtType)
-                else:
-                    output += self.materialParamsToPBRT(material.params, mtpbrt.materialParam, pbrtType)
+                    output += '"texture Kd" [ "' + materialTextureRef[id] + '" ] '
+                
+            # special material cases:
 
+            if mitsubaType == 'roughplastic' or mitsubaType == 'plastic':
+                # smaller roughness => more specularity. always remap
+                # default roughness value: 0.1
+                output += '"float uroughness" [ 0.001 ] ' 
+                output += '"float vroughness" [ 0.001 ] '
+                output += '"bool remaproughness" [ "false" ] '
+
+                output += self.materialParamsToPBRT(params, mtpbrt.matPlasticParam)
+            
+            elif mitsubaType == 'conductor' or mitsubaType == 'roughconductor':
+                if 'alpha' in params:
+                    alpha = params['alpha']
+                    output += '"float uroughness" [ ' + str(alpha.value) + ' ] '
+                    output += '"float vroughness" [ ' + str(alpha.value) + ' ] '
+                    output += '"bool remaproughness" [ "false" ] '
+
+                else:
+                    output += '"bool remaproughness" [ "false" ] '
+
+                output += self.materialParamsToPBRT(params, mtpbrt.materialParam)
+
+            else:
+                output += self.materialParamsToPBRT(params, mtpbrt.materialParam)
 
         currentRefMaterial = ''
         for shape in scene.shapes:
@@ -384,7 +405,7 @@ class MitsubaToPBRTv3:
         if emitter.type == 'envmap':
             if emitter.transform is not None and emitter.transform.matrix:
                 output += ('\t' * identation) + 'TransformBegin\n'
-                output += ('\t' * (identation + 1)) + 'Transform '
+                output += ('\t' * (identation + 1)) + 'Transform [ '
                 
                 m = emitter.transform.matrix
                 m_T = np.transpose(m)
@@ -402,7 +423,6 @@ class MitsubaToPBRTv3:
                     output += '"string mapname" [ "' + emitter.params['filename'].value + '" ] '
 
                 output += self.paramsToPBRT(emitter.params, mtpbrt.emitterParam)
-                output += '\n'
                 output += ('\t' * identation) + 'TransformEnd\n'
                 
             else:
@@ -479,30 +499,28 @@ class MitsubaToPBRTv3:
 
         return output
 
-    def materialParamsToPBRT(self, params, dictionary, pbrtType):
+    def materialParamsToPBRT(self, params, dictionary):
         output = ''
         for key in params:
-            if key == 'alpha':
-                if pbrtType == 'metal' or pbrtType == 'substrate' or pbrtType == 'mirror':
-                    mitsubaParam = params[key]
-                    output += '"float uroughness" [ ' + str(mitsubaParam.value) + '] '
-                    output += '"float vroughness" [ ' + str(mitsubaParam.value) + '] '
-                    output += '"bool remaproughness" [ "false" ]'
-            else:
-                if key in dictionary:
-                    pbrtParam = dictionary[key]
-                    mitsubaParam = params[key]
-                    output += '"' + mitsubaParam.type + ' ' + pbrtParam + '" '
+            if key in dictionary:
+                pbrtParam = dictionary[key]
+                mitsubaParam = params[key]
+                output += '"' + mitsubaParam.type + ' ' + pbrtParam + '" '
 
-                    if mitsubaParam.type == 'string' or mitsubaParam.type == 'bool':
-                        output += '[ "' + str(mitsubaParam.value) + '" ] '
-                    elif mitsubaParam.type == 'rgb' or mitsubaParam.type == 'spectrum':
-                        output += '[ ' + str(mitsubaParam.value[0]) + ' ' + str(mitsubaParam.value[1]) + ' ' + str(mitsubaParam.value[2]) + ' ] '
-                    else:
-                        output += '[ ' + str(mitsubaParam.value) + ' ] '
+                if mitsubaParam.type == 'string' or mitsubaParam.type == 'bool':
+                    output += '[ "' + str(mitsubaParam.value) + '" ] '
+                elif mitsubaParam.type == 'rgb' or mitsubaParam.type == 'spectrum':
+                    output += '[ ' + str(mitsubaParam.value[0]) + ' ' + str(mitsubaParam.value[1]) + ' ' + str(mitsubaParam.value[2]) + ' ] '
+                else:
+                    output += '[ ' + str(mitsubaParam.value) + ' ] '
                     
         
         output += '\n'
+
+        return output
+
+    def materialToPBRT(self, material):
+        
 
         return output
 
