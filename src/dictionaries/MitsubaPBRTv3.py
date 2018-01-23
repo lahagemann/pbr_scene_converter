@@ -112,12 +112,14 @@ materialType =      {
 
 materialParam =     {
                         'diffuseReflectance' : 'Kd',
-                        'intIOR' : 'eta',
+                        'reflectance' : 'Kd',
+                        'intIOR' : 'index',
                         'specularReflectance' : 'Kr',
                         'specularTransmittance' : 'Kt',
                         'alphaU' : 'uroughness',
                         'alphaV' : 'vroughness',
                         'k' : 'k',
+                        'eta' : 'eta',
                         'alpha' : 'roughness'
                     }
 

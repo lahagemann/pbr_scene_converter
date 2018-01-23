@@ -77,6 +77,11 @@ class MitsubaToPBRTv3:
             else:
                 output += '"image" '
 
+            if 'fileFormat' in scene.sensor.film.params:
+                extension = scene.sensor.film.params['fileFormat'].value
+
+                output += '"string filename" [ "scene.' + extension + '" ] '
+
             output += self.paramsToPBRT(scene.sensor.film.params, mtpbrt.filmParam)
 
         if scene.sensor is not None:
@@ -212,6 +217,11 @@ class MitsubaToPBRTv3:
 
                 output += self.materialParamsToPBRT(params, mtpbrt.materialParam)
 
+            elif mitsubaType == 'dielectric' or mitsubaType == 'roughdielectric':
+                output += '"bool remaproughness" [ "false" ] '
+
+                output += self.materialParamsToPBRT(params, mtpbrt.materialParam)
+
             else:
                 output += self.materialParamsToPBRT(params, mtpbrt.materialParam)
 
@@ -225,9 +235,9 @@ class MitsubaToPBRTv3:
                 output += self.paramsToPBRT(shape.emitter.params, mtpbrt.emitterParam)
                       
                 if 'id' in shape.params:        
-                    if shape.params['id'] != currentRefMaterial:
+                    if shape.params['id'].value != currentRefMaterial:
                         output += '\t\tNamedMaterial "' + str(shape.params['id'].value) + '"\n'
-                        currentRefMaterial = shape.params['id']
+                        currentRefMaterial = shape.params['id'].value
 
                 output += self.shapeToPBRT(shape, 2)
                         
@@ -239,7 +249,7 @@ class MitsubaToPBRTv3:
                     if shape.params['id'].value != currentRefMaterial:
                         output += '\tNamedMaterial "' + shape.params['id'].value + '"\n'
                         output += self.shapeToPBRT(shape, 1)
-                        currentRefMaterial = shape.params['id']
+                        currentRefMaterial = shape.params['id'].value
                     else:
                         output += self.shapeToPBRT(shape, 1)
                 else:
@@ -516,11 +526,6 @@ class MitsubaToPBRTv3:
                     
         
         output += '\n'
-
-        return output
-
-    def materialToPBRT(self, material):
-        
 
         return output
 

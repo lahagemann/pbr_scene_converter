@@ -1,0 +1,27 @@
+# Materials File
+
+Texture "sellm" "fresnel" "sellmeier"
+	"float A" [1.000000000000000]
+	"float B" [1.039612120000000 0.231792344000000 1.010469450000000]
+	"float C" [0.006000698670000 0.020017911440000 103.460653000000000]
+
+MakeNamedVolume "Glass" "clear"
+	"texture fresnel" ["sellm"]
+	"color absorption" [0.02928393 0.02928393 0.02928393]
+
+MakeNamedVolume "Air" "clear"
+	"float fresnel" [1.000277161598206]
+	"color absorption" [0.00000000 0.00000000 0.00000000]
+
+MakeNamedMaterial "Light"
+	"string type" ["null"]
+
+MakeNamedMaterial "Glass"
+	"bool architectural" ["false"]
+	"bool dispersion" ["true"]
+	"string type" ["glass2"]
+
+MakeNamedMaterial "Material"
+	"color Kd" [0.40000001 0.40000001 0.40000001]
+	"float sigma" [0.000000000000000]
+	"string type" ["matte"]
