@@ -138,14 +138,14 @@ class MitsubaToLuxRender:
             if key in dictionary:
                 pbrtParam = dictionary[key]
                 mitsubaParam = params[key]
-                if mitsubaParam.type == 'rgb':
+                if mitsubaParam.type == 'rgb' or mitsubaParam.type == 'srgb':
                     output += '"color ' + pbrtParam + '" '
                 else:
                     output += '"' + mitsubaParam.type + ' ' + pbrtParam + '" '
 
                 if mitsubaParam.type == 'string' or mitsubaParam.type == 'bool':
                     output += '[ "' + str(mitsubaParam.value) + '" ] '
-                elif mitsubaParam.type == 'rgb' or mitsubaParam.type == 'spectrum':
+                elif mitsubaParam.type == 'rgb' or mitsubaParam.type == 'srgb' or mitsubaParam.type == 'spectrum' or mitsubaParam.type == 'point' or mitsubaParam.type == 'vector':
                     output += '[ ' + str(mitsubaParam.value[0]) + ' ' + str(mitsubaParam.value[1]) + ' ' + str(mitsubaParam.value[2]) + ' ] '
                 else:
                     output += '[ ' + str(mitsubaParam.value) + ' ] '
