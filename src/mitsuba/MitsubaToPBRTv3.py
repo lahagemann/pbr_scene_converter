@@ -1,5 +1,6 @@
 import numpy as np
 import sys
+import copy
 
 sys.path.insert(0, 'core/')
 from Directives import BumpMap
@@ -418,11 +419,22 @@ class MitsubaToPBRTv3:
                 output += ('\t' * (identation + 1)) + 'Transform [ '
                 
                 m = emitter.transform.matrix
-                m_T = np.transpose(m)
+
+                m_rot = np.zeros((4,4))
+                
+                m_rot[0] = copy.deepcopy(m[2])
+                m_rot[1] = copy.deepcopy(m[0])
+                m_rot[2] = copy.deepcopy(m[1])
+
+                m_rot[0][2] = -m_rot[0][2]
+                m_rot[1][2] = -m_rot[1][2]
+                m_rot[3][3] = 1
+
+                #m_T = np.transpose(m)
 
                 for i in range(0,4):
                     for j in range(0,4):
-                        output += str(m_T[i][j])
+                        output += str(m_rot[i][j])
                         output += ' '
                         
                 output += ']\n'
