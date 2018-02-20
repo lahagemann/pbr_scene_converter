@@ -428,6 +428,7 @@ class MitsubaToPBRTv3:
 
                 m_rot[0][2] = -m_rot[0][2]
                 m_rot[1][2] = -m_rot[1][2]
+                m_rot[2][2] = -m_rot[2][2]
                 m_rot[3][3] = 1
 
                 #m_T = np.transpose(m)
