@@ -68,3 +68,15 @@ sensorParam =       {   #perspective
                         'apertureRadius' : 'lensradius',
                         'focusDistance' : 'focaldistance'
                     }
+
+textureType =       {
+                        'checkerboard' : 'checkerboard',
+                        'scale' : 'scale'
+                    }
+
+textureParam =      {
+                        'color1' : 'tex1',
+                        'color0' : 'tex2',
+                        'uscale' : 'uscale',
+                        'vscale' : 'vscale'
+                    }

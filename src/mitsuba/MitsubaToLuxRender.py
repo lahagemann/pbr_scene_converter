@@ -48,7 +48,7 @@ class MitsubaToLuxRender:
             if scene.sensor.transform.matrix:
                 output += 'Transform [ '
 
-                # convert transform matrix to inverse transpose (PBRT default)
+                # convert transform matrix to inverse transpose (PBRT/Lux default)
                 m = scene.sensor.transform.matrix
                 m_T = np.transpose(m)
                 m_IT = np.linalg.inv(m_T)
@@ -145,8 +145,8 @@ class MitsubaToLuxRender:
                 if material.texture.type == 'bitmap':
                     output += '"imagemap" '
                 else:
-                    if material.texture.type in mtpbrt.textureType:
-                        type = mtpbrt.textureType[material.texture.type]
+                    if material.texture.type in mtlux.textureType:
+                        type = mtlux.textureType[material.texture.type]
                         output += '"' + type + '" '
             
                 for key in material.texture.params:
@@ -159,10 +159,10 @@ class MitsubaToLuxRender:
                             output += '"bool trilinear" [ "true" ] '
                     else:
                         # search the dictionary
-                        if key in mtpbrt.textureParam:
-                            pbrtParam = mtpbrt.textureParam[key]
+                        if key in mtlux.textureParam:
+                            luxParam = mtlux.textureParam[key]
                             mitsubaParam = material.texture.params[key]
-                            output += '"' + mitsubaParam.type + ' ' + pbrtParam + '" '
+                            output += '"' + mitsubaParam.type + ' ' + luxParam + '" '
 
                             if mitsubaParam.type == 'string' or mitsubaParam.type == 'bool':
                                 output += '[ "' + str(mitsubaParam.value) + '" ] '
@@ -187,9 +187,9 @@ class MitsubaToLuxRender:
                 params = material.params
                 mitsubaType = material.type
 
-            if mitsubaType in mtpbrt.materialType:
-                pbrtType = mtpbrt.materialType[mitsubaType]
-                output += '"string type" [ "' + pbrtType + '" ] '
+            if mitsubaType in mtlux.materialType:
+                luxType = mtlux.materialType[mitsubaType]
+                output += '"string type" [ "' + luxType + '" ] '
 
             if material.texture is not None:
                 if isinstance(material, BumpMap):
@@ -206,7 +206,7 @@ class MitsubaToLuxRender:
                 output += '"float vroughness" [ 0.001 ] '
                 output += '"bool remaproughness" [ "false" ] '
 
-                output += self.materialParamsToPBRT(params, mtpbrt.matPlasticParam)
+                output += self.materialParamsToLux(params, mtlux.matPlasticParam)
             
             elif mitsubaType == 'conductor' or mitsubaType == 'roughconductor':
                 if 'alpha' in params:
@@ -218,15 +218,15 @@ class MitsubaToLuxRender:
                 else:
                     output += '"bool remaproughness" [ "false" ] '
 
-                output += self.materialParamsToPBRT(params, mtpbrt.materialParam)
+                output += self.materialParamsToLux(params, mtlux.materialParam)
 
             elif mitsubaType == 'dielectric' or mitsubaType == 'roughdielectric':
                 output += '"bool remaproughness" [ "false" ] '
 
-                output += self.materialParamsToPBRT(params, mtpbrt.materialParam)
+                output += self.materialParamsToLux(params, mtlux.materialParam)
 
             else:
-                output += self.materialParamsToPBRT(params, mtpbrt.materialParam)
+                output += self.materialParamsToLux(params, mtlux.materialParam)
 
     def worldDescriptionToLux(self, scene):
         pass
@@ -235,12 +235,12 @@ class MitsubaToLuxRender:
         output = ''
         for key in params:
             if key in dictionary:
-                pbrtParam = dictionary[key]
+                luxParam = dictionary[key]
                 mitsubaParam = params[key]
                 if mitsubaParam.type == 'rgb' or mitsubaParam.type == 'srgb':
-                    output += '"color ' + pbrtParam + '" '
+                    output += '"color ' + luxParam + '" '
                 else:
-                    output += '"' + mitsubaParam.type + ' ' + pbrtParam + '" '
+                    output += '"' + mitsubaParam.type + ' ' + luxParam + '" '
 
                 if mitsubaParam.type == 'string' or mitsubaParam.type == 'bool':
                     output += '[ "' + str(mitsubaParam.value) + '" ] '
