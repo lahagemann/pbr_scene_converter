@@ -42,6 +42,8 @@ class MitsubaToPBRTv3:
                 m_T = np.transpose(m)
                 m_IT = np.linalg.inv(m_T)
 
+                m_IT[0][0] = -m_IT[0][0]
+
                 for i in range(0,4):
                     for j in range(0,4):
                         output += str(m_IT[i][j]) + ' '
@@ -430,6 +432,8 @@ class MitsubaToPBRTv3:
                 m_rot[1][2] = -m_rot[1][2]
                 m_rot[2][2] = -m_rot[2][2]
                 m_rot[3][3] = 1
+
+                print m_rot
 
                 #m_T = np.transpose(m)
 

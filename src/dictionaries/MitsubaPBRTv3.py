@@ -99,13 +99,15 @@ textureParam =      {
                         'vscale' : 'vscale'
                     }
 
+# in pbrt, plastic doesn't respond well to roughness params
 materialType =      {
                         'diffuse'  : 'matte',
                         'diffuseReflectance' : 'matte',
                         'roughconductor' : 'metal',
                         'dielectric' : 'glass',
+                        'roughdielectric' : 'glass',
                         'conductor' : 'metal',
-                        'plastic' : 'plastic',
+                        'plastic' : 'substrate',
                         'thindielectric' : 'uber',
                         'roughplastic' : 'substrate'
                     }
