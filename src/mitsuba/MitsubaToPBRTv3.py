@@ -206,7 +206,7 @@ class MitsubaToPBRTv3:
                 output += '"float vroughness" [ 0.001 ] '
                 output += '"bool remaproughness" [ "false" ] '
 
-                output += self.materialParamsToPBRT(params, mtpbrt.matPlasticParam)
+                output += self.paramsToPBRT(params, mtpbrt.matPlasticParam)
             
             elif mitsubaType == 'conductor' or mitsubaType == 'roughconductor':
                 if 'alpha' in params:
@@ -218,15 +218,15 @@ class MitsubaToPBRTv3:
                 else:
                     output += '"bool remaproughness" [ "false" ] '
 
-                output += self.materialParamsToPBRT(params, mtpbrt.materialParam)
+                output += self.paramsToPBRT(params, mtpbrt.materialParam)
 
             elif mitsubaType == 'dielectric' or mitsubaType == 'roughdielectric':
                 output += '"bool remaproughness" [ "false" ] '
 
-                output += self.materialParamsToPBRT(params, mtpbrt.materialParam)
+                output += self.paramsToPBRT(params, mtpbrt.materialParam)
 
             else:
-                output += self.materialParamsToPBRT(params, mtpbrt.materialParam)
+                output += self.paramsToPBRT(params, mtpbrt.materialParam)
 
         currentRefMaterial = ''
         for shape in scene.shapes:
@@ -522,26 +522,6 @@ class MitsubaToPBRTv3:
                 else:
                     output += '[ ' + str(mitsubaParam.value) + ' ] '
                     
-        output += '\n'
-
-        return output
-
-    def materialParamsToPBRT(self, params, dictionary):
-        output = ''
-        for key in params:
-            if key in dictionary:
-                pbrtParam = dictionary[key]
-                mitsubaParam = params[key]
-                output += '"' + mitsubaParam.type + ' ' + pbrtParam + '" '
-
-                if mitsubaParam.type == 'string' or mitsubaParam.type == 'bool':
-                    output += '[ "' + str(mitsubaParam.value) + '" ] '
-                elif mitsubaParam.type == 'rgb' or mitsubaParam.type == 'spectrum':
-                    output += '[ ' + str(mitsubaParam.value[0]) + ' ' + str(mitsubaParam.value[1]) + ' ' + str(mitsubaParam.value[2]) + ' ] '
-                else:
-                    output += '[ ' + str(mitsubaParam.value) + ' ] '
-                    
-        
         output += '\n'
 
         return output

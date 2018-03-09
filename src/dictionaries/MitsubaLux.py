@@ -80,3 +80,9 @@ textureParam =      {
                         'uscale' : 'uscale',
                         'vscale' : 'vscale'
                     }
+
+materialType = {}
+materialParam = {}
+matPlasticParam = {}
+emitterType = {}
+emitterParam = {}

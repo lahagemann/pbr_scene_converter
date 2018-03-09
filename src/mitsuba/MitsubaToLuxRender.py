@@ -130,6 +130,7 @@ class MitsubaToLuxRender:
         return output
 
     def materialDescriptionToLux(self, scene):
+        output = ''
         # textures
         for material in scene.materials:
             if material.texture is not None:
@@ -206,7 +207,7 @@ class MitsubaToLuxRender:
                 output += '"float vroughness" [ 0.001 ] '
                 output += '"bool remaproughness" [ "false" ] '
 
-                output += self.materialParamsToLux(params, mtlux.matPlasticParam)
+                output += self.paramsToLux(params, mtlux.matPlasticParam)
             
             elif mitsubaType == 'conductor' or mitsubaType == 'roughconductor':
                 if 'alpha' in params:
@@ -218,18 +219,22 @@ class MitsubaToLuxRender:
                 else:
                     output += '"bool remaproughness" [ "false" ] '
 
-                output += self.materialParamsToLux(params, mtlux.materialParam)
+                output += self.paramsToLux(params, mtlux.materialParam)
 
             elif mitsubaType == 'dielectric' or mitsubaType == 'roughdielectric':
                 output += '"bool remaproughness" [ "false" ] '
 
-                output += self.materialParamsToLux(params, mtlux.materialParam)
+                output += self.paramsToLux(params, mtlux.materialParam)
 
             else:
-                output += self.materialParamsToLux(params, mtlux.materialParam)
+                output += self.paramsToLux(params, mtlux.materialParam)
+
+            output += '\n'
+
+        return output
 
     def worldDescriptionToLux(self, scene):
-        pass
+        return ''
 
     def paramsToLux(self, params, dictionary):
         output = ''
@@ -252,3 +257,7 @@ class MitsubaToLuxRender:
         output += '\n'
 
         return output
+
+    def __init__(self, scene, filename):
+        self.copySkydome = False
+        self.toLux(scene, filename)

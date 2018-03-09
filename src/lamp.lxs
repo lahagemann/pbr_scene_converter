@@ -1,0 +1,12 @@
+SurfaceIntegrator "path" "integer maxdepth" [ 7 ] 
+Transform [ 0.730206507214 -0.151332103353 -0.66625657004 0.0 -8.7020032049e-08 0.975161503641 -0.221496248006 0.0 0.683226551634 0.161737767771 0.71206867554 0.0 -1.12447199562 -2.69386709151 11.0206318542 1.0 ]
+Sampler "sobol" "integer pixelsamples" [ 64 ] 
+PixelFilter "triangle" 
+Film "fleximage" "string filename" [ "scene.png" ] "integer yresolution" [ 1024 ] "integer xresolution" [ 1024 ] "float gamma" [ 2.2 ] 
+Camera "perspective" "float fov" [ 35.0 ] 
+WorldBegin
+
+Include "lamp.lxm"
+Include "lamp.lxo"
+
+WorldEnd

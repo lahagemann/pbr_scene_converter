@@ -1,0 +1,18 @@
+	MakeNamedMaterial "ShinyMetal" "float uroughness" [ 0.05 ] "float vroughness" [ 0.05 ] "bool remaproughness" [ "false" ] 
+
+	MakeNamedMaterial "Cable" "float uroughness" [ 0.001 ] "float vroughness" [ 0.001 ] "bool remaproughness" [ "false" ] 
+
+	MakeNamedMaterial "BounceCard" 
+
+	MakeNamedMaterial "Emitter" 
+
+	MakeNamedMaterial "LampInterior" "float uroughness" [ 0.05 ] "float vroughness" [ 0.05 ] "bool remaproughness" [ "false" ] 
+
+	MakeNamedMaterial "Lightbulb" "bool remaproughness" [ "false" ] 
+
+	MakeNamedMaterial "StainlessSteel" "bool remaproughness" [ "false" ] 
+
+	MakeNamedMaterial "BlackPlastic" "float uroughness" [ 0.001 ] "float vroughness" [ 0.001 ] "bool remaproughness" [ "false" ] 
+
+	MakeNamedMaterial "Backdrop" 
+

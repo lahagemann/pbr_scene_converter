@@ -1,4 +1,5 @@
 from mitsuba import MitsubaToPBRTv3 as mp
+from mitsuba import MitsubaToLuxRender as ml
 from core import MitsubaLoader as mit
 
 import sys
@@ -42,8 +43,6 @@ if __name__ == '__main__':
 			mp.MitsubaToPBRTv3(loader.scene, output)
 			if not output.endswith('.pbrt'):
 				output += '.pbrt'
-		else:
-			mp.MitsubaToPBRTv3(loader.scene, output)
-			if not output.endswith('.pbrt'):
-				output += '.pbrt'
+		elif destination == 'lux' or destination == 'luxrender':
+			ml.MitsubaToLuxRender(loader.scene, output)
 
