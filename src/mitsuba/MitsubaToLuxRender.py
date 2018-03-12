@@ -207,7 +207,7 @@ class MitsubaToLuxRender:
                 output += '"float vroughness" [ 0.001 ] '
                 output += '"bool remaproughness" [ "false" ] '
 
-                output += self.paramsToLux(params, mtlux.matPlasticParam)
+                output += self.paramsToLux(params, mtlux.materialParam)
             
             elif mitsubaType == 'conductor' or mitsubaType == 'roughconductor':
                 if 'alpha' in params:

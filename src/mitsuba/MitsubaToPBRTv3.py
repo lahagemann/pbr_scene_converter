@@ -206,7 +206,7 @@ class MitsubaToPBRTv3:
                 output += '"float vroughness" [ 0.001 ] '
                 output += '"bool remaproughness" [ "false" ] '
 
-                output += self.paramsToPBRT(params, mtpbrt.matPlasticParam)
+                output += self.paramsToPBRT(params, mtpbrt.materialParam)
             
             elif mitsubaType == 'conductor' or mitsubaType == 'roughconductor':
                 if 'alpha' in params:

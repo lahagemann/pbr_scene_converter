@@ -81,8 +81,50 @@ textureParam =      {
                         'vscale' : 'vscale'
                     }
 
-materialType = {}
-materialParam = {}
-matPlasticParam = {}
+materialType =      {
+                        'diffuse'  : 'matte',
+                        'diffuseReflectance' : 'matte',
+                        'roughdiffuse'
+                        'conductor' : 'mirror',
+                        'roughconductor' : 'metal2',
+                        'dielectric' : 'glass',
+                        'roughdielectric' : 'roughglass',
+                        'thindielectric' : 'glass',
+                        'plastic' : 'glossy',
+                        'roughplastic' : 'glossy',
+                        'difftrans' : 'mattetranslucent'
+                    }
+diffuseParam =     {
+                        'diffuseReflectance' : 'Kd',
+                        'reflectance' : 'Kd'
+                    }
+dielectricParam =   {
+                        'specularReflectance' : 'Kr',
+                        'specularTransmittance' : 'Kt',
+                        'intIOR' : 'index',
+                        'alphaU' : 'uroughness',
+                        'alphaV' : 'vroughness'
+                    }
+
+plasticParam =      {
+                        'intIOR' : 'index',
+                        'alphaU' : 'uroughness',
+                        'alphaV' : 'vroughness',
+                        'diffuseReflectance' : 'Kd',
+                        'specularReflectance' : 'Ks'
+                    }
+
+conductorParam =    {
+                        'eta' : 'eta',
+                        'k' : 'k',
+                        #'specularReflectance' : 'Kr',
+                        'extEta' : 'filmindex',
+                        'alphaU' : 'uroughness',
+                        'alphaV' : 'vroughness'
+                    }
+
+difftransParam =    {
+                        'transmittance' : 'Kt'
+                    }
 emitterType = {}
 emitterParam = {}
