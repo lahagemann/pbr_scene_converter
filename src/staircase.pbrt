@@ -1,0 +1,6 @@
+Integrator "path" "integer maxdepth" [ 65 ] 
+Transform [ 0.999970418625 0.000344841638853 -0.00764601728669 0.0 1.48836067785e-10 0.998985013332 0.0450550536274 0.0 0.0076537920396 0.045053714241 -0.998955491446 0.0 -0.00494564240561 -1.74514245079 4.80833172931 1.0 ]
+Sampler "sobol" "integer pixelsamples" [ 64 ] 
+PixelFilter "triangle" 
+Film "image" "string filename" [ "scene.png" ] "integer yresolution" [ 1280 ] "integer xresolution" [ 720 ] 
+Camera "perspective" "float fov" [ 35.0 ] 

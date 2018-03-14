@@ -151,9 +151,9 @@ class MitsubaToPBRTv3:
             
                 for key in material.texture.params:
                     if key == 'filename':
-                        output += '"string filename" [ "' + material.texture.params[key] + '" ] '
+                        output += '"string filename" [ "' + material.texture.params[key].value + '" ] '
                     elif key == 'filterType':
-                        if material.texture.params[key] == 'ewa':
+                        if material.texture.params[key].value == 'ewa':
                             output += '"bool trilinear" [ "false" ] '
                         else:
                             output += '"bool trilinear" [ "true" ] '

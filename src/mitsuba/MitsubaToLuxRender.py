@@ -2,7 +2,7 @@ import numpy as np
 import sys
 
 sys.path.insert(0, 'core/')
-from Directives import BumpMap
+from Directives import BumpMap as bmap
 
 sys.path.insert(0, 'dictionaries')
 from dictionaries import MitsubaLux as mtlux
@@ -136,10 +136,14 @@ class MitsubaToLuxRender:
             if material.texture is not None:
                 id = 'Texture' + str(self.textureCount).zfill(2)
                 
-                if isinstance(material, BumpMap):
+                print material
+
+                if isinstance(material, bmap):
+                    print 'bumpmap'
                     self.materialTextureRef[material.material.id] = id
                     output += '\tTexture "' + id + '" "float" '
                 else:
+                    print 'regularmat'
                     self.materialTextureRef[material.id] = id
                     output += '\tTexture "' + id + '" "spectrum" '
 
@@ -152,7 +156,8 @@ class MitsubaToLuxRender:
             
                 for key in material.texture.params:
                     if key == 'filename':
-                        output += '"string filename" [ "' + material.texture.params[key] + '" ] '
+                        output += '"string filename" [ "' + material.texture.params[key].value + '" ] '
+                        
                     elif key == 'filterType':
                         if material.texture.params[key] == 'ewa':
                             output += '"bool trilinear" [ "false" ] '
@@ -200,34 +205,35 @@ class MitsubaToLuxRender:
                 
             # special material cases:
 
-            if mitsubaType == 'roughplastic' or mitsubaType == 'plastic':
-                # smaller roughness => more specularity. always remap
-                # default roughness value: 0.1
-                output += '"float uroughness" [ 0.001 ] ' 
-                output += '"float vroughness" [ 0.001 ] '
-                output += '"bool remaproughness" [ "false" ] '
-
-                output += self.paramsToLux(params, mtlux.materialParam)
-            
-            elif mitsubaType == 'conductor' or mitsubaType == 'roughconductor':
+            if mitsubaType.endswith('plastic'):
                 if 'alpha' in params:
                     alpha = params['alpha']
                     output += '"float uroughness" [ ' + str(alpha.value) + ' ] '
                     output += '"float vroughness" [ ' + str(alpha.value) + ' ] '
-                    output += '"bool remaproughness" [ "false" ] '
 
-                else:
-                    output += '"bool remaproughness" [ "false" ] '
+                output += self.paramsToLux(params, mtlux.plasticParam)
+            
+            elif mitsubaType.endswith('conductor'):
+                if 'alpha' in params:
+                    alpha = params['alpha']
+                    output += '"float uroughness" [ ' + str(alpha.value) + ' ] '
+                    output += '"float vroughness" [ ' + str(alpha.value) + ' ] '
 
-                output += self.paramsToLux(params, mtlux.materialParam)
+                output += self.paramsToLux(params, mtlux.conductorParam)
 
-            elif mitsubaType == 'dielectric' or mitsubaType == 'roughdielectric':
-                output += '"bool remaproughness" [ "false" ] '
+            elif mitsubaType.endswith('electric'):
+                if 'alpha' in params:
+                    alpha = params['alpha']
+                    output += '"float uroughness" [ ' + str(alpha.value) + ' ] '
+                    output += '"float vroughness" [ ' + str(alpha.value) + ' ] '
 
-                output += self.paramsToLux(params, mtlux.materialParam)
+                output += self.paramsToLux(params, mtlux.dielectricParam)
+
+            elif mitsubaType == 'difftrans':
+                output += self.paramsToLux(params, mtlux.difftransParam)
 
             else:
-                output += self.paramsToLux(params, mtlux.materialParam)
+                output += self.paramsToLux(params, mtlux.diffuseParam)
 
             output += '\n'
 

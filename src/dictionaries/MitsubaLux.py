@@ -84,7 +84,7 @@ textureParam =      {
 materialType =      {
                         'diffuse'  : 'matte',
                         'diffuseReflectance' : 'matte',
-                        'roughdiffuse'
+                        'roughdiffuse' : 'matte',
                         'conductor' : 'mirror',
                         'roughconductor' : 'metal2',
                         'dielectric' : 'glass',

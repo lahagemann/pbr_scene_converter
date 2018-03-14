@@ -1,0 +1,12 @@
+SurfaceIntegrator "bidirectional" "integer maxdepth" [ 7 ] 
+Transform [ -0.00502469447253 -0.00467004943285 -0.999976031037 0.0 4.02523012404e-11 0.999989189968 -0.00467010692927 0.0 0.999987840795 -2.33836151012e-05 -0.00500702507681 0.0 0.0699916727217 -3.97589874615 16.2340905761 1.0 ]
+Sampler "random" "integer pixelsamples" [ 64 ] 
+PixelFilter "triangle" 
+Film "fleximage" "string filename" [ "scene.png" ] "integer yresolution" [ 1024 ] "integer xresolution" [ 1024 ] "float gamma" [ 2.2 ] 
+Camera "perspective" "float fov" [ 35.0 ] 
+WorldBegin
+
+Include "veach-bidir.lxm"
+Include "veach-bidir.lxo"
+
+WorldEnd
