@@ -2,7 +2,7 @@ import numpy as np
 import sys
 
 sys.path.insert(0, 'core/')
-from Directives import BumpMap as bmap
+from Directives import BumpMap
 
 sys.path.insert(0, 'dictionaries')
 from dictionaries import MitsubaLux as mtlux
@@ -136,14 +136,10 @@ class MitsubaToLuxRender:
             if material.texture is not None:
                 id = 'Texture' + str(self.textureCount).zfill(2)
                 
-                print material
-
-                if isinstance(material, bmap):
-                    print 'bumpmap'
+                if not hasattr(material, 'id'):
                     self.materialTextureRef[material.material.id] = id
                     output += '\tTexture "' + id + '" "float" '
                 else:
-                    print 'regularmat'
                     self.materialTextureRef[material.id] = id
                     output += '\tTexture "' + id + '" "spectrum" '
 
@@ -182,7 +178,7 @@ class MitsubaToLuxRender:
                 self.textureCount += 1
 
         for material in scene.materials:
-            if isinstance(material, BumpMap):
+            if not hasattr(material, 'id'):
                 output += '\tMakeNamedMaterial "' + material.material.id + '" '
                 id = material.material.id
                 params = material.material.params

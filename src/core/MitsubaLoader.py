@@ -184,7 +184,7 @@ class MitsubaLoader:
             # has nested material: pick inner
             if nestedMaterialElement is not None:
                 matType = nestedMaterialElement.attrib.get('type')
-                matId = materialElement.attrib.get('id')
+                matId = nestedMaterialElement.attrib.get('id')
                 material = Material(matType, matId)
 
                 textureElement = nestedMaterialElement.find('texture')
