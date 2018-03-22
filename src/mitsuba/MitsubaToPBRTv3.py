@@ -135,7 +135,7 @@ class MitsubaToPBRTv3:
             if material.texture is not None:
                 id = 'Texture' + str(textureCount).zfill(2)
                 
-                if isinstance(material, BumpMap):
+                if not hasattr(material, 'id'):
                     materialTextureRef[material.material.id] = id
                     output += '\tTexture "' + id + '" "float" '
                 else:
@@ -176,7 +176,7 @@ class MitsubaToPBRTv3:
                 textureCount += 1
 
         for material in scene.materials:
-            if isinstance(material, BumpMap):
+            if not hasattr(material, 'id'):
                 output += '\tMakeNamedMaterial "' + material.material.id + '" '
                 id = material.material.id
                 params = material.material.params
@@ -192,7 +192,7 @@ class MitsubaToPBRTv3:
                 output += '"string type" [ "' + pbrtType + '" ] '
 
             if material.texture is not None:
-                if isinstance(material, BumpMap):
+                if not hasattr(material, 'id'):
                     output += '"texture bumpmap" [ "' + materialTextureRef[id] + '" ] '
                 else:
                     output += '"texture Kd" [ "' + materialTextureRef[id] + '" ] '
@@ -271,17 +271,18 @@ class MitsubaToPBRTv3:
 
         if shape.material is not None:
             output += ('\t' * identation) + 'Material "'
+            print shape.material
 
-            if isinstance(shape.material, BumpMap):
-                output += ('\t' * identation) + 'Material "' + shape.material.material.id + '" '
+            if not hasattr(shape.material, 'id'):
                 mitsubaType = shape.material.material.type
             else:
-                output += ('\t' * identation) + 'Material "' + shape.material.id + '" '
                 mitsubaType = shape.material.type
 
             if mitsubaType in mtpbrt.materialType:
                 pbrtType = mtpbrt.materialType[mitsubaType]
-                output += '"string type" [ "' + pbrtType + '" ] '
+                output += '"' + pbrtType + '" '
+
+            output += self.paramsToPBRT(shape.material.params, mtpbrt.materialParam)
 
         if shape.type == 'obj' or shape.type == 'ply':
             if shape.transform is not None and shape.transform.matrix:

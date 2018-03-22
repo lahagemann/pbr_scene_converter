@@ -1,58 +1,36 @@
-	Texture "Texture01" "spectrum" "imagemap" "bool trilinear" [ "true" ] "string filename" [ "textures/WoodFloor.jpg" ] 
-	Texture "Texture02" "spectrum" "imagemap" "bool trilinear" [ "true" ] "string filename" [ "textures/WoodPanel.jpg" ] 
-	Texture "Texture03" "spectrum" "imagemap" "bool trilinear" [ "true" ] "string filename" [ "textures/Wood.jpg" ] 
-	Texture "Texture04" "spectrum" "imagemap" "bool trilinear" [ "true" ] "string filename" [ "textures/WoodChair.jpg" ] 
-	Texture "Texture05" "spectrum" "imagemap" "bool trilinear" [ "true" ] "string filename" [ "textures/Fabric.jpg" ] 
+	Texture "Texture01" "color" "imagemap" "bool trilinear" [ "true" ] "string filename" [ "textures/WoodFloor.jpg" ] 
+	Texture "Texture02" "color" "imagemap" "bool trilinear" [ "true" ] "string filename" [ "textures/WoodPanel.jpg" ] 
+	Texture "Texture03" "color" "imagemap" "bool trilinear" [ "true" ] "string filename" [ "textures/Wood.jpg" ] 
+	Texture "Texture04" "color" "imagemap" "bool trilinear" [ "true" ] "string filename" [ "textures/WoodChair.jpg" ] 
+	Texture "Texture05" "color" "imagemap" "bool trilinear" [ "true" ] "string filename" [ "textures/Fabric.jpg" ] 
 	Texture "Texture06" "float" "imagemap" "bool trilinear" [ "true" ] "string filename" [ "textures/BrushedAluminium.jpg" ] 
-	Texture "Texture07" "spectrum" "imagemap" "bool trilinear" [ "true" ] "string filename" [ "textures/Painting1.jpg" ] 
-	Texture "Texture08" "spectrum" "imagemap" "bool trilinear" [ "true" ] "string filename" [ "textures/Painting2.jpg" ] 
-	Texture "Texture09" "spectrum" "imagemap" "bool trilinear" [ "true" ] "string filename" [ "textures/Painting3.jpg" ] 
-	Texture "Texture10" "spectrum" "imagemap" "bool trilinear" [ "true" ] "string filename" [ "textures/Wallpaper.jpg" ] 
-	MakeNamedMaterial "WoodFloor" "string type" [ "glossy" ] "texture Kd" [ "Texture01" ] "float uroughness" [ 0.1 ] "float vroughness" [ 0.1 ] "float index" [ 1.5 ] "texture Kd" [ None ] 
+	Texture "Texture07" "color" "imagemap" "bool trilinear" [ "true" ] "string filename" [ "textures/Painting1.jpg" ] 
+	Texture "Texture08" "color" "imagemap" "bool trilinear" [ "true" ] "string filename" [ "textures/Painting2.jpg" ] 
+	Texture "Texture09" "color" "imagemap" "bool trilinear" [ "true" ] "string filename" [ "textures/Painting3.jpg" ] 
+	Texture "Texture10" "color" "imagemap" "bool trilinear" [ "true" ] "string filename" [ "textures/Wallpaper.jpg" ] 
 
-	MakeNamedMaterial "WoodStairs" "string type" [ "glossy" ] "texture Kd" [ "Texture02" ] "float uroughness" [ 0.1 ] "float vroughness" [ 0.1 ] "float index" [ 1.5 ] "texture Kd" [ None ] 
-
-	MakeNamedMaterial "WoodChair" "string type" [ "glossy" ] "texture Kd" [ "Texture03" ] "float uroughness" [ 0.1 ] "float vroughness" [ 0.1 ] "float index" [ 1.5 ] "texture Kd" [ None ] 
-
-	MakeNamedMaterial "WoodLamp" "string type" [ "glossy" ] "texture Kd" [ "Texture04" ] "float uroughness" [ 0.1 ] "float vroughness" [ 0.1 ] "float index" [ 1.5 ] "texture Kd" [ None ] 
-
-	MakeNamedMaterial "Lampshade" "string type" [ "matte" ] "texture Kd" [ "Texture05" ] "texture Kd" [ None ] 
-
+	MakeNamedMaterial "WoodFloor" "string type" [ "glossy" ] "texture Kd" [ "Texture01" ] "float uroughness" [ 0.1 ] "float vroughness" [ 0.1 ] "float index" [ 1.5 ] 
+	MakeNamedMaterial "WoodStairs" "string type" [ "glossy" ] "texture Kd" [ "Texture02" ] "float uroughness" [ 0.1 ] "float vroughness" [ 0.1 ] "float index" [ 1.5 ] 
+	MakeNamedMaterial "WoodChair" "string type" [ "glossy" ] "texture Kd" [ "Texture03" ] "float uroughness" [ 0.1 ] "float vroughness" [ 0.1 ] "float index" [ 1.5 ] 
+	MakeNamedMaterial "WoodLamp" "string type" [ "glossy" ] "texture Kd" [ "Texture04" ] "float uroughness" [ 0.1 ] "float vroughness" [ 0.1 ] "float index" [ 1.5 ] 
+	MakeNamedMaterial "Lampshade" "string type" [ "matte" ] "texture Kd" [ "Texture05" ] 
 	MakeNamedMaterial "Brass" "string type" [ "metal2" ] "float uroughness" [ 0.1 ] "float vroughness" [ 0.1 ] "float filmindex" [ 1 ] "color k" [ 3.03233  2.05611  1.61629 ] "color eta" [ 2.8656  2.11918  1.94008 ] 
-
-	MakeNamedMaterial "BrushedAluminium" "texture Kd" [ "Texture06" ] 
-
+	MakeNamedMaterial "BrushedAluminium" "texture bumpmap" [ "Texture06" ] 
 	MakeNamedMaterial "ChairSeat" "string type" [ "matte" ] "color Kd" [ 0.117647  0.054902  0.0666667 ] 
-
 	MakeNamedMaterial "Glass" "string type" [ "glass" ] "float index" [ 1.5 ] 
-
 	MakeNamedMaterial "MagnoliaPaint" "string type" [ "glossy" ] "float uroughness" [ 0.1 ] "float vroughness" [ 0.1 ] "float index" [ 1.5 ] "color Kd" [ 0.578596  0.578596  0.578596 ] 
-
 	MakeNamedMaterial "WhitePaint" "string type" [ "glossy" ] "float uroughness" [ 0.2 ] "float vroughness" [ 0.2 ] "float index" [ 1.5 ] "color Kd" [ 0.578596  0.578596  0.578596 ] 
-
-	MakeNamedMaterial "Painting1" "string type" [ "matte" ] "texture Kd" [ "Texture07" ] "texture Kd" [ None ] 
-
-	MakeNamedMaterial "Painting2" "string type" [ "matte" ] "texture Kd" [ "Texture08" ] "texture Kd" [ None ] 
-
-	MakeNamedMaterial "Painting3" "string type" [ "matte" ] "texture Kd" [ "Texture09" ] "texture Kd" [ None ] 
-
+	MakeNamedMaterial "Painting1" "string type" [ "matte" ] "texture Kd" [ "Texture07" ] 
+	MakeNamedMaterial "Painting2" "string type" [ "matte" ] "texture Kd" [ "Texture08" ] 
+	MakeNamedMaterial "Painting3" "string type" [ "matte" ] "texture Kd" [ "Texture09" ] 
 	MakeNamedMaterial "Black" "string type" [ "matte" ] "color Kd" [ 0.01  0.01  0.01 ] 
-
 	MakeNamedMaterial "StainlessSteel" "string type" [ "mirror" ] "color k" [ 9.22387  6.26952  4.837 ] "color eta" [ 1.65746  0.880369  0.521229 ] "float filmindex" [ 1 ] 
-
 	MakeNamedMaterial "Emission" "string type" [ "matte" ] "color Kd" [ 1  1  1 ] 
-
 	MakeNamedMaterial "Candles" "string type" [ "matte" ] "color Kd" [ 0.578596  0.578596  0.578596 ] 
-
 	MakeNamedMaterial "Gold" "string type" [ "mirror" ] "color k" [ 3.98316  2.38572  1.60322 ] "color eta" [ 0.143119  0.374957  1.44248 ] "float filmindex" [ 1 ] 
-
 	MakeNamedMaterial "WhitePaint2" "string type" [ "matte" ] "color Kd" [ 0.578596  0.578596  0.578596 ] 
-
 	MakeNamedMaterial "White" "string type" [ "matte" ] "color Kd" [ 0.691535  0.691535  0.691535 ] 
-
 	MakeNamedMaterial "WhitePlastic" "string type" [ "matte" ] "color Kd" [ 0.578596  0.578596  0.578596 ] 
-
 	MakeNamedMaterial "Copper" "string type" [ "mirror" ] "color k" [ 3.54017  2.31113  1.66859 ] "color eta" [ 0.265787  0.19561  0.22092 ] "float filmindex" [ 1 ] 
-
-	MakeNamedMaterial "Wallpaper" "string type" [ "matte" ] "texture Kd" [ "Texture10" ] "texture Kd" [ None ] 
+	MakeNamedMaterial "Wallpaper" "string type" [ "matte" ] "texture Kd" [ "Texture10" ] 
 

@@ -139,23 +139,24 @@ class MitsubaLoader:
 
         for attribute in element:
             type = attribute.tag
-            if type == 'ref':
-                name = 'id'
-            else:
-                name = attribute.attrib.get('name')
+            if type != 'texture':
+                if type == 'ref':
+                    name = 'id'
+                else:
+                    name = attribute.attrib.get('name')
 
-            if type == 'point' or type == 'vector':
-                value = np.array([attribute.attrib.get('x'), attribute.attrib.get('y'), attribute.attrib.get('z')])
-            elif type == 'rgb':
-                value = attribute.attrib.get('value').split(',')
-                [x.strip() for x in value]
-            elif type == 'ref':
-                value = attribute.attrib.get('id')
-            else:
-                value = attribute.attrib.get('value')
+                if type == 'point' or type == 'vector':
+                    value = np.array([attribute.attrib.get('x'), attribute.attrib.get('y'), attribute.attrib.get('z')])
+                elif type == 'rgb':
+                    value = attribute.attrib.get('value').split(',')
+                    [x.strip() for x in value]
+                elif type == 'ref':
+                    value = attribute.attrib.get('id')
+                else:
+                    value = attribute.attrib.get('value')
 
-            param = Param(type, name, value)
-            params[name] = param
+                param = Param(type, name, value)
+                params[name] = param
 
         return params
 

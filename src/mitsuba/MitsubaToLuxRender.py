@@ -141,7 +141,7 @@ class MitsubaToLuxRender:
                     output += '\tTexture "' + id + '" "float" '
                 else:
                     self.materialTextureRef[material.id] = id
-                    output += '\tTexture "' + id + '" "spectrum" '
+                    output += '\tTexture "' + id + '" "color" '
 
                 if material.texture.type == 'bitmap':
                     output += '"imagemap" '
@@ -155,8 +155,10 @@ class MitsubaToLuxRender:
                         output += '"string filename" [ "' + material.texture.params[key].value + '" ] '
                         
                     elif key == 'filterType':
-                        if material.texture.params[key] == 'ewa':
-                            output += '"bool trilinear" [ "false" ] '
+                        if material.texture.params[key].value == 'ewa':
+                            output += '"string filtertype" [ "mipmap_ewa" ] '
+                        elif material.texture.params[key].value == 'nearest':
+                            output += '"string filtertype" [ "nearest" ] '
                         else:
                             output += '"bool trilinear" [ "true" ] '
                     else:
@@ -164,18 +166,22 @@ class MitsubaToLuxRender:
                         if key in mtlux.textureParam:
                             luxParam = mtlux.textureParam[key]
                             mitsubaParam = material.texture.params[key]
-                            output += '"' + mitsubaParam.type + ' ' + luxParam + '" '
 
                             if mitsubaParam.type == 'string' or mitsubaParam.type == 'bool':
+                                output += '"' + mitsubaParam.type + ' ' + luxParam + '" '
                                 output += '[ "' + str(mitsubaParam.value) + '" ] '
                             elif mitsubaParam.type == 'rgb' or mitsubaParam.type == 'spectrum':
+                                output += '"color ' + luxParam + '" '
                                 output += '[ ' + str(mitsubaParam.value[0]) + ' ' + str(mitsubaParam.value[1]) + ' ' + str(mitsubaParam.value[2]) + ' ] '
                             else:
+                                output += '"' + mitsubaParam.type + ' ' + luxParam + '" '
                                 output += '[ ' + str(mitsubaParam.value) + ' ] '
                     
                 output += '\n'
 
                 self.textureCount += 1
+
+        output += '\n'
 
         for material in scene.materials:
             if not hasattr(material, 'id'):
@@ -194,10 +200,10 @@ class MitsubaToLuxRender:
                 output += '"string type" [ "' + luxType + '" ] '
 
             if material.texture is not None:
-                if isinstance(material, BumpMap):
-                    output += '"texture bumpmap" [ "' + self.materialTextureRef[id] + '" ] '
-                else:
+                if hasattr(material, 'id'):
                     output += '"texture Kd" [ "' + self.materialTextureRef[id] + '" ] '
+                else:
+                    output += '"texture bumpmap" [ "' + self.materialTextureRef[id] + '" ] '
                 
             # special material cases:
 
@@ -208,7 +214,7 @@ class MitsubaToLuxRender:
                     output += '"float vroughness" [ ' + str(alpha.value) + ' ] '
 
                 output += self.paramsToLux(params, mtlux.plasticParam)
-            
+
             elif mitsubaType.endswith('conductor'):
                 if 'alpha' in params:
                     alpha = params['alpha']
@@ -231,7 +237,7 @@ class MitsubaToLuxRender:
             else:
                 output += self.paramsToLux(params, mtlux.diffuseParam)
 
-            output += '\n'
+        output += '\n'
 
         return output
 
@@ -244,6 +250,7 @@ class MitsubaToLuxRender:
             if key in dictionary:
                 luxParam = dictionary[key]
                 mitsubaParam = params[key]
+
                 if mitsubaParam.type == 'rgb' or mitsubaParam.type == 'srgb':
                     output += '"color ' + luxParam + '" '
                 else:
@@ -255,7 +262,7 @@ class MitsubaToLuxRender:
                     output += '[ ' + str(mitsubaParam.value[0]) + ' ' + str(mitsubaParam.value[1]) + ' ' + str(mitsubaParam.value[2]) + ' ] '
                 else:
                     output += '[ ' + str(mitsubaParam.value) + ' ] '
-                    
+                
         output += '\n'
 
         return output
