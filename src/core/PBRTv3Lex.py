@@ -8,15 +8,12 @@ reserved = (
     'INTEGRATOR', 'TRANSFORM', 'SAMPLER', 'FILTER', 'FILM', 'CAMERA',
     'WORLDBEGIN', 'WORLDEND', 'ATTRIBUTEBEGIN', 'ATTRIBUTEEND', 'TRANSFORMBEGIN', 'TRANSFORMEND',
     'MAKENAMEDMATERIAL', 'NAMEDMATERIAL', 'MATERIAL', 'SHAPE', 'TEXTURE', 'AREALIGHTSOURCE', 'LIGHTSOURCE',
-    'INTEGER', 'BOOL', 'STRING', 'FLOAT', 'RGB', 'POINT', 'NORMAL'
+    'INTEGER', 'BOOL', 'STRING', 'FLOAT', 'RGB', 'POINT', 'NORMAL',
+    'TRUE', 'FALSE'
 )
 
 tokens = reserved + (
-    # Literals (identifier, integer constant, float constant, string constant,
-    # char const)
-    'ID', 'ICONST', 'FCONST', 'MCONST',
-
-    # Delimeters ( ) [ ] { } , . ; :
+    'SCONST', 'ICONST', 'FCONST', 
     'LBRACKET', 'RBRACKET', 'QUOTE'
 )
 
@@ -37,19 +34,18 @@ t_QUOTE = r'\"'
 # Identifiers and reserved words
 
 reserved_map = {
-    'Integrator': 'INTEGRATOR', 'Transform': 'TRANSFORM', 'Sampler': 'SAMPLER', 'Filter': 'FILTER', 'Film': 'FILM', 'Camera': 'CAMERA',
+    'Integrator': 'INTEGRATOR', 'Transform': 'TRANSFORM', 'Sampler': 'SAMPLER', 'PixelFilter': 'FILTER', 'Film': 'FILM', 'Camera': 'CAMERA',
     'WorldBegin': 'WORLDBEGIN', 'WorldEnd': 'WORLDEND', 'AttributeBegin': 'ATTRIBUTEBEGIN', 'AttributeEnd': 'ATTRIBUTEEND', 
     'TransformBegin': 'TRANSFORMBEGIN', 'TransformEnd': 'TRANSFORMEND',
     'MakeNamedMaterial': 'MAKENAMEDMATERIAL', 'NamedMaterial': 'NAMEDMATERIAL', 'Material': 'MATERIAL', 'Shape': 'SHAPE', 'Texture': 'TEXTURE', 
     'AreaLightSource': 'AREALIGHTSOURCE', 'LightSource': 'LIGHTSOURCE',
-    'integer': 'INTEGER', 'bool': 'BOOL', 'string': 'STRING', 'float': 'FLOAT', 'rgb': 'RGB', 'point': 'POINT', 'normal': 'NORMAL'
+    'integer': 'INTEGER', 'bool': 'BOOL', 'string': 'STRING', 'float': 'FLOAT', 'rgb': 'RGB', 'point': 'POINT', 'normal': 'NORMAL',
+    'true': 'TRUE', 'false': 'FALSE'
 }
-for r in reserved:
-    reserved_map[r.lower()] = r
 
-def t_ID(t):
-    r'[A-Za-z_][\w_]*'
-    t.type = reserved_map.get(t.value, "ID")
+def t_SCONST(t):
+    r'[A-Za-z_][\w_|\.|/]*'
+    t.type = reserved_map.get(t.value, "SCONST")
     return t
 
 # Integer literal
@@ -58,11 +54,14 @@ t_ICONST = r'[+|-]?\d+'
 # Floating literal
 t_FCONST = r'[+|-]?((\d+)(\.\d+)(e(\+|-)?(\d+))? | [+|-]?(\d+)e(\+|-)?(\d+))([lL]|[fF])?'
 
-# Matrix literal
-t_MCONST = r'\[ ([+|-]?\d+ )+ \]'
+
+# def t_SCONST(t):
+#     r'[.]+'
+#     t.type = reserved_map.get(t.value, "SCONST")
+#     return t
+#t_SCONST = r'[.]+'
 
 # Comments
-
 
 def t_comment(t):
     r'/\*(.|\n)*?\*/'
