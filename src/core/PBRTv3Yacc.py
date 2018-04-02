@@ -69,10 +69,13 @@ def p_object(t):
               | TEXTURE QUOTE SCONST QUOTE QUOTE SCONST QUOTE QUOTE SCONST QUOTE params
               | LIGHTSOURCE QUOTE SCONST QUOTE params
               | AREALIGHTSOURCE QUOTE SCONST QUOTE params
+              | TRANSFORM matrix
               | empty'''
 
     if len(t) == 2:
         t[0] = t[1]
+    elif len(t) == 3:
+        t[0] = (t[1], None, t[2]) 
     elif len(t) == 5:
         t[0] = (t[1], t[3], None)
     elif len(t) == 6:
@@ -99,6 +102,7 @@ def p_param(t):
              | QUOTE RGB SCONST QUOTE value
              | QUOTE POINT SCONST QUOTE value
              | QUOTE NORMAL SCONST QUOTE value
+             | QUOTE TEX SCONST QUOTE value
              | empty ''' 
 
     if len(t) > 2:
@@ -139,27 +143,27 @@ def p_empty(t):
     'empty : '
 
 def p_error(t):
-    print("Whoa. We're hosed")
+    print str(t) + "Whoa. We're hosed"
 
 import profile
 
 # Build the grammar
 parser = yacc.yacc()
 
-# def parse(data, debug=0):
-#     parser.error = 0
-#     p = parser.parse(data, debug=debug)
-#     if parser.error:
-#         return None
-#     return p
+def parse(data, debug=0):
+    parser.error = 0
+    p = parser.parse(data, debug=debug)
+    if parser.error:
+        return None
+    return p
 
 # debug rules :D 
-while 1:
-    try:
-        s = raw_input('>>> ')
-    except EOFError:
-        break
-    if not s:
-        continue
-    b = parser.parse(s)
-    print 'parsed: ' + str(b)
+# while 1:
+#     try:
+#         s = raw_input('>>> ')
+#     except EOFError:
+#         break
+#     if not s:
+#         continue
+#     b = parser.parse(s)
+#     print 'parsed: ' + str(b)

@@ -8,7 +8,7 @@ reserved = (
     'INTEGRATOR', 'TRANSFORM', 'SAMPLER', 'FILTER', 'FILM', 'CAMERA',
     'WORLDBEGIN', 'WORLDEND', 'ATTRIBUTEBEGIN', 'ATTRIBUTEEND', 'TRANSFORMBEGIN', 'TRANSFORMEND',
     'MAKENAMEDMATERIAL', 'NAMEDMATERIAL', 'MATERIAL', 'SHAPE', 'TEXTURE', 'AREALIGHTSOURCE', 'LIGHTSOURCE',
-    'INTEGER', 'BOOL', 'STRING', 'FLOAT', 'RGB', 'POINT', 'NORMAL',
+    'INTEGER', 'BOOL', 'STRING', 'FLOAT', 'RGB', 'POINT', 'NORMAL', 'TEX',
     'TRUE', 'FALSE'
 )
 
@@ -40,7 +40,7 @@ reserved_map = {
     'MakeNamedMaterial': 'MAKENAMEDMATERIAL', 'NamedMaterial': 'NAMEDMATERIAL', 'Material': 'MATERIAL', 'Shape': 'SHAPE', 'Texture': 'TEXTURE', 
     'AreaLightSource': 'AREALIGHTSOURCE', 'LightSource': 'LIGHTSOURCE',
     'integer': 'INTEGER', 'bool': 'BOOL', 'string': 'STRING', 'float': 'FLOAT', 'rgb': 'RGB', 'point': 'POINT', 'normal': 'NORMAL',
-    'true': 'TRUE', 'false': 'FALSE'
+    'texture': 'TEX', 'true': 'TRUE', 'false': 'FALSE'
 }
 
 def t_SCONST(t):
