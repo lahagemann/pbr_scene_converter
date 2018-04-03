@@ -71,6 +71,7 @@ class Shape:
 		self.type = type
 		self.emitter = None
 		self.material = None
+		self.transform = None
 		self.params = {}
 
 # global

@@ -24,6 +24,8 @@ class PBRTv3Loader:
             scene = self.loadDirectives(sceneStructure[0], scene)
             scene = self.loadWorld(sceneStructure[1], scene)
 
+        print scene.lights
+
         return scene
         
     def loadDirectives(self, directiveStructure, scene):
@@ -35,8 +37,6 @@ class PBRTv3Loader:
                 scene.integrator.type = struct[1]
 
                 if struct[2] is not None:
-                    print 'AAAAAA'
-                    print struct[2]
                     scene.integrator.params = self.loadParams(struct[2])
             
             elif directive == 'Camera':
@@ -66,14 +66,6 @@ class PBRTv3Loader:
                 if struct[2] is not None:
                     scene.sensor.transform.matrix = struct[2]
 
-        # debug
-        # print 'integrator: ' + scene.integrator.type
-        # print 'sensor: ' + scene.sensor.type
-        # print 'sensor.sampler: ' + scene.sensor.sampler.type
-        # print 'sensor.film: ' + scene.sensor.film.type
-        # print 'sensor.film.filter: ' + scene.sensor.film.filter
-        # print 'sensor.transform: ' + str(scene.sensor.transform.matrix)
-
         return scene
 
     def loadWorld(self, worldStructure, scene):
@@ -93,7 +85,10 @@ class PBRTv3Loader:
 
                 params = self.loadParams(struct[4])
 
-                # COMPLETE HERE
+                texture = Texture(name, type)
+                texture.params = params
+
+                textures[name] = texture
 
             elif directive == 'MakeNamedMaterial':
                 id = struct[1]
@@ -119,7 +114,6 @@ class PBRTv3Loader:
                     material.material.params = params
 
                     materials.append(material)
-                    print material
                 
                 else:
                     material = Material(type, id)
@@ -132,20 +126,105 @@ class PBRTv3Loader:
                             material.params.pop('Kd')
 
                     materials.append(material)
-                    print material
 
             elif directive == 'NamedMaterial':
                 currentRefMaterial = struct[1]
 
             elif directive == 'Shape':
-                pass
-            elif directive == 'LightSource':
-                pass
-            elif directive == 'AttributeBegin':
-                pass
-            elif directive == 'TransformBegin':
-                pass
+                # simple shape, no emitter, embed material or transform
+                shape = Shape(struct[1])
+                shape.params = self.loadParams(struct[2])
 
+                # add reference material
+                if currentRefMaterial:
+                    shape.params['id'] = Param('string', 'id', currentRefMaterial)
+
+                shapes.append(shape)
+
+            elif directive == 'LightSource':
+                # simple emitters, no transform or shape involved. they go into lights list
+                emitter = Emitter(struct[1])
+                emitter.transform = None
+                emitter.params = self.loadParams(struct[2])
+
+                lights.append(emitter)
+
+            elif directive == 'AttributeBegin':
+                material = None
+                emitter = None
+                transform = None
+
+                for modifiedStruct in struct[1]:
+                    modifiedDirective = modifiedStruct[0]
+
+                    if modifiedDirective == 'AreaLightSource':
+                        emitter = Emitter(modifiedStruct[1])
+                        emitter.params = self.loadParams(modifiedStruct[2])
+
+                    elif modifiedDirective == 'Transform':
+                        transform = Transform()
+                        transform.matrix = modifiedStruct[2]
+
+                    elif modifiedDirective == 'Material':
+                        type = ''
+                        id = modifiedStruct[1]
+                        params = self.loadParams(modifiedStruct[2])
+
+                        if 'type' in params:
+                            type = params['type'].value
+                            params.pop('type')
+
+                        material = Material(type, id)
+                        material.params = params
+
+                        if 'Kd' in params:
+                            kd = params['Kd']
+                            if kd.type == 'texture':
+                                material.texture = textures[kd.value]
+                                material.params.pop('Kd')
+
+                    elif modifiedDirective == 'Shape':
+                        # simple shape, no emitter, embed material or transform
+                        shape = Shape(modifiedStruct[1])
+                        shape.params = self.loadParams(modifiedStruct[2])
+
+                        # add reference material
+                        if currentRefMaterial:
+                            shape.params['id'] = Param('string', 'id', currentRefMaterial)
+
+                        shape.emitter = emitter
+                        shape.material = material
+                        shape.transform = transform
+
+                        shapes.append(shape)
+
+            elif directive == 'TransformBegin':
+                transform = None
+                for modifiedStruct in struct[1]:
+                    modifiedDirective = modifiedStruct[0]
+
+                    if modifiedDirective == 'Transform':
+                        transform = Transform()
+                        transform.matrix = modifiedStruct[2]
+
+                    elif modifiedDirective == 'Shape':
+                        # simple shape, no emitter, embed material or transform
+                        shape = Shape(modifiedStruct[1])
+                        shape.params = self.loadParams(modifiedStruct[2])
+
+                        # add reference material
+                        if currentRefMaterial:
+                            shape.params['id'] = Param('string', 'id', currentRefMaterial)
+
+                        shape.transform = transform
+
+                        shapes.append(shape)
+        
+        scene.materials = materials
+        scene.lights = lights
+        scene.shapes = shapes
+
+        return scene
 
     def loadParams(self, paramStructure):
         params = {}
