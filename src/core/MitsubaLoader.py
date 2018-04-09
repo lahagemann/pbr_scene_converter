@@ -111,6 +111,7 @@ class MitsubaLoader:
                 shape.material = self.extractMaterial(materialElement)
 
             shape.params = self.extractParams(shapeElement)
+
             shape.params.pop('transform', None)
             shape.params.pop('bsdf', None)
             shape.params.pop('emitter', None)
@@ -139,6 +140,7 @@ class MitsubaLoader:
 
         for attribute in element:
             type = attribute.tag
+
             if type != 'texture':
                 if type == 'ref':
                     name = 'id'
@@ -157,6 +159,8 @@ class MitsubaLoader:
 
                 param = Param(type, name, value)
                 params[name] = param
+
+                print value
 
         return params
 

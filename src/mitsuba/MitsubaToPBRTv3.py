@@ -189,6 +189,10 @@ class MitsubaToPBRTv3:
 
             if mitsubaType in mtpbrt.materialType:
                 pbrtType = mtpbrt.materialType[mitsubaType]
+                if mitsubaType == 'conductor' and 'specularReflectance' in params:
+                    if params['specularReflectance'].value == [1.0, 1.0, 1.0]:
+                        pbrtType = 'mirror'
+
                 output += '"string type" [ "' + pbrtType + '" ] '
 
             if material.texture is not None:
@@ -206,27 +210,38 @@ class MitsubaToPBRTv3:
                 output += '"float vroughness" [ 0.001 ] '
                 output += '"bool remaproughness" [ "false" ] '
 
-                output += self.paramsToPBRT(params, mtpbrt.materialParam)
+                if 'specularReflectance' not in params:
+                    output += '"rgb Ks" [ 0.050000 0.050000 0.050000 ]'
+
+                output += self.paramsToPBRT(params, mtpbrt.plasticParam)
             
             elif mitsubaType == 'conductor' or mitsubaType == 'roughconductor':
-                if 'alpha' in params:
-                    alpha = params['alpha']
-                    output += '"float uroughness" [ ' + str(alpha.value) + ' ] '
-                    output += '"float vroughness" [ ' + str(alpha.value) + ' ] '
-                    output += '"bool remaproughness" [ "false" ] '
+                if pbrtType != 'mirror':
+                    if 'alpha' in params:
+                        alpha = params['alpha']
+                        output += '"float uroughness" [ ' + str(alpha.value) + ' ] '
+                        output += '"float vroughness" [ ' + str(alpha.value) + ' ] '
+                        output += '"bool remaproughness" [ "false" ] '
 
-                else:
-                    output += '"bool remaproughness" [ "false" ] '
-
-                output += self.paramsToPBRT(params, mtpbrt.materialParam)
+                    else:
+                        output += '"bool remaproughness" [ "false" ] '
+    
+                    output += self.paramsToPBRT(params, mtpbrt.conductorParam)
 
             elif mitsubaType == 'dielectric' or mitsubaType == 'roughdielectric':
                 output += '"bool remaproughness" [ "false" ] '
 
-                output += self.paramsToPBRT(params, mtpbrt.materialParam)
+                output += self.paramsToPBRT(params, mtpbrt.dielectricParam)
+
+            elif mitsubaType == 'thindielectric':
+                output += '"rgb Ks" [ 0.000000 0.000000 0.000000 ]'
+                output += self.paramsToPBRT(params, mtpbrt.thindielecParam)
+
+            elif mitsubaType == 'difftrans':
+                output += self.paramsToPBRT(params, mtpbrt.difftransParam)
 
             else:
-                output += self.paramsToPBRT(params, mtpbrt.materialParam)
+                output += self.paramsToPBRT(params, mtpbrt.diffuseParam)
 
         currentRefMaterial = ''
         for shape in scene.shapes:
@@ -270,8 +285,7 @@ class MitsubaToPBRTv3:
         identity = np.array([[1, 0, 0, 0], [0, 1, 0, 0], [0, 0, 1, 0], [0, 0, 0, 1]])
 
         if shape.material is not None:
-            output += ('\t' * identation) + 'Material "'
-            print shape.material
+            output += ('\t' * identation) + 'Material '
 
             if not hasattr(shape.material, 'id'):
                 mitsubaType = shape.material.material.type
@@ -282,7 +296,47 @@ class MitsubaToPBRTv3:
                 pbrtType = mtpbrt.materialType[mitsubaType]
                 output += '"' + pbrtType + '" '
 
-            output += self.paramsToPBRT(shape.material.params, mtpbrt.materialParam)
+            params = shape.material.params
+
+            if mitsubaType == 'roughplastic' or mitsubaType == 'plastic':
+                # smaller roughness => more specularity. always remap
+                # default roughness value: 0.1
+                output += '"float uroughness" [ 0.001 ] ' 
+                output += '"float vroughness" [ 0.001 ] '
+                output += '"bool remaproughness" [ "false" ] '
+
+                if 'specularReflectance' not in params:
+                    output += '"rgb Ks" [ 0.050000 0.050000 0.050000 ]'
+
+                output += self.paramsToPBRT(params, mtpbrt.plasticParam)
+            
+            elif mitsubaType == 'conductor' or mitsubaType == 'roughconductor':
+                if pbrtType != 'mirror':
+                    if 'alpha' in params:
+                        alpha = params['alpha']
+                        output += '"float uroughness" [ ' + str(alpha.value) + ' ] '
+                        output += '"float vroughness" [ ' + str(alpha.value) + ' ] '
+                        output += '"bool remaproughness" [ "false" ] '
+
+                    else:
+                        output += '"bool remaproughness" [ "false" ] '
+    
+                    output += self.paramsToPBRT(params, mtpbrt.conductorParam)
+
+            elif mitsubaType == 'dielectric' or mitsubaType == 'roughdielectric':
+                output += '"bool remaproughness" [ "false" ] '
+
+                output += self.paramsToPBRT(params, mtpbrt.dielectricParam)
+
+            elif mitsubaType == 'thindielectric':
+                output += '"rgb Ks" [ 0.000000 0.000000 0.000000 ]'
+                output += self.paramsToPBRT(params, mtpbrt.thindielecParam)
+
+            elif mitsubaType == 'difftrans':
+                output += self.paramsToPBRT(params, mtpbrt.difftransParam)
+
+            else:
+                output += self.paramsToPBRT(params, mtpbrt.diffuseParam)
 
         if shape.type == 'obj' or shape.type == 'ply':
             if shape.transform is not None and shape.transform.matrix:
@@ -366,7 +420,8 @@ class MitsubaToPBRTv3:
             
         elif shape.type == 'sphere':
             if shape.params['center']:
-                center = shape.params['center']
+                center = shape.params['center'].value
+                print center
             else:
                 center = [0,0,0]
 
@@ -465,7 +520,8 @@ class MitsubaToPBRTv3:
         elif emitter.type == 'sunsky':
             output += ('\t' * identation) + 'LightSource "distant" '
             
-            if 'sunDirection' in emitter.params:    
+            if 'sunDirection' in emitter.params: 
+                sunDirection = emitter.params['sunDirection'].value   
                 output += '"point from" [ ' + str(sunDirection[0]) + ' ' + str(sunDirection[1]) + ' ' + str(sunDirection[2]) + ' ] '
                 output += '"point to" [ 0.000000 0.000000 0.000000 ] '
             
@@ -490,7 +546,8 @@ class MitsubaToPBRTv3:
         elif emitter.type == 'sky':
             output += ('\t' * identation) + 'LightSource "distant" '
             
-            if 'sunDirection' in emitter.params:    
+            if 'sunDirection' in emitter.params:
+                sunDirection = emitter.params['sunDirection'].value                       
                 output += '"point from" [ ' + str(sunDirection[0]) + ' ' + str(sunDirection[1]) + ' ' + str(sunDirection[2]) + ' ] '
                 output += '"point to" [ 0.000000 0.000000 0.000000 ] '
             

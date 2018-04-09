@@ -103,26 +103,53 @@ textureParam =      {
 materialType =      {
                         'diffuse'  : 'matte',
                         'diffuseReflectance' : 'matte',
+                        'roughdiffuse' : 'matte',
+                        'conductor' : 'metal',
                         'roughconductor' : 'metal',
                         'dielectric' : 'glass',
                         'roughdielectric' : 'glass',
-                        'conductor' : 'metal',
-                        'plastic' : 'substrate',
                         'thindielectric' : 'uber',
-                        'roughplastic' : 'substrate'
+                        'plastic' : 'substrate',
+                        'roughplastic' : 'substrate',
+                        'difftrans' : 'translucent'
                     }
 
-materialParam =     {
+diffuseParam =      {
                         'diffuseReflectance' : 'Kd',
-                        'reflectance' : 'Kd',
-                        'intIOR' : 'index',
-                        'specularReflectance' : 'Ks',
+                        'reflectance' : 'Kd'
+                    }
+
+dielectricParam =   {
+                        'specularReflectance' : 'Kr',
                         'specularTransmittance' : 'Kt',
+                        'intIOR' : 'index',
+                        'alphaU' : 'uroughness',
+                        'alphaV' : 'vroughness'
+                    }
+
+thindielecParam =   {
+                        'intIOR' : 'index',
+                        'specularReflectance' : 'Kr',
+                        'specularTransmittance' : 'Kt'
+                    }
+
+plasticParam =      {
                         'alphaU' : 'uroughness',
                         'alphaV' : 'vroughness',
-                        'k' : 'k',
+                        'diffuseReflectance' : 'Kd',
+                        'specularReflectance' : 'Ks'
+                    }
+
+conductorParam =    {
                         'eta' : 'eta',
-                        'alpha' : 'roughness'
+                        'k' : 'k',
+                        #'specularReflectance' : 'Kr',
+                        'alphaU' : 'uroughness',
+                        'alphaV' : 'vroughness'
+                    }
+
+difftransParam =    {
+                        'transmittance' : 'Kt'
                     }
 
 emitterType =       {
@@ -141,3 +168,6 @@ emitterParam =      {
                         'beamWidth' : 'coneangle'
                     }
     
+shapeParam =        {
+                        'radius' : 'radius'
+                    }
