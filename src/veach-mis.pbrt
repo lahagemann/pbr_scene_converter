@@ -1,5 +1,5 @@
 Integrator "path" "integer maxdepth" [ 3 ] 
-Transform [ 4.37113e-08 0.0 -1.0 0.0 0.0 1.0 0.0 0.0 1.0 0.0 -4.37113e-08 0.0 5.94960000168e-13 -3.5 28.2792 1.0 ]
+Transform [ 4.37113e-08 0.0 -1.0 0.0 -0.0 1.0 0.0 0.0 -1.0 0.0 -4.37113e-08 0.0 -5.94960000168e-13 -3.5 28.2792 1.0 ]
 Sampler "sobol" "integer pixelsamples" [ 64 ] 
 PixelFilter "triangle" 
 Film "image" "string filename" [ "scene.png" ] "integer yresolution" [ 720 ] "integer xresolution" [ 1280 ] 

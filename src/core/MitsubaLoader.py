@@ -160,8 +160,6 @@ class MitsubaLoader:
                 param = Param(type, name, value)
                 params[name] = param
 
-                print value
-
         return params
 
     def extractMaterial(self, materialElement):
@@ -188,8 +186,13 @@ class MitsubaLoader:
 
             # has nested material: pick inner
             if nestedMaterialElement is not None:
-                matType = nestedMaterialElement.attrib.get('type')
                 matId = nestedMaterialElement.attrib.get('id')
+
+                if nestedMaterialElement.find('bsdf') is not None:
+                    nestedMaterialElement = nestedMaterialElement.find('bsdf')
+
+                matType = nestedMaterialElement.attrib.get('type')
+                
                 material = Material(matType, matId)
 
                 textureElement = nestedMaterialElement.find('texture')

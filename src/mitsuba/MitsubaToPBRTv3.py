@@ -42,7 +42,11 @@ class MitsubaToPBRTv3:
                 m_T = np.transpose(m)
                 m_IT = np.linalg.inv(m_T)
 
+                # left-handed x right-handed
                 m_IT[0][0] = -m_IT[0][0]
+                m_IT[1][0] = -m_IT[1][0]
+                m_IT[2][0] = -m_IT[2][0]
+                m_IT[3][0] = -m_IT[3][0]
 
                 for i in range(0,4):
                     for j in range(0,4):
@@ -67,7 +71,8 @@ class MitsubaToPBRTv3:
                 output += '"' + filter + '" '
             else:
                 output += '"triangle" '
-    
+
+            output += '"float xwidth" [ 1.000000 ] "float ywidth" [ 1.000000 ]'
             output += '\n'
 
 
@@ -206,12 +211,18 @@ class MitsubaToPBRTv3:
             if mitsubaType == 'roughplastic' or mitsubaType == 'plastic':
                 # smaller roughness => more specularity. always remap
                 # default roughness value: 0.1
-                output += '"float uroughness" [ 0.001 ] ' 
-                output += '"float vroughness" [ 0.001 ] '
+                if not 'alpha' in params:
+                    output += '"float uroughness" [ 0.001 ] ' 
+                    output += '"float vroughness" [ 0.001 ] '
+                else:
+                    alpha = params['alpha'].value
+                    output += '"float uroughness" [ ' + alpha + ' ] ' 
+                    output += '"float vroughness" [ ' + alpha + ' ] '
+
                 output += '"bool remaproughness" [ "false" ] '
 
                 if 'specularReflectance' not in params:
-                    output += '"rgb Ks" [ 0.050000 0.050000 0.050000 ]'
+                    output += '"rgb Ks" [ 0.040000 0.040000 0.040000 ]'
 
                 output += self.paramsToPBRT(params, mtpbrt.plasticParam)
             
@@ -421,7 +432,6 @@ class MitsubaToPBRTv3:
         elif shape.type == 'sphere':
             if shape.params['center']:
                 center = shape.params['center'].value
-                print center
             else:
                 center = [0,0,0]
 
