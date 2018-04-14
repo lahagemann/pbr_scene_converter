@@ -229,7 +229,7 @@ class MitsubaToLuxRender:
                     output += '"float vroughness" [ ' + alpha + ' ] '
 
                 if 'specularReflectance' not in params:
-                    output += '"rgb Ks" [ 0.040000 0.040000 0.040000 ]'
+                    output += '"color Ks" [ 0.040000 0.040000 0.040000 ]'
 
                 output += self.paramsToLux(params, mtlux.plasticParam)
 
@@ -241,6 +241,8 @@ class MitsubaToLuxRender:
                         output += '"float vroughness" [ ' + str(alpha.value) + ' ] '
 
                     output += self.paramsToLux(params, mtlux.conductorParam)
+                else:
+                    output += '\n'
 
             elif mitsubaType.endswith('electric'):
                 if 'alpha' in params:
@@ -261,44 +263,45 @@ class MitsubaToLuxRender:
         return output
 
     def worldDescriptionToLux(self, scene):
+        output = ''
+
         currentRefMaterial = ''
         for shape in scene.shapes:
             if shape.emitter is not None:
                 # child emitter will ALWAYS be area emitter
-                output += '\tAttributeBegin\n'
+                output += 'AttributeBegin\n'
                         
-                output += '\t\tAreaLightSource "diffuse" '
+                output += '\tAreaLightSource "area" '
                 output += self.paramsToLux(shape.emitter.params, mtlux.emitterParam)
                       
                 if 'id' in shape.params:        
                     if shape.params['id'].value != currentRefMaterial:
-                        output += '\t\tNamedMaterial "' + str(shape.params['id'].value) + '"\n'
+                        output += '\tNamedMaterial "' + str(shape.params['id'].value) + '"\n'
                         currentRefMaterial = shape.params['id'].value
 
-                output += self.shapeToLux(shape, 2)
+                output += self.shapeToLux(shape, 1)
                         
-                output += '\tAttributeEnd\n'
+                output += 'AttributeEnd\n'
 
             else:
                 # if shape has ref material, then make reference
                 if 'id' in shape.params:
                     if shape.params['id'].value != currentRefMaterial:
-                        output += '\tNamedMaterial "' + shape.params['id'].value + '"\n'
-                        output += self.shapeToLux(shape, 1)
+                        output += 'NamedMaterial "' + shape.params['id'].value + '"\n'
+                        output += self.shapeToLux(shape, 0)
                         currentRefMaterial = shape.params['id'].value
                     else:
-                        output += self.shapeToLux(shape, 1)
+                        output += self.shapeToLux(shape, 0)
                 else:
-                    output += self.shapeToLux(shape, 1)
+                    output += self.shapeToLux(shape, 0)
 
         for light in scene.lights:
-            output += self.lightToLux(light, 1)
-
-        output += 'WorldEnd\n'
+            output += self.lightToLux(light, 0)
 
         return output
 
     def shapeToLux(self, shape, identation):
+        output = ''
         identity = np.array([[1, 0, 0, 0], [0, 1, 0, 0], [0, 0, 1, 0], [0, 0, 0, 1]])
 
         if shape.material is not None:
@@ -309,8 +312,8 @@ class MitsubaToLuxRender:
             else:
                 mitsubaType = shape.material.type
 
-            if mitsubaType in mtpbrt.materialType:
-                luxType = mtpbrt.materialType[mitsubaType]
+            if mitsubaType in mtlux.materialType:
+                luxType = mtlux.materialType[mitsubaType]
                 output += '"' + luxType + '" '
 
             params = shape.material.params
@@ -325,7 +328,7 @@ class MitsubaToLuxRender:
                     output += '"float vroughness" [ ' + alpha + ' ] '
 
                 if 'specularReflectance' not in params:
-                    output += '"rgb Ks" [ 0.040000 0.040000 0.040000 ] '
+                    output += '"color Ks" [ 0.040000 0.040000 0.040000 ] '
 
                 output += self.paramsToLux(params, mtlux.plasticParam)
 
@@ -441,7 +444,7 @@ class MitsubaToLuxRender:
             output += ('\t' * identation) + 'TransformBegin\n'
             output += ('\t' * (identation + 1)) + 'Transform [ 1 0 0 0 0 1 0 0 0 0 1 0 ' + str(center[0]) + ' ' + str(center[1]) + ' ' + str(center[2]) + ' ' + ' 1 ]\n'
             output += ('\t' * (identation + 1)) + 'Shape "sphere" '
-            output += self.paramsToPBRT(shape.params, mtlux.shapeParam)
+            output += self.paramsToLux(shape.params, mtlux.shapeParam)
             output += '\n'
             output += ('\t' * identation) + 'TransformEnd\n'
         
@@ -517,7 +520,7 @@ class MitsubaToLuxRender:
                 if 'filename' in emitter.params:
                     output += '"string mapname" [ "' + emitter.params['filename'].value + '" ] '
 
-                output += self.paramsToPBRT(emitter.params, mtpbrt.emitterParam)
+                output += self.paramsToLux(emitter.params, mtlux.emitterParam)
                 output += ('\t' * identation) + 'TransformEnd\n'
                 
             else:
@@ -526,44 +529,24 @@ class MitsubaToLuxRender:
                 if 'filename' in emitter.params:
                     output += '"string mapname" [ "' + emitter.params['filename'].value + '" ] '
 
-                output += self.paramsToPBRT(emitter.params, mtpbrt.emitterParam)
+                output += self.paramsToLux(emitter.params, mtlux.emitterParam)
                 output += '\n'
         
         elif emitter.type == 'sunsky':
-            output += ('\t' * identation) + 'LightSource "distant" '
-            
-            if 'sunDirection' in emitter.params: 
-                sunDirection = emitter.params['sunDirection'].value   
-                output += '"point from" [ ' + str(sunDirection[0]) + ' ' + str(sunDirection[1]) + ' ' + str(sunDirection[2]) + ' ] '
-                output += '"point to" [ 0.000000 0.000000 0.000000 ] '
-            
-            output += self.paramsToPBRT(emitter.params, mtpbrt.emitterParam)
+            output += ('\t' * identation) + 'LightSource "sunsky2" '
+            output += ('\t' * identation) + self.paramsToLux(emitter.params, mtlux.emitterParam)
             output += '\n'
-
-            output += ('\t' * identation) + 'TransformBegin\n'
-            output += ('\t' * (identation + 1)) + 'Transform [ -1 0 0 0 0 0 -1 0 0 1 0 0 0 0 0 1 ]\n'
-            output += ('\t' * (identation + 1)) + 'LightSource "infinite" "string mapname" [ "Skydome.pfm" ]\n'
-            output += ('\t' * identation) + 'TransformEnd\n'
-
-            self.copySkydome = True
             
         elif emitter.type == 'sun':
-            output += ('\t' * identation) + 'TransformBegin\n'
-            output += ('\t' * (identation + 1)) + 'Transform [ -1 0 0 0 0 0 -1 0 0 1 0 0 0 0 0 1 ]\n'
-            output += ('\t' * (identation + 1)) + 'LightSource "infinite" "string mapname" [ "Skydome.pfm" ]\n'
-            output += ('\t' * identation) + 'TransformEnd\n'
+            output += ('\t' * identation) + 'LightSource "sun" '
+            output += ('\t' * identation) + self.paramsToLux(emitter.params, mtlux.emitterParam)
+            output += '\n'
 
             self.copySkydome = True
 
         elif emitter.type == 'sky':
-            output += ('\t' * identation) + 'LightSource "distant" '
-            
-            if 'sunDirection' in emitter.params:
-                sunDirection = emitter.params['sunDirection'].value                       
-                output += '"point from" [ ' + str(sunDirection[0]) + ' ' + str(sunDirection[1]) + ' ' + str(sunDirection[2]) + ' ] '
-                output += '"point to" [ 0.000000 0.000000 0.000000 ] '
-            
-            output += self.paramsToPBRT(emitter.params, mtpbrt.emitterParam)
+            output += ('\t' * identation) + 'LightSource "sky2" '
+            output += ('\t' * identation) + self.paramsToLux(emitter.params, mtlux.emitterParam)
             output += '\n'
 
         elif emitter.type == 'spot':
@@ -572,7 +555,15 @@ class MitsubaToLuxRender:
         elif emitter.type == 'point':
             output += ('\t' * identation) + 'LightSource "point" '
 
-            output += self.paramsToPBRT(emitter.params, mtpbrt.emitterParam)
+            if emitter.transform is not None and emitter.transform.matrix:
+                position = [emitter.transform.matrix[0][3], emitter.transform.matrix[1][3], emitter.transform.matrix[2][3]]
+                output += '"point from" [ ' + str(position[0]) + ' ' + str(position[1]) + ' ' + str(position[2]) + ' ] '
+
+            elif 'position' in emitter.params:
+                position = emitter.params['position'].value
+                output += '"point from" [ ' + str(position[0]) + ' ' + str(position[1]) + ' ' + str(position[2]) + ' ] '
+
+            output += self.paramsToLux(emitter.params, mtlux.emitterParam)
             output += '\n'
             
         return output

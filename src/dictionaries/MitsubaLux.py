@@ -127,4 +127,10 @@ difftransParam =    {
                         'transmittance' : 'Kt'
                     }
 emitterType = {}
-emitterParam = {}
+
+emitterParam =      {
+                        'turbidity' : 'turbidity',
+                        'sunDirection' : 'sundir',
+                        'sunRadiusScale' : 'relsize',
+                        'samplingWeight' : 'nsamples'
+                    }
