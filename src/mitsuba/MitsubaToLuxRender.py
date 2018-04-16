@@ -21,6 +21,10 @@ class MitsubaToLuxRender:
             scenefile.write('Include "'+ filename + '.lxm"\n')
             scenefile.write('Include "'+ filename + '.lxo"\n\n')
 
+            # global emitters
+            for light in scene.lights:
+                output += self.lightToLux(light, 0)
+
             scenefile.write('WorldEnd\n')
 
         with open(filename + '.lxm', 'w') as materialfile:
@@ -35,6 +39,7 @@ class MitsubaToLuxRender:
     def sceneDirectivesToLux(self, scene):
         output = ''
 
+        output += 'Renderer "sampler"\n'
         if scene.integrator is not None:
             output += 'SurfaceIntegrator '
 
@@ -43,6 +48,12 @@ class MitsubaToLuxRender:
                 output += '"' + type + '" '
 
             output += self.paramsToLux(scene.integrator.params, mtlux.integratorParam)
+
+            if type == 'bidirectional':
+                output += ' "integer eyedepth" [16] '
+                output += ' "integer lightdepth" [16] '
+                output += ' "string lightpathstrategy" ["importance"] '
+                output += ' "string lightstrategy" ["importance"]\n'
 
         if scene.sensor.transform is not None:
             if scene.sensor.transform.matrix:
@@ -99,6 +110,12 @@ class MitsubaToLuxRender:
                 extension = scene.sensor.film.params['fileFormat'].value
 
                 output += '"string filename" [ "scene.' + extension + '" ] '
+
+            output += ' "string write_png_channels" [ "RGB" ] '
+            output += ' "bool write_png_16bit" [ "false" ] '
+            output += ' "bool write_tga" [ "false" ] '
+            output += ' "string write_tga_channels" [ "RGB" ] '
+            output += ' "string ldr_clamp_method" [ "cut" ] '
 
             output += self.paramsToLux(scene.sensor.film.params, mtlux.filmParam)
 
@@ -294,9 +311,6 @@ class MitsubaToLuxRender:
                         output += self.shapeToLux(shape, 0)
                 else:
                     output += self.shapeToLux(shape, 0)
-
-        for light in scene.lights:
-            output += self.lightToLux(light, 0)
 
         return output
 
@@ -539,6 +553,12 @@ class MitsubaToLuxRender:
             
         elif emitter.type == 'sun':
             output += ('\t' * identation) + 'LightSource "sun" '
+
+            if 'sunDirection' in emitter.params:
+                sundir = emitter.params['sunDirection'].value
+
+                output += '"vector sundir" [ ' + str(sundir[0]) + ' ' + str(-sundir[1]) + ' ' + str(sundir[2]) + ' ] '
+
             output += ('\t' * identation) + self.paramsToLux(emitter.params, mtlux.emitterParam)
             output += '\n'
 
@@ -546,6 +566,12 @@ class MitsubaToLuxRender:
 
         elif emitter.type == 'sky':
             output += ('\t' * identation) + 'LightSource "sky2" '
+            
+            if 'sunDirection' in emitter.params:
+                sundir = emitter.params['sunDirection'].value
+
+                output += '"vector sundir" [ ' + str(sundir[0]) + ' ' + str(-sundir[1]) + ' ' + str(sundir[2]) + ' ] '
+
             output += ('\t' * identation) + self.paramsToLux(emitter.params, mtlux.emitterParam)
             output += '\n'
 

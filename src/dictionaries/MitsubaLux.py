@@ -107,7 +107,7 @@ dielectricParam =   {
                     }
 
 plasticParam =      {
-                        'intIOR' : 'index',
+                        #'intIOR' : 'index',
                         'alphaU' : 'uroughness',
                         'alphaV' : 'vroughness',
                         'diffuseReflectance' : 'Kd',
@@ -115,10 +115,10 @@ plasticParam =      {
                     }
 
 conductorParam =    {
-                        'eta' : 'eta',
-                        'k' : 'k',
+                        #'eta' : 'eta',
+                        #'k' : 'k',
                         #'specularReflectance' : 'Kr',
-                        'extEta' : 'filmindex',
+                        #'extEta' : 'filmindex',
                         'alphaU' : 'uroughness',
                         'alphaV' : 'vroughness'
                     }
@@ -130,7 +130,7 @@ emitterType = {}
 
 emitterParam =      {
                         'turbidity' : 'turbidity',
-                        'sunDirection' : 'sundir',
                         'sunRadiusScale' : 'relsize',
-                        'samplingWeight' : 'nsamples'
+                        'samplingWeight' : 'nsamples',
+                        'radiance' : 'L'
                     }

@@ -1,0 +1,49 @@
+NamedMaterial "Plastic_Black"
+Shape "plymesh" "string filename" [ "models/Mesh013.obj" ]
+Shape "plymesh" "string filename" [ "models/Mesh008.obj" ]
+NamedMaterial "Glass"
+Shape "plymesh" "string filename" [ "models/Mesh010.obj" ]
+NamedMaterial "Plastic_Orange"
+Shape "plymesh" "string filename" [ "models/Mesh009.obj" ]
+NamedMaterial "Metal"
+Shape "plymesh" "string filename" [ "models/Mesh015.obj" ]
+NamedMaterial "Plastic_Orange"
+Shape "plymesh" "string filename" [ "models/Mesh012.obj" ]
+Shape "plymesh" "string filename" [ "models/Mesh016.obj" ]
+NamedMaterial "Plastic_Black"
+Shape "plymesh" "string filename" [ "models/Mesh017.obj" ]
+Shape "plymesh" "string filename" [ "models/Mesh018.obj" ]
+Shape "plymesh" "string filename" [ "models/Mesh019.obj" ]
+Shape "plymesh" "string filename" [ "models/Mesh007.obj" ]
+NamedMaterial "Plastic_Orange"
+Shape "plymesh" "string filename" [ "models/Mesh006.obj" ]
+NamedMaterial "Plastic_Black"
+Shape "plymesh" "string filename" [ "models/Mesh005.obj" ]
+Shape "plymesh" "string filename" [ "models/Mesh003.obj" ]
+NamedMaterial "Metal"
+Shape "plymesh" "string filename" [ "models/Mesh002.obj" ]
+NamedMaterial "Plastic_Orange"
+Shape "plymesh" "string filename" [ "models/Mesh001.obj" ]
+NamedMaterial "Plastic_Black"
+Shape "plymesh" "string filename" [ "models/Mesh011.obj" ]
+NamedMaterial "Plastic_Orange"
+Shape "plymesh" "string filename" [ "models/Mesh000.obj" ]
+NamedMaterial "Plastic_Black"
+Shape "plymesh" "string filename" [ "models/Mesh014.obj" ]
+NamedMaterial "Floor"
+Shape "plymesh" "string filename" [ "models/Mesh004.obj" ]
+AttributeBegin
+	AreaLightSource "area" "color L" [ 2  2  2 ] 
+	Material "matte" "color Kd" [ 0  0  0 ] 
+	Shape "trianglemesh" "integer indices" [ 0 1 2 0 2 3 ] "point P" [ -0.35930889657575 0.4496929868232 -0.010808018540099995 -0.19653709657574997 0.4496930131768 0.3382559814599 -0.19653710342424996 0.0008490131768000009 0.3382560185401 -0.35930890342425 0.0008489868231999764 -0.010807981459899973 ] "normal N" [0.31335056403200195 -1.6852351403251475e-08 -0.14611829159839967 0.31335056403200195 -1.6852351403251475e-08 -0.14611829159839967 0.31335056403200195 -1.6852351403251475e-08 -0.14611829159839967 0.31335056403200195 -1.6852351403251475e-08 -0.14611829159839967 ] "float uv" [ 0 0 1 0 1 1 0 1 ]
+AttributeEnd
+AttributeBegin
+	AreaLightSource "area" "color L" [ 2  2  2 ] 
+	Material "matte" "color Kd" [ 0  0  0 ] 
+	Shape "trianglemesh" "integer indices" [ 0 1 2 0 2 3 ] "point P" [ 0.32067299980906 0.027336999999999806 0.228975000122092 0.32067298019094 0.4761829999999998 0.22897499987790798 0.32522100019093997 0.47618300000000013 -0.13641900012209202 0.32522101980906 0.02733700000000014 -0.136418999877908 ] "normal N" [-0.32801127064799995 -1.4338907798746789e-08 -0.004082721169839987 -0.32801127064799995 -1.4338907798746789e-08 -0.004082721169839987 -0.32801127064799995 -1.4338907798746789e-08 -0.004082721169839987 -0.32801127064799995 -1.4338907798746789e-08 -0.004082721169839987 ] "float uv" [ 0 0 1 0 1 1 0 1 ]
+AttributeEnd
+AttributeBegin
+	AreaLightSource "area" "color L" [ 2  2  2 ] 
+	Material "matte" "color Kd" [ 0  0  0 ] 
+	Shape "trianglemesh" "integer indices" [ 0 1 2 0 2 3 ] "point P" [ 0.2301280000000007 0.50385003011858 0.2673715 -0.2301279999999993 0.50384996062178 0.2673715 -0.2301280000000007 0.5038499698814201 -0.19288450000000001 0.2301279999999993 0.50385003937822 -0.19288450000000001 ] "normal N" [6.397263834454492e-08 -0.423671171072 -8.523609786046127e-09 6.397263834454492e-08 -0.423671171072 -8.523609786046127e-09 6.397263834454492e-08 -0.423671171072 -8.523609786046127e-09 6.397263834454492e-08 -0.423671171072 -8.523609786046127e-09 ] "float uv" [ 0 0 1 0 1 1 0 1 ]
+AttributeEnd
