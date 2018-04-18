@@ -1,7 +1,0 @@
-
-	MakeNamedMaterial "Plastic_Orange" "string type" [ "glossy" ] "float uroughness" [ 0.001 ] "float vroughness" [ 0.001 ] "color Ks" [ 0.040000 0.040000 0.040000 ]"float index" [ 1.5 ] "color Kd" [ 1  0.378676  0.0134734 ] 
-	MakeNamedMaterial "Plastic_Black" "string type" [ "glossy" ] "float uroughness" [ 0.1 ] "float vroughness" [ 0.1 ] "color Ks" [ 0.040000 0.040000 0.040000 ]"float index" [ 1.5 ] "color Kd" [ 0.00631  0.00631  0.00631 ] 
-	MakeNamedMaterial "Glass" "string type" [ "glass" ] "float index" [ 1.5 ] 
-	MakeNamedMaterial "Metal" "string type" [ "mirror" ] 
-	MakeNamedMaterial "Floor" "string type" [ "glossy" ] "float uroughness" [ 0.001 ] "float vroughness" [ 0.001 ] "color Ks" [ 0.040000 0.040000 0.040000 ]"float index" [ 1.5 ] "color Kd" [ 0.578596  0.578596  0.578596 ] 
-
