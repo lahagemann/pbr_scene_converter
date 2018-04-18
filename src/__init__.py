@@ -1,6 +1,8 @@
 from mitsuba import MitsubaToPBRTv3 as mp
 from mitsuba import MitsubaToLuxRender as ml
 from core import MitsubaLoader as mit
+from core import PBRTv3Loader as pbrt
+from pbrt import PBRTv3ToMitsuba as pm
 
 import sys
 
@@ -35,14 +37,31 @@ if __name__ == '__main__':
 		if source == 'mitsuba':
 			loader = mit.MitsubaLoader(filename)
 
+			if destination == 'pbrt':
+				if not output.endswith('.pbrt'):
+					output += '.pbrt'
+				mp.MitsubaToPBRTv3(loader.scene, output)
+				
+			elif destination == 'lux' or destination == 'luxrender':
+				ml.MitsubaToLuxRender(loader.scene, output)
+
+			else:
+				print 'The output renderer informed is not valid. For a mitsuba input file, please type -d pbrt or -d lux.\n'
+
+		elif source == 'pbrt':
+			loader = pbrt.PBRTv3Loader(filename)
+
+			if destination == 'mitsuba':
+				pm.PBRTv3ToMitsuba(loader.scene, output)
+				
+			# elif destination == 'lux' or destination == 'luxrender':
+			# 	pl.PBRTv3ToLuxRender(loader.scene, output)
+
+			else:
+				print 'The output renderer informed is not valid. For a mitsuba input file, please type -d pbrt or -d lux.\n'
 		else:
-			loader = mit.MitsubaLoader(filename)
+			print 'The source renderer informed is not valid. Current valid source renderers are: pbrt, mitsuba. \n'
 
 		# convert
-		if destination == 'pbrt':
-			mp.MitsubaToPBRTv3(loader.scene, output)
-			if not output.endswith('.pbrt'):
-				output += '.pbrt'
-		elif destination == 'lux' or destination == 'luxrender':
-			ml.MitsubaToLuxRender(loader.scene, output)
+		
 

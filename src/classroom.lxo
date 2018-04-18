@@ -1,0 +1,159 @@
+NamedMaterial "Walls"
+Shape "plymesh" "string filename" [ "models/Mesh036.obj" ]
+NamedMaterial "FluorescentTube"
+Shape "plymesh" "string filename" [ "models/Mesh048.obj" ]
+NamedMaterial "CeilingLight"
+Shape "plymesh" "string filename" [ "models/Mesh062.obj" ]
+NamedMaterial "FluorescentTube"
+Shape "plymesh" "string filename" [ "models/Mesh038.obj" ]
+NamedMaterial "Black"
+Shape "plymesh" "string filename" [ "models/Mesh054.obj" ]
+Shape "plymesh" "string filename" [ "models/Mesh077.obj" ]
+NamedMaterial "BlackPlastic"
+Shape "plymesh" "string filename" [ "models/Mesh052.obj" ]
+NamedMaterial "Black"
+Shape "plymesh" "string filename" [ "models/Mesh061.obj" ]
+NamedMaterial "Projector"
+Shape "plymesh" "string filename" [ "models/Mesh031.obj" ]
+Shape "plymesh" "string filename" [ "models/Mesh030.obj" ]
+NamedMaterial "Black"
+Shape "plymesh" "string filename" [ "models/Mesh057.obj" ]
+NamedMaterial "Walls"
+Shape "plymesh" "string filename" [ "models/Mesh023.obj" ]
+Shape "plymesh" "string filename" [ "models/Mesh027.obj" ]
+NamedMaterial "Bin2"
+Shape "plymesh" "string filename" [ "models/Mesh047.obj" ]
+NamedMaterial "Boxes1"
+TransformBegin
+	Transform [ 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 -0.0734223 0.0 1.0 ]
+	Shape "plymesh" "string filename" [ "models/Mesh049.obj" ]
+TransformEnd
+NamedMaterial "Black"
+Shape "plymesh" "string filename" [ "models/Mesh022.obj" ]
+Shape "plymesh" "string filename" [ "models/Mesh029.obj" ]
+NamedMaterial "Whiteboard"
+Shape "plymesh" "string filename" [ "models/Mesh033.obj" ]
+NamedMaterial "Walls"
+Shape "plymesh" "string filename" [ "models/Mesh040.obj" ]
+NamedMaterial "Black"
+Shape "plymesh" "string filename" [ "models/Mesh028.obj" ]
+NamedMaterial "ProjectorScreen"
+Shape "plymesh" "string filename" [ "models/Mesh076.obj" ]
+NamedMaterial "ScreenEnds"
+Shape "plymesh" "string filename" [ "models/Mesh050.obj" ]
+NamedMaterial "FlagBase"
+Shape "plymesh" "string filename" [ "models/Mesh055.obj" ]
+NamedMaterial "FoamEraser"
+Shape "plymesh" "string filename" [ "models/Mesh053.obj" ]
+NamedMaterial "ChalkHolder"
+Shape "plymesh" "string filename" [ "models/Mesh058.obj" ]
+NamedMaterial "ChairWood"
+Shape "plymesh" "string filename" [ "models/Mesh060.obj" ]
+NamedMaterial "ChairStainless"
+Shape "plymesh" "string filename" [ "models/Mesh063.obj" ]
+NamedMaterial "ChairFrame"
+Shape "plymesh" "string filename" [ "models/Mesh064.obj" ]
+NamedMaterial "ChairWood"
+Shape "plymesh" "string filename" [ "models/Mesh037.obj" ]
+Shape "plymesh" "string filename" [ "models/Mesh067.obj" ]
+Shape "plymesh" "string filename" [ "models/Mesh073.obj" ]
+Shape "plymesh" "string filename" [ "models/Mesh024.obj" ]
+Shape "plymesh" "string filename" [ "models/Mesh041.obj" ]
+NamedMaterial "Rubber"
+Shape "plymesh" "string filename" [ "models/Mesh026.obj" ]
+NamedMaterial "ChairWood"
+Shape "plymesh" "string filename" [ "models/Mesh069.obj" ]
+NamedMaterial "Floor"
+TransformBegin
+	Transform [ 11.6517 0.0 0.0 0.0 0.0 11.6517 0.0 0.0 0.0 0.0 11.6517 0.0 0.0 0.0 0.0 1.0 ]
+	Shape "plymesh" "string filename" [ "models/Mesh035.obj" ]
+TransformEnd
+NamedMaterial "WoodFrame"
+Shape "plymesh" "string filename" [ "models/Mesh043.obj" ]
+NamedMaterial "Whiteboard2"
+Shape "plymesh" "string filename" [ "models/Mesh072.obj" ]
+NamedMaterial "StickyNote1"
+Shape "plymesh" "string filename" [ "models/Mesh045.obj" ]
+NamedMaterial "StickyNote2"
+Shape "plymesh" "string filename" [ "models/Mesh044.obj" ]
+NamedMaterial "RedPencil"
+Shape "plymesh" "string filename" [ "models/Mesh074.obj" ]
+NamedMaterial "BluePencil"
+Shape "plymesh" "string filename" [ "models/Mesh070.obj" ]
+NamedMaterial "GreenPencil"
+Shape "plymesh" "string filename" [ "models/Mesh078.obj" ]
+NamedMaterial "Whiteboard3"
+Shape "plymesh" "string filename" [ "models/Mesh021.obj" ]
+NamedMaterial "WhiteboardFrame"
+Shape "plymesh" "string filename" [ "models/Mesh018.obj" ]
+NamedMaterial "Lectern"
+Shape "plymesh" "string filename" [ "models/Mesh017.obj" ]
+Shape "plymesh" "string filename" [ "models/Mesh066.obj" ]
+Shape "plymesh" "string filename" [ "models/Mesh056.obj" ]
+Shape "plymesh" "string filename" [ "models/Mesh016.obj" ]
+Shape "plymesh" "string filename" [ "models/Mesh015.obj" ]
+NamedMaterial "Hallway"
+Shape "plymesh" "string filename" [ "models/Mesh014.obj" ]
+NamedMaterial "WoodFrame"
+Shape "plymesh" "string filename" [ "models/Mesh025.obj" ]
+NamedMaterial "Whiteboard2"
+Shape "plymesh" "string filename" [ "models/Mesh046.obj" ]
+NamedMaterial "BluePencil"
+Shape "plymesh" "string filename" [ "models/Mesh012.obj" ]
+NamedMaterial "GreenPencil"
+Shape "plymesh" "string filename" [ "models/Mesh011.obj" ]
+Shape "plymesh" "string filename" [ "models/Mesh010.obj" ]
+Shape "plymesh" "string filename" [ "models/Mesh009.obj" ]
+NamedMaterial "BluePencil"
+Shape "plymesh" "string filename" [ "models/Mesh008.obj" ]
+NamedMaterial "RedPencil"
+Shape "plymesh" "string filename" [ "models/Mesh059.obj" ]
+NamedMaterial "Bookshelf"
+Shape "plymesh" "string filename" [ "models/Mesh065.obj" ]
+NamedMaterial "StickyNote3"
+Shape "plymesh" "string filename" [ "models/Mesh032.obj" ]
+NamedMaterial "StickyNote4"
+Shape "plymesh" "string filename" [ "models/Mesh007.obj" ]
+NamedMaterial "StickyNote5"
+Shape "plymesh" "string filename" [ "models/Mesh075.obj" ]
+NamedMaterial "StickyNote6"
+Shape "plymesh" "string filename" [ "models/Mesh071.obj" ]
+NamedMaterial "StickyNote7"
+Shape "plymesh" "string filename" [ "models/Mesh039.obj" ]
+NamedMaterial "StickyNote8"
+Shape "plymesh" "string filename" [ "models/Mesh006.obj" ]
+NamedMaterial "Black"
+Shape "plymesh" "string filename" [ "models/Mesh051.obj" ]
+NamedMaterial "FlagRed"
+Shape "plymesh" "string filename" [ "models/Mesh013.obj" ]
+NamedMaterial "FlagWhite"
+Shape "plymesh" "string filename" [ "models/Mesh005.obj" ]
+NamedMaterial "Walls"
+Shape "plymesh" "string filename" [ "models/Mesh042.obj" ]
+NamedMaterial "Speakers"
+Shape "plymesh" "string filename" [ "models/Mesh003.obj" ]
+NamedMaterial "FluorescentTube"
+Shape "plymesh" "string filename" [ "models/Mesh020.obj" ]
+NamedMaterial "CeilingLight"
+Shape "plymesh" "string filename" [ "models/Mesh002.obj" ]
+NamedMaterial "Wall"
+Shape "plymesh" "string filename" [ "models/Mesh019.obj" ]
+NamedMaterial "WindowFrame"
+Shape "plymesh" "string filename" [ "models/Mesh068.obj" ]
+NamedMaterial "Bin1"
+Shape "plymesh" "string filename" [ "models/Mesh001.obj" ]
+NamedMaterial "Boxes1"
+TransformBegin
+	Transform [ 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 -0.0734223 0.0 1.0 ]
+	Shape "plymesh" "string filename" [ "models/Mesh004.obj" ]
+TransformEnd
+NamedMaterial "Boxes2"
+TransformBegin
+	Transform [ 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 -0.0734223 0.0 1.0 ]
+	Shape "plymesh" "string filename" [ "models/Mesh034.obj" ]
+TransformEnd
+NamedMaterial "Boxes1"
+TransformBegin
+	Transform [ 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 -0.0734223 0.0 1.0 ]
+	Shape "plymesh" "string filename" [ "models/Mesh000.obj" ]
+TransformEnd

@@ -134,3 +134,7 @@ emitterParam =      {
                         'samplingWeight' : 'nsamples',
                         'radiance' : 'L'
                     }
+
+shapeParam =        {
+                        'radius' : 'radius'
+                    }

@@ -131,7 +131,7 @@ class PBRTv3ToMitsuba:
                 if type == 'rgb':
                     value = str(pbrtParam.value[0]) + ', ' +  str(pbrtParam.value[1]) + ', ' +  str(pbrtParam.value[2])
                     ET.SubElement(rootElement, type, name=mitsubaParamName, value=value)
-                elif type == 'vector' or type == 'point'
+                elif type == 'vector' or type == 'point':
                     ET.SubElement(rootElement, type, name=mitsubaParamName, x=str(pbrtParam.value[0]), y=str(pbrtParam.value[1]), z=str(pbrtParam.value[2]))
                 else:
                     ET.SubElement(rootElement, type, name=mitsubaParamName, value=str(pbrtParam.value))

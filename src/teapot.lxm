@@ -1,0 +1,5 @@
+	Texture "Texture01" "color" "checkerboard" "color tex1" [ 0.325  0.31  0.25 ] "color tex2" [ 0.725  0.71  0.68 ] "float uscale" [ 10 ] "float vscale" [ 10 ] 
+
+	MakeNamedMaterial "Material" "string type" [ "glossy" ] "float uroughness" [ 0.001 ] "float vroughness" [ 0.001 ] "color Ks" [ 0.040000 0.040000 0.040000 ]"color Kd" [ 0.9  0.9  0.9 ] 
+	MakeNamedMaterial "Floor" "string type" [ "matte" ] "texture Kd" [ "Texture01" ] 
+

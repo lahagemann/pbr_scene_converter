@@ -1,5 +1,6 @@
 import numpy as np
 import sys
+import copy
 
 sys.path.insert(0, 'core/')
 from Directives import BumpMap
@@ -23,7 +24,7 @@ class MitsubaToLuxRender:
 
             # global emitters
             for light in scene.lights:
-                output += self.lightToLux(light, 0)
+                scenefile.write(self.lightToLux(light, 0))
 
             scenefile.write('WorldEnd\n')
 

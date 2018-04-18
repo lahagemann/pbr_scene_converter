@@ -1,0 +1,5 @@
+NamedMaterial "Floor"
+Shape "trianglemesh" "integer indices" [ 0 1 2 0 2 3 ] "point P" [ 0.0 -7.41374e-06 79.9532 -79.9532 2.47124e-06 0.0 0.0 7.41374e-06 -79.9532 79.9532 -2.47124e-06 0.0 ] "normal N" [-0.000790334183872 -25570.056761 -0.00237100894787 -0.000790334183872 -25570.056761 -0.00237100894787 -0.000790334183872 -25570.056761 -0.00237100894787 -0.000790334183872 -25570.056761 -0.00237100894787 ] "float uv" [ 0 0 1 0 1 1 0 1 ]
+NamedMaterial "Material"
+Shape "plymesh" "string filename" [ "models/Mesh001.obj" ]
+Shape "plymesh" "string filename" [ "models/Mesh000.obj" ]

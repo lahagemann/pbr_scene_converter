@@ -1,0 +1,13 @@
+Renderer "sampler"
+SurfaceIntegrator "path" "integer maxdepth" [ 3 ] 
+Transform [ 4.37113e-08 0.0 -1.0 0.0 -0.0 1.0 0.0 0.0 -1.0 0.0 -4.37113e-08 0.0 -5.94960000168e-13 -3.5 28.2792 1.0 ]
+Sampler "sobol" "integer pixelsamples" [ 64 ] 
+PixelFilter "triangle" "float xwidth" [ 1.000000 ] "float ywidth" [ 1.000000 ]
+Film "fleximage" "string filename" [ "scene.png" ]  "string write_png_channels" [ "RGB" ]  "bool write_png_16bit" [ "false" ]  "bool write_tga" [ "false" ]  "string write_tga_channels" [ "RGB" ]  "string ldr_clamp_method" [ "cut" ] "integer yresolution" [ 720 ] "integer xresolution" [ 1280 ] "float gamma" [ 2.2 ] 
+Camera "perspective" "float fov" [ 19.6875 ] 
+WorldBegin
+
+Include "veach-mis.lxm"
+Include "veach-mis.lxo"
+
+WorldEnd
