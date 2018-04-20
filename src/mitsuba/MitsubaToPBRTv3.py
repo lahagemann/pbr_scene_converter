@@ -139,6 +139,7 @@ class MitsubaToPBRTv3:
         for material in scene.materials:
             if material.texture is not None:
                 id = 'Texture' + str(textureCount).zfill(2)
+                type = ''
                 
                 if not hasattr(material, 'id'):
                     materialTextureRef[material.material.id] = id
@@ -149,6 +150,7 @@ class MitsubaToPBRTv3:
 
                 if material.texture.type == 'bitmap':
                     output += '"imagemap" '
+                    type = 'imagemap'
                 else:
                     if material.texture.type in mtpbrt.textureType:
                         type = mtpbrt.textureType[material.texture.type]
@@ -174,7 +176,11 @@ class MitsubaToPBRTv3:
                             elif mitsubaParam.type == 'rgb' or mitsubaParam.type == 'spectrum':
                                 output += '[ ' + str(mitsubaParam.value[0]) + ' ' + str(mitsubaParam.value[1]) + ' ' + str(mitsubaParam.value[2]) + ' ] '
                             else:
-                                output += '[ ' + str(mitsubaParam.value) + ' ] '
+                                if type == 'checkerboard' and (pbrtParam == 'uscale' or pbrtParam == 'vscale'):
+                                    val = mitsubaParam.value * 2.0
+                                    output += '[ ' + str(val) + ' ] '  
+                                else:
+                                    output += '[ ' + str(mitsubaParam.value) + ' ] '
                     
                 output += '\n'
 
