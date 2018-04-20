@@ -24,8 +24,6 @@ class PBRTv3Loader:
             scene = self.loadDirectives(sceneStructure[0], scene)
             scene = self.loadWorld(sceneStructure[1], scene)
 
-        print scene.lights
-
         return scene
         
     def loadDirectives(self, directiveStructure, scene):
@@ -65,6 +63,7 @@ class PBRTv3Loader:
                 
                 if struct[2] is not None:
                     scene.sensor.transform.matrix = struct[2]
+                    scene.sensor.transform.matrix = [scene.sensor.transform.matrix[i:i + 4] for i in xrange(0, len(scene.sensor.transform.matrix), 4)]
 
         return scene
 
@@ -237,8 +236,8 @@ class PBRTv3Loader:
 
     def __init__(self, filename):
         sceneStruct = self.importFile(filename)
-        scene = self.loadScene(sceneStruct)
+        self.scene = self.loadScene(sceneStruct)
 
-if __name__ == '__main__':
-    loader = PBRTv3Loader(sys.argv[1])
+# if __name__ == '__main__':
+#     loader = PBRTv3Loader(sys.argv[1])
     

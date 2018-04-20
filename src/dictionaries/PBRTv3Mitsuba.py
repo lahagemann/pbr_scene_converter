@@ -64,7 +64,8 @@ sensorParam =       {   #perspective
 
 textureType =       {
                         'checkerboard' : 'checkerboard',
-                        'scale' : 'scale'
+                        'scale' : 'scale',
+                        'imagemap' : 'bitmap'
                     }
 
 textureParam =      {
@@ -72,4 +73,60 @@ textureParam =      {
                         'tex2' : 'color0',
                         'uscale' : 'uscale',
                         'vscale' : 'vscale'
+                    }
+
+# in pbrt, plastic doesn't respond well to roughness params
+materialType =      {
+                        'matte' : 'diffuse',
+                        'metal' : 'conductor',
+                        'mirror' : 'conductor',
+                        'glass' : 'dielectric',
+                        'uber' : 'thindielectric',
+                        'substrate' : 'plastic',
+                        'translucent' : 'difftrans'
+                    }
+
+matteParam =        {
+                        'Kd' : 'reflectance'
+                    }
+
+glassParam =        {
+                        'Kr' : 'specularReflectance',
+                        'Kt' : 'specularTransmittance',
+                        'index' : 'intIOR'
+                    }
+
+uberParam =         {
+                        'intIOR' : 'index',
+                        'specularReflectance' : 'Kr',
+                        'specularTransmittance' : 'Kt'
+                    }
+
+substrateParam =    {
+                        'alphaU' : 'uroughness',
+                        'alphaV' : 'vroughness',
+                        'diffuseReflectance' : 'Kd',
+                        'specularReflectance' : 'Ks'
+                    }
+
+metalParam =        {
+                        'eta' : 'eta',
+                        'k' : 'k',
+                        #'specularReflectance' : 'Kr',
+                        'alphaU' : 'uroughness',
+                        'alphaV' : 'vroughness'
+                    }
+
+translucentParam =  {
+                        'transmittance' : 'Kt'
+                    }
+
+materialDict =      {
+                        'matte' : matteParam,
+                        'metal' : metalParam,
+                        'mirror' : metalParam,
+                        'glass' : glassParam,
+                        'uber' : uberParam,
+                        'substrate' : substrateParam,
+                        'translucent' : translucentParam
                     }

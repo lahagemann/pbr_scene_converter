@@ -1,7 +1,9 @@
 import numpy as np
 import sys
 import copy
-import xml.etree.ElementTree as ET
+# import xml.etree.ElementTree as ET
+from lxml import etree as ET
+
 
 sys.path.insert(0, 'core/')
 from Directives import BumpMap
@@ -16,10 +18,12 @@ class PBRTv3ToMitsuba:
         np.set_printoptions(suppress=True)
 
         self.sceneDirectivesToMitsuba(scene)
-        # self.worldDescriptionToMitsuba(scene)
+        self.worldDescriptionToMitsuba(scene)
 
         tree = ET.ElementTree(self.sceneElement)
-        tree.write(filename)
+        
+        # tree.write(filename)
+        tree.write(filename, pretty_print=True)
 
     def sceneDirectivesToMitsuba(self, scene):
         if scene.integrator is not None:
@@ -29,7 +33,7 @@ class PBRTv3ToMitsuba:
             else:
                 integrator = ET.SubElement(self.sceneElement, 'integrator')
 
-            self.paramsToMitsuba(integrator, scene.integrator.params, pbrttm.integratorParams)
+            self.paramsToMitsuba(integrator, scene.integrator.params, pbrttm.integratorParam)
 
         if scene.sensor is not None:
             if scene.sensor.type in pbrttm.sensorType:
@@ -39,13 +43,13 @@ class PBRTv3ToMitsuba:
                 sensor = ET.SubElement(self.sceneElement, 'sensor')
 
             if 'fov' in scene.sensor.params:
-                if 'width' in scene.sensor.film.params and 'height' in scene.sensor.film.params:
-                    width = float(scene.sensor.film.params['width'].value)
-                    height = float(scene.sensor.film.params['height'].value)
+                if 'xresolution' in scene.sensor.film.params and 'yresolution' in scene.sensor.film.params:
+                    width = float(scene.sensor.film.params['xresolution'].value)
+                    height = float(scene.sensor.film.params['yresolution'].value)
                     fov = float(scene.sensor.params['fov'].value)
 
                     if height < width:
-                        adjustedFov = (fov * width) / height
+                        adjustedFov = fov / height * width
                         ET.SubElement(sensor, 'float', name='fov', value=str(adjustedFov))
                     else:
                         ET.SubElement(sensor, 'float', name='fov', value=str(fov))
@@ -53,12 +57,12 @@ class PBRTv3ToMitsuba:
                 else:
                     width = 768
                     height = 576
-                    fov = scene.sensor.params['fov']
-                    adjustedFov = (fov * height) / width
+                    fov = scene.sensor.params['fov'].value
+                    adjustedFov = fov / height * width
 
                     ET.SubElement(sensor, 'float', name='fov', value=str(adjustedFov))
 
-            self.paramsToMitsuba(sensor, scene.sensor.params, pbrttm.sensorParams)
+            self.paramsToMitsuba(sensor, scene.sensor.params, pbrttm.sensorParam)
 
         if scene.sensor.transform is not None:
             if scene.sensor.transform.matrix:
@@ -89,7 +93,7 @@ class PBRTv3ToMitsuba:
             else:
                 sampler = ET.SubElement(sensor, 'sampler')
             
-            self.paramsToMitsuba(sampler, scene.sensor.sampler.params, pbrttm.samplerParams)
+            self.paramsToMitsuba(sampler, scene.sensor.sampler.params, pbrttm.samplerParam)
 
         if scene.sensor.film is not None:
             if scene.sensor.film.type in pbrttm.filmType:
@@ -105,7 +109,7 @@ class PBRTv3ToMitsuba:
                 else:
                     ET.SubElement(film, 'string', name='fileFormat', value='png')
 
-                self.paramsToMitsuba(film, scene.sensor.film.params, pbrttm.filmParams)
+                self.paramsToMitsuba(film, scene.sensor.film.params, pbrttm.filmParam)
 
                 ET.SubElement(film, 'string', name='pixelFormat', value='rgb')
                 ET.SubElement(film, 'float', name='gamma', value='2.2')
@@ -118,7 +122,120 @@ class PBRTv3ToMitsuba:
             else:
                 ET.SubElement(film, 'rfilter', type='tent')
 
-    # def worldDescriptionToMitsuba(self, scene):
+    def worldDescriptionToMitsuba(self, scene):
+        # materials
+        self.materialDescriptionToMitsuba(scene)
+        
+
+    def materialDescriptionToMitsuba(self, scene):
+        for material in scene.materials:
+            # normal material
+            if hasattr(material,'id'):
+                if material.type in pbrttm.materialType:
+                    type = pbrttm.materialType[material.type]
+                
+                alpha = 0.001
+                if 'roughness' in material.params:
+                    alpha = material.params['roughness'].value 
+                elif 'uroughness' in material.params or 'vroughness' in material.params:
+                    alpha = material.params['uroughness'].value
+
+                if alpha > 0.001:
+                    type = 'rough' + type
+
+                if material.type == 'glass':
+                    bsdf = ET.SubElement(self.sceneElement, 'bsdf', type=type, id=material.id)
+
+                    if 'uroughness' in material.params or 'vroughness' in material.params:
+                        if type.startswith('rough'):
+                            alpha = material.params['uroughness'].value
+                            ET.SubElement(bsdf, 'float', name='alpha', value=str(alpha))
+
+                    self.paramsToMitsuba(bsdf, material.params, pbrttm.glassParam)
+                else:
+                    twosided = ET.SubElement(self.sceneElement, 'bsdf', type='twosided', id=material.id)
+                    bsdf = ET.SubElement(twosided, 'bsdf', type=type)
+
+                    if material.type == 'mirror':
+                        ET.SubElement(bsdf, 'rgb', name='specularReflectance', value='1, 1, 1')
+                    
+                    if material.type in ['mirror', 'metal', 'substrate']:
+                        ET.SubElement(bsdf, 'string', name='distribution', value='ggx')
+
+                    if material.type == 'substrate':
+                        ET.SubElement(bsdf, 'boolean', name='nonlinear', value='true')
+
+                    if 'uroughness' in material.params or 'vroughness' in material.params:
+                        if type.startswith('rough'):
+                            alpha = material.params['uroughness'].value
+                            ET.SubElement(bsdf, 'float', name='alpha', value=str(alpha))
+
+                    if material.type in pbrttm.materialDict:
+                        dictionary = pbrttm.materialDict[material.type]
+                        self.paramsToMitsuba(bsdf, material.params, dictionary)
+                
+                if material.texture is not None:
+                    if material.texture.type in pbrttm.textureType:
+                        texType = pbrttm.textureType[material.texture.type]
+                        texture = ET.SubElement(bsdf, 'texture', name='reflectance', type=texType)
+                        self.paramsToMitsuba(texture, material.texture.params, pbrttm.textureParam)
+            else:
+                bumpmap = ET.SubElement(self.sceneElement, 'bsdf', type='bumpmap')
+                if material.texture is not None:
+                    if material.texture.type in pbrttm.textureType:
+                        texType = pbrttm.textureType[material.texture.type]
+                        texture = ET.SubElement(bsdf, 'texture', name='map', type=texType)
+                        self.paramsToMitsuba(texture, material.texture.params, pbrttm.textureParam)
+                
+                if material.material is not None:
+                    if material.material.type in pbrttm.materialType:
+                        type = pbrttm.materialType[material.material.type]
+                
+                    alpha = 0.001
+                    if 'roughness' in material.material.params:
+                        alpha = material.material.params['roughness'].value 
+                    elif 'uroughness' in material.material.params or 'vroughness' in material.material.params:
+                        alpha = material.material.params['uroughness'].value
+
+                    if alpha > 0.001:
+                        type = 'rough' + type
+
+                    if material.material.type == 'glass':
+                        bsdf = ET.SubElement(self.sceneElement, 'bsdf', type=type, id=material.id)
+
+                        if 'uroughness' in material.material.params or 'vroughness' in material.material.params:
+                            if type.startswith('rough'):
+                                alpha = material.material.params['uroughness'].value
+                                ET.SubElement(bsdf, 'float', name='alpha', value=str(alpha))
+
+                        self.paramsToMitsuba(bsdf, material.material.params, pbrttm.glassParam)
+                    else:
+                        twosided = ET.SubElement(self.sceneElement, 'bsdf', type='twosided', id=material.id)
+                        bsdf = ET.SubElement(twosided, 'bsdf', type=type)
+
+                        if material.material.type == 'mirror':
+                            ET.SubElement(bsdf, 'rgb', name='specularReflectance', value='1, 1, 1')
+
+                        if material.material.type == 'substrate':
+                            ET.SubElement(bsdf, 'boolean', name='nonlinear', value='true')
+
+                        if 'uroughness' in material.material.params or 'vroughness' in material.material.params:
+                            if type.startswith('rough'):
+                                alpha = material.material.params['uroughness'].value
+                                ET.SubElement(bsdf, 'float', name='alpha', value=str(alpha))
+
+                        if material.material.type in pbrttm.materialDict:
+                            dictionary = pbrttm.materialDict[material.material.type]
+                            self.paramsToMitsuba(bsdf, material.material.params, dictionary)
+                    
+                    if material.material.texture is not None:
+                        if material.material.texture.type in pbrttm.textureType:
+                            texType = pbrttm.textureType[material.material.texture.type]
+                            texture = ET.SubElement(bsdf, 'texture', name='reflectance', type=texType)
+                            self.paramsToMitsuba(texture, material.material.texture.params, pbrttm.textureParam)
+
+    def shapeDescriptionToMitsuba(self, scene):
+        for shape in scene.shapes:
 
 
     def paramsToMitsuba(self, rootElement, params, dictionary):
