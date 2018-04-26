@@ -236,6 +236,26 @@ class PBRTv3ToMitsuba:
 
     def shapeDescriptionToMitsuba(self, scene):
         for shape in scene.shapes:
+            if shape.type == 'plymesh':
+                pass
+            elif shape.type == 'cylinder':
+                pass
+            elif shape.type == 'sphere':
+                pass
+            elif shape.type == 'trianglemesh':
+                if 'indices' in shape.params:
+                    indices = shape.params['indices'].value
+                    if max(indices) == 3:
+                        type = 'rectangle'
+                        if 'P' in shape.params:
+                            p = shape.params['P'].value
+                            point0 = [p[0], p[1], p[2]]
+                            point1 = [p[3], p[4], p[5]]
+                            point1 = [p[6], p[7], p[8]]
+                            point1 = [p[9], p[10], p[11]]
+
+
+
 
 
     def paramsToMitsuba(self, rootElement, params, dictionary):
