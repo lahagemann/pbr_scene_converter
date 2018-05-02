@@ -130,3 +130,19 @@ materialDict =      {
                         'substrate' : substrateParam,
                         'translucent' : translucentParam
                     }
+
+emitterType =       {
+                        'point' : 'point',
+                        'spot' : 'spot',
+                        'infinite' : 'envmap',
+                        'distant' : 'sunsky'
+                    }
+                    
+emitterParam =      {
+                        'L' : 'radiance',
+                        'intensity' : 'I',
+                        'position' : 'from',
+                        'samplingWeight' : 'samples',
+                        'cutoffAngle' : 'conedeltaangle',
+                        'beamWidth' : 'coneangle'
+                    }

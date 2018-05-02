@@ -46,11 +46,16 @@ Rule 40    value -> LBRACKET QUOTE TRUE QUOTE RBRACKET
 Rule 41    value -> LBRACKET QUOTE FALSE QUOTE RBRACKET
 Rule 42    value -> matrix
 Rule 43    value -> empty
-Rule 44    matrix -> LBRACKET number number number number number number number number number number number number number number number number RBRACKET
-Rule 45    matrix -> LBRACKET number number number RBRACKET
-Rule 46    number -> ICONST
-Rule 47    number -> FCONST
-Rule 48    empty -> <empty>
+Rule 44    matrix -> LBRACKET number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number RBRACKET
+Rule 45    matrix -> LBRACKET number number number number number number number number number number number number number number number number number number number number number number number number RBRACKET
+Rule 46    matrix -> LBRACKET number number number number number number number number number number number number number number number number RBRACKET
+Rule 47    matrix -> LBRACKET number number number number number number number number number number number number RBRACKET
+Rule 48    matrix -> LBRACKET number number number number number number number number RBRACKET
+Rule 49    matrix -> LBRACKET number number number number number number RBRACKET
+Rule 50    matrix -> LBRACKET number number number RBRACKET
+Rule 51    number -> ICONST
+Rule 52    number -> FCONST
+Rule 53    empty -> <empty>
 
 Terminals, with rules where they appear
 
@@ -60,14 +65,14 @@ ATTRIBUTEEND         : 14
 BOOL                 : 29
 CAMERA               : 10
 FALSE                : 41
-FCONST               : 38 47
+FCONST               : 38 52
 FILM                 : 7
 FILTER               : 9
 FLOAT                : 31
-ICONST               : 37 46
+ICONST               : 37 51
 INTEGER              : 28
 INTEGRATOR           : 6
-LBRACKET             : 37 38 39 40 41 44 45
+LBRACKET             : 37 38 39 40 41 44 45 46 47 48 49 50
 LIGHTSOURCE          : 22
 MAKENAMEDMATERIAL    : 18
 MATERIAL             : 19
@@ -75,7 +80,7 @@ NAMEDMATERIAL        : 20
 NORMAL               : 34
 POINT                : 33
 QUOTE                : 6 6 7 7 8 8 9 9 10 10 17 17 18 18 19 19 20 20 21 21 21 21 21 21 22 22 23 23 28 28 29 29 30 30 31 31 32 32 33 33 34 34 35 35 39 39 40 40 41 41
-RBRACKET             : 37 38 39 40 41 44 45
+RBRACKET             : 37 38 39 40 41 44 45 46 47 48 49 50
 RGB                  : 32
 SAMPLER              : 8
 SCONST               : 6 7 8 9 10 17 18 19 20 21 21 21 22 23 28 29 30 31 32 33 34 35 39
@@ -97,7 +102,7 @@ directive            : 4 5
 directives           : 1 2 4
 empty                : 25 36 43
 matrix               : 11 24 42
-number               : 44 44 44 44 44 44 44 44 44 44 44 44 44 44 44 44 45 45 45
+number               : 44 44 44 44 44 44 44 44 44 44 44 44 44 44 44 44 44 44 44 44 44 44 44 44 44 44 44 44 44 44 44 44 44 44 44 44 45 45 45 45 45 45 45 45 45 45 45 45 45 45 45 45 45 45 45 45 45 45 45 45 46 46 46 46 46 46 46 46 46 46 46 46 46 46 46 46 47 47 47 47 47 47 47 47 47 47 47 47 48 48 48 48 48 48 48 48 49 49 49 49 49 49 50 50 50
 object               : 13 16
 objects              : 12 13 14 14 15 15
 param                : 26 27
@@ -188,8 +193,13 @@ state 6
 state 7
 
     (11) directive -> TRANSFORM . matrix
-    (44) matrix -> . LBRACKET number number number number number number number number number number number number number number number number RBRACKET
-    (45) matrix -> . LBRACKET number number number RBRACKET
+    (44) matrix -> . LBRACKET number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number RBRACKET
+    (45) matrix -> . LBRACKET number number number number number number number number number number number number number number number number number number number number number number number number RBRACKET
+    (46) matrix -> . LBRACKET number number number number number number number number number number number number number number number number RBRACKET
+    (47) matrix -> . LBRACKET number number number number number number number number number number number number RBRACKET
+    (48) matrix -> . LBRACKET number number number number number number number number RBRACKET
+    (49) matrix -> . LBRACKET number number number number number number RBRACKET
+    (50) matrix -> . LBRACKET number number number RBRACKET
 
     LBRACKET        shift and go to state 15
 
@@ -243,7 +253,7 @@ state 10
     (23) object -> . AREALIGHTSOURCE QUOTE SCONST QUOTE params
     (24) object -> . TRANSFORM matrix
     (25) object -> . empty
-    (48) empty -> .
+    (53) empty -> .
 
   ! shift/reduce conflict for SHAPE resolved as shift
   ! shift/reduce conflict for MAKENAMEDMATERIAL resolved as shift
@@ -261,18 +271,18 @@ state 10
     LIGHTSOURCE     shift and go to state 20
     AREALIGHTSOURCE shift and go to state 24
     TRANSFORM       shift and go to state 21
-    WORLDEND        reduce using rule 48 (empty -> .)
-    ATTRIBUTEBEGIN  reduce using rule 48 (empty -> .)
-    TRANSFORMBEGIN  reduce using rule 48 (empty -> .)
+    WORLDEND        reduce using rule 53 (empty -> .)
+    ATTRIBUTEBEGIN  reduce using rule 53 (empty -> .)
+    TRANSFORMBEGIN  reduce using rule 53 (empty -> .)
 
-  ! SHAPE           [ reduce using rule 48 (empty -> .) ]
-  ! MAKENAMEDMATERIAL [ reduce using rule 48 (empty -> .) ]
-  ! MATERIAL        [ reduce using rule 48 (empty -> .) ]
-  ! NAMEDMATERIAL   [ reduce using rule 48 (empty -> .) ]
-  ! TEXTURE         [ reduce using rule 48 (empty -> .) ]
-  ! LIGHTSOURCE     [ reduce using rule 48 (empty -> .) ]
-  ! AREALIGHTSOURCE [ reduce using rule 48 (empty -> .) ]
-  ! TRANSFORM       [ reduce using rule 48 (empty -> .) ]
+  ! SHAPE           [ reduce using rule 53 (empty -> .) ]
+  ! MAKENAMEDMATERIAL [ reduce using rule 53 (empty -> .) ]
+  ! MATERIAL        [ reduce using rule 53 (empty -> .) ]
+  ! NAMEDMATERIAL   [ reduce using rule 53 (empty -> .) ]
+  ! TEXTURE         [ reduce using rule 53 (empty -> .) ]
+  ! LIGHTSOURCE     [ reduce using rule 53 (empty -> .) ]
+  ! AREALIGHTSOURCE [ reduce using rule 53 (empty -> .) ]
+  ! TRANSFORM       [ reduce using rule 53 (empty -> .) ]
 
     empty                          shift and go to state 29
     objects                        shift and go to state 26
@@ -308,10 +318,15 @@ state 14
 
 state 15
 
-    (44) matrix -> LBRACKET . number number number number number number number number number number number number number number number number RBRACKET
-    (45) matrix -> LBRACKET . number number number RBRACKET
-    (46) number -> . ICONST
-    (47) number -> . FCONST
+    (44) matrix -> LBRACKET . number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number RBRACKET
+    (45) matrix -> LBRACKET . number number number number number number number number number number number number number number number number number number number number number number number number RBRACKET
+    (46) matrix -> LBRACKET . number number number number number number number number number number number number number number number number RBRACKET
+    (47) matrix -> LBRACKET . number number number number number number number number number number number number RBRACKET
+    (48) matrix -> LBRACKET . number number number number number number number number RBRACKET
+    (49) matrix -> LBRACKET . number number number number number number RBRACKET
+    (50) matrix -> LBRACKET . number number number RBRACKET
+    (51) number -> . ICONST
+    (52) number -> . FCONST
 
     ICONST          shift and go to state 35
     FCONST          shift and go to state 37
@@ -370,8 +385,13 @@ state 20
 state 21
 
     (24) object -> TRANSFORM . matrix
-    (44) matrix -> . LBRACKET number number number number number number number number number number number number number number number number RBRACKET
-    (45) matrix -> . LBRACKET number number number RBRACKET
+    (44) matrix -> . LBRACKET number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number RBRACKET
+    (45) matrix -> . LBRACKET number number number number number number number number number number number number number number number number number number number number number number number number RBRACKET
+    (46) matrix -> . LBRACKET number number number number number number number number number number number number number number number number RBRACKET
+    (47) matrix -> . LBRACKET number number number number number number number number number number number number RBRACKET
+    (48) matrix -> . LBRACKET number number number number number number number number RBRACKET
+    (49) matrix -> . LBRACKET number number number number number number RBRACKET
+    (50) matrix -> . LBRACKET number number number RBRACKET
 
     LBRACKET        shift and go to state 15
 
@@ -432,7 +452,7 @@ state 26
     (23) object -> . AREALIGHTSOURCE QUOTE SCONST QUOTE params
     (24) object -> . TRANSFORM matrix
     (25) object -> . empty
-    (48) empty -> .
+    (53) empty -> .
 
   ! shift/reduce conflict for WORLDEND resolved as shift
   ! shift/reduce conflict for ATTRIBUTEBEGIN resolved as shift
@@ -457,17 +477,17 @@ state 26
     AREALIGHTSOURCE shift and go to state 24
     TRANSFORM       shift and go to state 21
 
-  ! WORLDEND        [ reduce using rule 48 (empty -> .) ]
-  ! ATTRIBUTEBEGIN  [ reduce using rule 48 (empty -> .) ]
-  ! TRANSFORMBEGIN  [ reduce using rule 48 (empty -> .) ]
-  ! SHAPE           [ reduce using rule 48 (empty -> .) ]
-  ! MAKENAMEDMATERIAL [ reduce using rule 48 (empty -> .) ]
-  ! MATERIAL        [ reduce using rule 48 (empty -> .) ]
-  ! NAMEDMATERIAL   [ reduce using rule 48 (empty -> .) ]
-  ! TEXTURE         [ reduce using rule 48 (empty -> .) ]
-  ! LIGHTSOURCE     [ reduce using rule 48 (empty -> .) ]
-  ! AREALIGHTSOURCE [ reduce using rule 48 (empty -> .) ]
-  ! TRANSFORM       [ reduce using rule 48 (empty -> .) ]
+  ! WORLDEND        [ reduce using rule 53 (empty -> .) ]
+  ! ATTRIBUTEBEGIN  [ reduce using rule 53 (empty -> .) ]
+  ! TRANSFORMBEGIN  [ reduce using rule 53 (empty -> .) ]
+  ! SHAPE           [ reduce using rule 53 (empty -> .) ]
+  ! MAKENAMEDMATERIAL [ reduce using rule 53 (empty -> .) ]
+  ! MATERIAL        [ reduce using rule 53 (empty -> .) ]
+  ! NAMEDMATERIAL   [ reduce using rule 53 (empty -> .) ]
+  ! TEXTURE         [ reduce using rule 53 (empty -> .) ]
+  ! LIGHTSOURCE     [ reduce using rule 53 (empty -> .) ]
+  ! AREALIGHTSOURCE [ reduce using rule 53 (empty -> .) ]
+  ! TRANSFORM       [ reduce using rule 53 (empty -> .) ]
 
     empty                          shift and go to state 29
     object                         shift and go to state 44
@@ -542,19 +562,24 @@ state 34
 
 state 35
 
-    (46) number -> ICONST .
+    (51) number -> ICONST .
 
-    RBRACKET        reduce using rule 46 (number -> ICONST .)
-    ICONST          reduce using rule 46 (number -> ICONST .)
-    FCONST          reduce using rule 46 (number -> ICONST .)
+    ICONST          reduce using rule 51 (number -> ICONST .)
+    FCONST          reduce using rule 51 (number -> ICONST .)
+    RBRACKET        reduce using rule 51 (number -> ICONST .)
 
 
 state 36
 
-    (44) matrix -> LBRACKET number . number number number number number number number number number number number number number number number RBRACKET
-    (45) matrix -> LBRACKET number . number number RBRACKET
-    (46) number -> . ICONST
-    (47) number -> . FCONST
+    (44) matrix -> LBRACKET number . number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number RBRACKET
+    (45) matrix -> LBRACKET number . number number number number number number number number number number number number number number number number number number number number number number number RBRACKET
+    (46) matrix -> LBRACKET number . number number number number number number number number number number number number number number number RBRACKET
+    (47) matrix -> LBRACKET number . number number number number number number number number number number number RBRACKET
+    (48) matrix -> LBRACKET number . number number number number number number number RBRACKET
+    (49) matrix -> LBRACKET number . number number number number number RBRACKET
+    (50) matrix -> LBRACKET number . number number RBRACKET
+    (51) number -> . ICONST
+    (52) number -> . FCONST
 
     ICONST          shift and go to state 35
     FCONST          shift and go to state 37
@@ -563,11 +588,11 @@ state 36
 
 state 37
 
-    (47) number -> FCONST .
+    (52) number -> FCONST .
 
-    RBRACKET        reduce using rule 47 (number -> FCONST .)
-    ICONST          reduce using rule 47 (number -> FCONST .)
-    FCONST          reduce using rule 47 (number -> FCONST .)
+    ICONST          reduce using rule 52 (number -> FCONST .)
+    FCONST          reduce using rule 52 (number -> FCONST .)
+    RBRACKET        reduce using rule 52 (number -> FCONST .)
 
 
 state 38
@@ -659,7 +684,7 @@ state 45
     (23) object -> . AREALIGHTSOURCE QUOTE SCONST QUOTE params
     (24) object -> . TRANSFORM matrix
     (25) object -> . empty
-    (48) empty -> .
+    (53) empty -> .
 
   ! shift/reduce conflict for SHAPE resolved as shift
   ! shift/reduce conflict for MAKENAMEDMATERIAL resolved as shift
@@ -677,18 +702,18 @@ state 45
     LIGHTSOURCE     shift and go to state 20
     AREALIGHTSOURCE shift and go to state 24
     TRANSFORM       shift and go to state 21
-    TRANSFORMEND    reduce using rule 48 (empty -> .)
-    ATTRIBUTEBEGIN  reduce using rule 48 (empty -> .)
-    TRANSFORMBEGIN  reduce using rule 48 (empty -> .)
+    TRANSFORMEND    reduce using rule 53 (empty -> .)
+    ATTRIBUTEBEGIN  reduce using rule 53 (empty -> .)
+    TRANSFORMBEGIN  reduce using rule 53 (empty -> .)
 
-  ! SHAPE           [ reduce using rule 48 (empty -> .) ]
-  ! MAKENAMEDMATERIAL [ reduce using rule 48 (empty -> .) ]
-  ! MATERIAL        [ reduce using rule 48 (empty -> .) ]
-  ! NAMEDMATERIAL   [ reduce using rule 48 (empty -> .) ]
-  ! TEXTURE         [ reduce using rule 48 (empty -> .) ]
-  ! LIGHTSOURCE     [ reduce using rule 48 (empty -> .) ]
-  ! AREALIGHTSOURCE [ reduce using rule 48 (empty -> .) ]
-  ! TRANSFORM       [ reduce using rule 48 (empty -> .) ]
+  ! SHAPE           [ reduce using rule 53 (empty -> .) ]
+  ! MAKENAMEDMATERIAL [ reduce using rule 53 (empty -> .) ]
+  ! MATERIAL        [ reduce using rule 53 (empty -> .) ]
+  ! NAMEDMATERIAL   [ reduce using rule 53 (empty -> .) ]
+  ! TEXTURE         [ reduce using rule 53 (empty -> .) ]
+  ! LIGHTSOURCE     [ reduce using rule 53 (empty -> .) ]
+  ! AREALIGHTSOURCE [ reduce using rule 53 (empty -> .) ]
+  ! TRANSFORM       [ reduce using rule 53 (empty -> .) ]
 
     empty                          shift and go to state 29
     objects                        shift and go to state 61
@@ -710,7 +735,7 @@ state 46
     (23) object -> . AREALIGHTSOURCE QUOTE SCONST QUOTE params
     (24) object -> . TRANSFORM matrix
     (25) object -> . empty
-    (48) empty -> .
+    (53) empty -> .
 
   ! shift/reduce conflict for SHAPE resolved as shift
   ! shift/reduce conflict for MAKENAMEDMATERIAL resolved as shift
@@ -728,18 +753,18 @@ state 46
     LIGHTSOURCE     shift and go to state 20
     AREALIGHTSOURCE shift and go to state 24
     TRANSFORM       shift and go to state 21
-    ATTRIBUTEEND    reduce using rule 48 (empty -> .)
-    ATTRIBUTEBEGIN  reduce using rule 48 (empty -> .)
-    TRANSFORMBEGIN  reduce using rule 48 (empty -> .)
+    ATTRIBUTEEND    reduce using rule 53 (empty -> .)
+    ATTRIBUTEBEGIN  reduce using rule 53 (empty -> .)
+    TRANSFORMBEGIN  reduce using rule 53 (empty -> .)
 
-  ! SHAPE           [ reduce using rule 48 (empty -> .) ]
-  ! MAKENAMEDMATERIAL [ reduce using rule 48 (empty -> .) ]
-  ! MATERIAL        [ reduce using rule 48 (empty -> .) ]
-  ! NAMEDMATERIAL   [ reduce using rule 48 (empty -> .) ]
-  ! TEXTURE         [ reduce using rule 48 (empty -> .) ]
-  ! LIGHTSOURCE     [ reduce using rule 48 (empty -> .) ]
-  ! AREALIGHTSOURCE [ reduce using rule 48 (empty -> .) ]
-  ! TRANSFORM       [ reduce using rule 48 (empty -> .) ]
+  ! SHAPE           [ reduce using rule 53 (empty -> .) ]
+  ! MAKENAMEDMATERIAL [ reduce using rule 53 (empty -> .) ]
+  ! MATERIAL        [ reduce using rule 53 (empty -> .) ]
+  ! NAMEDMATERIAL   [ reduce using rule 53 (empty -> .) ]
+  ! TEXTURE         [ reduce using rule 53 (empty -> .) ]
+  ! LIGHTSOURCE     [ reduce using rule 53 (empty -> .) ]
+  ! AREALIGHTSOURCE [ reduce using rule 53 (empty -> .) ]
+  ! TRANSFORM       [ reduce using rule 53 (empty -> .) ]
 
     empty                          shift and go to state 29
     objects                        shift and go to state 62
@@ -794,20 +819,20 @@ state 52
     (34) param -> . QUOTE NORMAL SCONST QUOTE value
     (35) param -> . QUOTE TEX SCONST QUOTE value
     (36) param -> . empty
-    (48) empty -> .
+    (53) empty -> .
 
   ! shift/reduce conflict for QUOTE resolved as shift
     QUOTE           shift and go to state 67
-    WORLDBEGIN      reduce using rule 48 (empty -> .)
-    INTEGRATOR      reduce using rule 48 (empty -> .)
-    FILM            reduce using rule 48 (empty -> .)
-    SAMPLER         reduce using rule 48 (empty -> .)
-    FILTER          reduce using rule 48 (empty -> .)
-    CAMERA          reduce using rule 48 (empty -> .)
-    TRANSFORM       reduce using rule 48 (empty -> .)
-    $end            reduce using rule 48 (empty -> .)
+    WORLDBEGIN      reduce using rule 53 (empty -> .)
+    INTEGRATOR      reduce using rule 53 (empty -> .)
+    FILM            reduce using rule 53 (empty -> .)
+    SAMPLER         reduce using rule 53 (empty -> .)
+    FILTER          reduce using rule 53 (empty -> .)
+    CAMERA          reduce using rule 53 (empty -> .)
+    TRANSFORM       reduce using rule 53 (empty -> .)
+    $end            reduce using rule 53 (empty -> .)
 
-  ! QUOTE           [ reduce using rule 48 (empty -> .) ]
+  ! QUOTE           [ reduce using rule 53 (empty -> .) ]
 
     empty                          shift and go to state 70
     params                         shift and go to state 69
@@ -827,20 +852,20 @@ state 53
     (34) param -> . QUOTE NORMAL SCONST QUOTE value
     (35) param -> . QUOTE TEX SCONST QUOTE value
     (36) param -> . empty
-    (48) empty -> .
+    (53) empty -> .
 
   ! shift/reduce conflict for QUOTE resolved as shift
     QUOTE           shift and go to state 67
-    WORLDBEGIN      reduce using rule 48 (empty -> .)
-    INTEGRATOR      reduce using rule 48 (empty -> .)
-    FILM            reduce using rule 48 (empty -> .)
-    SAMPLER         reduce using rule 48 (empty -> .)
-    FILTER          reduce using rule 48 (empty -> .)
-    CAMERA          reduce using rule 48 (empty -> .)
-    TRANSFORM       reduce using rule 48 (empty -> .)
-    $end            reduce using rule 48 (empty -> .)
+    WORLDBEGIN      reduce using rule 53 (empty -> .)
+    INTEGRATOR      reduce using rule 53 (empty -> .)
+    FILM            reduce using rule 53 (empty -> .)
+    SAMPLER         reduce using rule 53 (empty -> .)
+    FILTER          reduce using rule 53 (empty -> .)
+    CAMERA          reduce using rule 53 (empty -> .)
+    TRANSFORM       reduce using rule 53 (empty -> .)
+    $end            reduce using rule 53 (empty -> .)
 
-  ! QUOTE           [ reduce using rule 48 (empty -> .) ]
+  ! QUOTE           [ reduce using rule 53 (empty -> .) ]
 
     empty                          shift and go to state 70
     params                         shift and go to state 71
@@ -860,20 +885,20 @@ state 54
     (34) param -> . QUOTE NORMAL SCONST QUOTE value
     (35) param -> . QUOTE TEX SCONST QUOTE value
     (36) param -> . empty
-    (48) empty -> .
+    (53) empty -> .
 
   ! shift/reduce conflict for QUOTE resolved as shift
     QUOTE           shift and go to state 67
-    WORLDBEGIN      reduce using rule 48 (empty -> .)
-    INTEGRATOR      reduce using rule 48 (empty -> .)
-    FILM            reduce using rule 48 (empty -> .)
-    SAMPLER         reduce using rule 48 (empty -> .)
-    FILTER          reduce using rule 48 (empty -> .)
-    CAMERA          reduce using rule 48 (empty -> .)
-    TRANSFORM       reduce using rule 48 (empty -> .)
-    $end            reduce using rule 48 (empty -> .)
+    WORLDBEGIN      reduce using rule 53 (empty -> .)
+    INTEGRATOR      reduce using rule 53 (empty -> .)
+    FILM            reduce using rule 53 (empty -> .)
+    SAMPLER         reduce using rule 53 (empty -> .)
+    FILTER          reduce using rule 53 (empty -> .)
+    CAMERA          reduce using rule 53 (empty -> .)
+    TRANSFORM       reduce using rule 53 (empty -> .)
+    $end            reduce using rule 53 (empty -> .)
 
-  ! QUOTE           [ reduce using rule 48 (empty -> .) ]
+  ! QUOTE           [ reduce using rule 53 (empty -> .) ]
 
     empty                          shift and go to state 70
     params                         shift and go to state 72
@@ -881,10 +906,15 @@ state 54
 
 state 55
 
-    (44) matrix -> LBRACKET number number . number number number number number number number number number number number number number number RBRACKET
-    (45) matrix -> LBRACKET number number . number RBRACKET
-    (46) number -> . ICONST
-    (47) number -> . FCONST
+    (44) matrix -> LBRACKET number number . number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number RBRACKET
+    (45) matrix -> LBRACKET number number . number number number number number number number number number number number number number number number number number number number number number number RBRACKET
+    (46) matrix -> LBRACKET number number . number number number number number number number number number number number number number number RBRACKET
+    (47) matrix -> LBRACKET number number . number number number number number number number number number number RBRACKET
+    (48) matrix -> LBRACKET number number . number number number number number number RBRACKET
+    (49) matrix -> LBRACKET number number . number number number number RBRACKET
+    (50) matrix -> LBRACKET number number . number RBRACKET
+    (51) number -> . ICONST
+    (52) number -> . FCONST
 
     ICONST          shift and go to state 35
     FCONST          shift and go to state 37
@@ -905,20 +935,20 @@ state 56
     (34) param -> . QUOTE NORMAL SCONST QUOTE value
     (35) param -> . QUOTE TEX SCONST QUOTE value
     (36) param -> . empty
-    (48) empty -> .
+    (53) empty -> .
 
   ! shift/reduce conflict for QUOTE resolved as shift
     QUOTE           shift and go to state 67
-    WORLDBEGIN      reduce using rule 48 (empty -> .)
-    INTEGRATOR      reduce using rule 48 (empty -> .)
-    FILM            reduce using rule 48 (empty -> .)
-    SAMPLER         reduce using rule 48 (empty -> .)
-    FILTER          reduce using rule 48 (empty -> .)
-    CAMERA          reduce using rule 48 (empty -> .)
-    TRANSFORM       reduce using rule 48 (empty -> .)
-    $end            reduce using rule 48 (empty -> .)
+    WORLDBEGIN      reduce using rule 53 (empty -> .)
+    INTEGRATOR      reduce using rule 53 (empty -> .)
+    FILM            reduce using rule 53 (empty -> .)
+    SAMPLER         reduce using rule 53 (empty -> .)
+    FILTER          reduce using rule 53 (empty -> .)
+    CAMERA          reduce using rule 53 (empty -> .)
+    TRANSFORM       reduce using rule 53 (empty -> .)
+    $end            reduce using rule 53 (empty -> .)
 
-  ! QUOTE           [ reduce using rule 48 (empty -> .) ]
+  ! QUOTE           [ reduce using rule 53 (empty -> .) ]
 
     empty                          shift and go to state 70
     params                         shift and go to state 74
@@ -967,7 +997,7 @@ state 61
     (23) object -> . AREALIGHTSOURCE QUOTE SCONST QUOTE params
     (24) object -> . TRANSFORM matrix
     (25) object -> . empty
-    (48) empty -> .
+    (53) empty -> .
 
   ! shift/reduce conflict for TRANSFORMEND resolved as shift
   ! shift/reduce conflict for ATTRIBUTEBEGIN resolved as shift
@@ -992,17 +1022,17 @@ state 61
     AREALIGHTSOURCE shift and go to state 24
     TRANSFORM       shift and go to state 21
 
-  ! TRANSFORMEND    [ reduce using rule 48 (empty -> .) ]
-  ! ATTRIBUTEBEGIN  [ reduce using rule 48 (empty -> .) ]
-  ! TRANSFORMBEGIN  [ reduce using rule 48 (empty -> .) ]
-  ! SHAPE           [ reduce using rule 48 (empty -> .) ]
-  ! MAKENAMEDMATERIAL [ reduce using rule 48 (empty -> .) ]
-  ! MATERIAL        [ reduce using rule 48 (empty -> .) ]
-  ! NAMEDMATERIAL   [ reduce using rule 48 (empty -> .) ]
-  ! TEXTURE         [ reduce using rule 48 (empty -> .) ]
-  ! LIGHTSOURCE     [ reduce using rule 48 (empty -> .) ]
-  ! AREALIGHTSOURCE [ reduce using rule 48 (empty -> .) ]
-  ! TRANSFORM       [ reduce using rule 48 (empty -> .) ]
+  ! TRANSFORMEND    [ reduce using rule 53 (empty -> .) ]
+  ! ATTRIBUTEBEGIN  [ reduce using rule 53 (empty -> .) ]
+  ! TRANSFORMBEGIN  [ reduce using rule 53 (empty -> .) ]
+  ! SHAPE           [ reduce using rule 53 (empty -> .) ]
+  ! MAKENAMEDMATERIAL [ reduce using rule 53 (empty -> .) ]
+  ! MATERIAL        [ reduce using rule 53 (empty -> .) ]
+  ! NAMEDMATERIAL   [ reduce using rule 53 (empty -> .) ]
+  ! TEXTURE         [ reduce using rule 53 (empty -> .) ]
+  ! LIGHTSOURCE     [ reduce using rule 53 (empty -> .) ]
+  ! AREALIGHTSOURCE [ reduce using rule 53 (empty -> .) ]
+  ! TRANSFORM       [ reduce using rule 53 (empty -> .) ]
 
     empty                          shift and go to state 29
     object                         shift and go to state 44
@@ -1022,7 +1052,7 @@ state 62
     (23) object -> . AREALIGHTSOURCE QUOTE SCONST QUOTE params
     (24) object -> . TRANSFORM matrix
     (25) object -> . empty
-    (48) empty -> .
+    (53) empty -> .
 
   ! shift/reduce conflict for ATTRIBUTEEND resolved as shift
   ! shift/reduce conflict for ATTRIBUTEBEGIN resolved as shift
@@ -1047,17 +1077,17 @@ state 62
     AREALIGHTSOURCE shift and go to state 24
     TRANSFORM       shift and go to state 21
 
-  ! ATTRIBUTEEND    [ reduce using rule 48 (empty -> .) ]
-  ! ATTRIBUTEBEGIN  [ reduce using rule 48 (empty -> .) ]
-  ! TRANSFORMBEGIN  [ reduce using rule 48 (empty -> .) ]
-  ! SHAPE           [ reduce using rule 48 (empty -> .) ]
-  ! MAKENAMEDMATERIAL [ reduce using rule 48 (empty -> .) ]
-  ! MATERIAL        [ reduce using rule 48 (empty -> .) ]
-  ! NAMEDMATERIAL   [ reduce using rule 48 (empty -> .) ]
-  ! TEXTURE         [ reduce using rule 48 (empty -> .) ]
-  ! LIGHTSOURCE     [ reduce using rule 48 (empty -> .) ]
-  ! AREALIGHTSOURCE [ reduce using rule 48 (empty -> .) ]
-  ! TRANSFORM       [ reduce using rule 48 (empty -> .) ]
+  ! ATTRIBUTEEND    [ reduce using rule 53 (empty -> .) ]
+  ! ATTRIBUTEBEGIN  [ reduce using rule 53 (empty -> .) ]
+  ! TRANSFORMBEGIN  [ reduce using rule 53 (empty -> .) ]
+  ! SHAPE           [ reduce using rule 53 (empty -> .) ]
+  ! MAKENAMEDMATERIAL [ reduce using rule 53 (empty -> .) ]
+  ! MATERIAL        [ reduce using rule 53 (empty -> .) ]
+  ! NAMEDMATERIAL   [ reduce using rule 53 (empty -> .) ]
+  ! TEXTURE         [ reduce using rule 53 (empty -> .) ]
+  ! LIGHTSOURCE     [ reduce using rule 53 (empty -> .) ]
+  ! AREALIGHTSOURCE [ reduce using rule 53 (empty -> .) ]
+  ! TRANSFORM       [ reduce using rule 53 (empty -> .) ]
 
     empty                          shift and go to state 29
     object                         shift and go to state 44
@@ -1097,20 +1127,20 @@ state 66
     (34) param -> . QUOTE NORMAL SCONST QUOTE value
     (35) param -> . QUOTE TEX SCONST QUOTE value
     (36) param -> . empty
-    (48) empty -> .
+    (53) empty -> .
 
   ! shift/reduce conflict for QUOTE resolved as shift
     QUOTE           shift and go to state 67
-    WORLDBEGIN      reduce using rule 48 (empty -> .)
-    INTEGRATOR      reduce using rule 48 (empty -> .)
-    FILM            reduce using rule 48 (empty -> .)
-    SAMPLER         reduce using rule 48 (empty -> .)
-    FILTER          reduce using rule 48 (empty -> .)
-    CAMERA          reduce using rule 48 (empty -> .)
-    TRANSFORM       reduce using rule 48 (empty -> .)
-    $end            reduce using rule 48 (empty -> .)
+    WORLDBEGIN      reduce using rule 53 (empty -> .)
+    INTEGRATOR      reduce using rule 53 (empty -> .)
+    FILM            reduce using rule 53 (empty -> .)
+    SAMPLER         reduce using rule 53 (empty -> .)
+    FILTER          reduce using rule 53 (empty -> .)
+    CAMERA          reduce using rule 53 (empty -> .)
+    TRANSFORM       reduce using rule 53 (empty -> .)
+    $end            reduce using rule 53 (empty -> .)
 
-  ! QUOTE           [ reduce using rule 48 (empty -> .) ]
+  ! QUOTE           [ reduce using rule 53 (empty -> .) ]
 
     empty                          shift and go to state 70
     params                         shift and go to state 84
@@ -1142,14 +1172,6 @@ state 68
     (27) params -> param .
 
     QUOTE           reduce using rule 27 (params -> param .)
-    WORLDBEGIN      reduce using rule 27 (params -> param .)
-    INTEGRATOR      reduce using rule 27 (params -> param .)
-    FILM            reduce using rule 27 (params -> param .)
-    SAMPLER         reduce using rule 27 (params -> param .)
-    FILTER          reduce using rule 27 (params -> param .)
-    CAMERA          reduce using rule 27 (params -> param .)
-    TRANSFORM       reduce using rule 27 (params -> param .)
-    $end            reduce using rule 27 (params -> param .)
     WORLDEND        reduce using rule 27 (params -> param .)
     ATTRIBUTEBEGIN  reduce using rule 27 (params -> param .)
     TRANSFORMBEGIN  reduce using rule 27 (params -> param .)
@@ -1160,8 +1182,16 @@ state 68
     TEXTURE         reduce using rule 27 (params -> param .)
     LIGHTSOURCE     reduce using rule 27 (params -> param .)
     AREALIGHTSOURCE reduce using rule 27 (params -> param .)
+    TRANSFORM       reduce using rule 27 (params -> param .)
     TRANSFORMEND    reduce using rule 27 (params -> param .)
     ATTRIBUTEEND    reduce using rule 27 (params -> param .)
+    WORLDBEGIN      reduce using rule 27 (params -> param .)
+    INTEGRATOR      reduce using rule 27 (params -> param .)
+    FILM            reduce using rule 27 (params -> param .)
+    SAMPLER         reduce using rule 27 (params -> param .)
+    FILTER          reduce using rule 27 (params -> param .)
+    CAMERA          reduce using rule 27 (params -> param .)
+    $end            reduce using rule 27 (params -> param .)
 
 
 state 69
@@ -1177,7 +1207,7 @@ state 69
     (34) param -> . QUOTE NORMAL SCONST QUOTE value
     (35) param -> . QUOTE TEX SCONST QUOTE value
     (36) param -> . empty
-    (48) empty -> .
+    (53) empty -> .
 
   ! shift/reduce conflict for QUOTE resolved as shift
   ! reduce/reduce conflict for WORLDBEGIN resolved using rule 10 (directive -> CAMERA QUOTE SCONST QUOTE params .)
@@ -1198,15 +1228,15 @@ state 69
     $end            reduce using rule 10 (directive -> CAMERA QUOTE SCONST QUOTE params .)
     QUOTE           shift and go to state 67
 
-  ! QUOTE           [ reduce using rule 48 (empty -> .) ]
-  ! WORLDBEGIN      [ reduce using rule 48 (empty -> .) ]
-  ! INTEGRATOR      [ reduce using rule 48 (empty -> .) ]
-  ! FILM            [ reduce using rule 48 (empty -> .) ]
-  ! SAMPLER         [ reduce using rule 48 (empty -> .) ]
-  ! FILTER          [ reduce using rule 48 (empty -> .) ]
-  ! CAMERA          [ reduce using rule 48 (empty -> .) ]
-  ! TRANSFORM       [ reduce using rule 48 (empty -> .) ]
-  ! $end            [ reduce using rule 48 (empty -> .) ]
+  ! QUOTE           [ reduce using rule 53 (empty -> .) ]
+  ! WORLDBEGIN      [ reduce using rule 53 (empty -> .) ]
+  ! INTEGRATOR      [ reduce using rule 53 (empty -> .) ]
+  ! FILM            [ reduce using rule 53 (empty -> .) ]
+  ! SAMPLER         [ reduce using rule 53 (empty -> .) ]
+  ! FILTER          [ reduce using rule 53 (empty -> .) ]
+  ! CAMERA          [ reduce using rule 53 (empty -> .) ]
+  ! TRANSFORM       [ reduce using rule 53 (empty -> .) ]
+  ! $end            [ reduce using rule 53 (empty -> .) ]
 
     empty                          shift and go to state 70
     param                          shift and go to state 93
@@ -1251,7 +1281,7 @@ state 71
     (34) param -> . QUOTE NORMAL SCONST QUOTE value
     (35) param -> . QUOTE TEX SCONST QUOTE value
     (36) param -> . empty
-    (48) empty -> .
+    (53) empty -> .
 
   ! shift/reduce conflict for QUOTE resolved as shift
   ! reduce/reduce conflict for WORLDBEGIN resolved using rule 6 (directive -> INTEGRATOR QUOTE SCONST QUOTE params .)
@@ -1272,15 +1302,15 @@ state 71
     $end            reduce using rule 6 (directive -> INTEGRATOR QUOTE SCONST QUOTE params .)
     QUOTE           shift and go to state 67
 
-  ! QUOTE           [ reduce using rule 48 (empty -> .) ]
-  ! WORLDBEGIN      [ reduce using rule 48 (empty -> .) ]
-  ! INTEGRATOR      [ reduce using rule 48 (empty -> .) ]
-  ! FILM            [ reduce using rule 48 (empty -> .) ]
-  ! SAMPLER         [ reduce using rule 48 (empty -> .) ]
-  ! FILTER          [ reduce using rule 48 (empty -> .) ]
-  ! CAMERA          [ reduce using rule 48 (empty -> .) ]
-  ! TRANSFORM       [ reduce using rule 48 (empty -> .) ]
-  ! $end            [ reduce using rule 48 (empty -> .) ]
+  ! QUOTE           [ reduce using rule 53 (empty -> .) ]
+  ! WORLDBEGIN      [ reduce using rule 53 (empty -> .) ]
+  ! INTEGRATOR      [ reduce using rule 53 (empty -> .) ]
+  ! FILM            [ reduce using rule 53 (empty -> .) ]
+  ! SAMPLER         [ reduce using rule 53 (empty -> .) ]
+  ! FILTER          [ reduce using rule 53 (empty -> .) ]
+  ! CAMERA          [ reduce using rule 53 (empty -> .) ]
+  ! TRANSFORM       [ reduce using rule 53 (empty -> .) ]
+  ! $end            [ reduce using rule 53 (empty -> .) ]
 
     empty                          shift and go to state 70
     param                          shift and go to state 93
@@ -1298,7 +1328,7 @@ state 72
     (34) param -> . QUOTE NORMAL SCONST QUOTE value
     (35) param -> . QUOTE TEX SCONST QUOTE value
     (36) param -> . empty
-    (48) empty -> .
+    (53) empty -> .
 
   ! shift/reduce conflict for QUOTE resolved as shift
   ! reduce/reduce conflict for WORLDBEGIN resolved using rule 8 (directive -> SAMPLER QUOTE SCONST QUOTE params .)
@@ -1319,25 +1349,30 @@ state 72
     $end            reduce using rule 8 (directive -> SAMPLER QUOTE SCONST QUOTE params .)
     QUOTE           shift and go to state 67
 
-  ! QUOTE           [ reduce using rule 48 (empty -> .) ]
-  ! WORLDBEGIN      [ reduce using rule 48 (empty -> .) ]
-  ! INTEGRATOR      [ reduce using rule 48 (empty -> .) ]
-  ! FILM            [ reduce using rule 48 (empty -> .) ]
-  ! SAMPLER         [ reduce using rule 48 (empty -> .) ]
-  ! FILTER          [ reduce using rule 48 (empty -> .) ]
-  ! CAMERA          [ reduce using rule 48 (empty -> .) ]
-  ! TRANSFORM       [ reduce using rule 48 (empty -> .) ]
-  ! $end            [ reduce using rule 48 (empty -> .) ]
+  ! QUOTE           [ reduce using rule 53 (empty -> .) ]
+  ! WORLDBEGIN      [ reduce using rule 53 (empty -> .) ]
+  ! INTEGRATOR      [ reduce using rule 53 (empty -> .) ]
+  ! FILM            [ reduce using rule 53 (empty -> .) ]
+  ! SAMPLER         [ reduce using rule 53 (empty -> .) ]
+  ! FILTER          [ reduce using rule 53 (empty -> .) ]
+  ! CAMERA          [ reduce using rule 53 (empty -> .) ]
+  ! TRANSFORM       [ reduce using rule 53 (empty -> .) ]
+  ! $end            [ reduce using rule 53 (empty -> .) ]
 
     empty                          shift and go to state 70
     param                          shift and go to state 93
 
 state 73
 
-    (44) matrix -> LBRACKET number number number . number number number number number number number number number number number number number RBRACKET
-    (45) matrix -> LBRACKET number number number . RBRACKET
-    (46) number -> . ICONST
-    (47) number -> . FCONST
+    (44) matrix -> LBRACKET number number number . number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number RBRACKET
+    (45) matrix -> LBRACKET number number number . number number number number number number number number number number number number number number number number number number number number number RBRACKET
+    (46) matrix -> LBRACKET number number number . number number number number number number number number number number number number number RBRACKET
+    (47) matrix -> LBRACKET number number number . number number number number number number number number number RBRACKET
+    (48) matrix -> LBRACKET number number number . number number number number number RBRACKET
+    (49) matrix -> LBRACKET number number number . number number number RBRACKET
+    (50) matrix -> LBRACKET number number number . RBRACKET
+    (51) number -> . ICONST
+    (52) number -> . FCONST
 
     RBRACKET        shift and go to state 94
     ICONST          shift and go to state 35
@@ -1358,7 +1393,7 @@ state 74
     (34) param -> . QUOTE NORMAL SCONST QUOTE value
     (35) param -> . QUOTE TEX SCONST QUOTE value
     (36) param -> . empty
-    (48) empty -> .
+    (53) empty -> .
 
   ! shift/reduce conflict for QUOTE resolved as shift
   ! reduce/reduce conflict for WORLDBEGIN resolved using rule 9 (directive -> FILTER QUOTE SCONST QUOTE params .)
@@ -1379,15 +1414,15 @@ state 74
     $end            reduce using rule 9 (directive -> FILTER QUOTE SCONST QUOTE params .)
     QUOTE           shift and go to state 67
 
-  ! QUOTE           [ reduce using rule 48 (empty -> .) ]
-  ! WORLDBEGIN      [ reduce using rule 48 (empty -> .) ]
-  ! INTEGRATOR      [ reduce using rule 48 (empty -> .) ]
-  ! FILM            [ reduce using rule 48 (empty -> .) ]
-  ! SAMPLER         [ reduce using rule 48 (empty -> .) ]
-  ! FILTER          [ reduce using rule 48 (empty -> .) ]
-  ! CAMERA          [ reduce using rule 48 (empty -> .) ]
-  ! TRANSFORM       [ reduce using rule 48 (empty -> .) ]
-  ! $end            [ reduce using rule 48 (empty -> .) ]
+  ! QUOTE           [ reduce using rule 53 (empty -> .) ]
+  ! WORLDBEGIN      [ reduce using rule 53 (empty -> .) ]
+  ! INTEGRATOR      [ reduce using rule 53 (empty -> .) ]
+  ! FILM            [ reduce using rule 53 (empty -> .) ]
+  ! SAMPLER         [ reduce using rule 53 (empty -> .) ]
+  ! FILTER          [ reduce using rule 53 (empty -> .) ]
+  ! CAMERA          [ reduce using rule 53 (empty -> .) ]
+  ! TRANSFORM       [ reduce using rule 53 (empty -> .) ]
+  ! $end            [ reduce using rule 53 (empty -> .) ]
 
     empty                          shift and go to state 70
     param                          shift and go to state 93
@@ -1406,25 +1441,25 @@ state 75
     (34) param -> . QUOTE NORMAL SCONST QUOTE value
     (35) param -> . QUOTE TEX SCONST QUOTE value
     (36) param -> . empty
-    (48) empty -> .
+    (53) empty -> .
 
   ! shift/reduce conflict for QUOTE resolved as shift
     QUOTE           shift and go to state 67
-    WORLDEND        reduce using rule 48 (empty -> .)
-    ATTRIBUTEBEGIN  reduce using rule 48 (empty -> .)
-    TRANSFORMBEGIN  reduce using rule 48 (empty -> .)
-    SHAPE           reduce using rule 48 (empty -> .)
-    MAKENAMEDMATERIAL reduce using rule 48 (empty -> .)
-    MATERIAL        reduce using rule 48 (empty -> .)
-    NAMEDMATERIAL   reduce using rule 48 (empty -> .)
-    TEXTURE         reduce using rule 48 (empty -> .)
-    LIGHTSOURCE     reduce using rule 48 (empty -> .)
-    AREALIGHTSOURCE reduce using rule 48 (empty -> .)
-    TRANSFORM       reduce using rule 48 (empty -> .)
-    TRANSFORMEND    reduce using rule 48 (empty -> .)
-    ATTRIBUTEEND    reduce using rule 48 (empty -> .)
+    WORLDEND        reduce using rule 53 (empty -> .)
+    ATTRIBUTEBEGIN  reduce using rule 53 (empty -> .)
+    TRANSFORMBEGIN  reduce using rule 53 (empty -> .)
+    SHAPE           reduce using rule 53 (empty -> .)
+    MAKENAMEDMATERIAL reduce using rule 53 (empty -> .)
+    MATERIAL        reduce using rule 53 (empty -> .)
+    NAMEDMATERIAL   reduce using rule 53 (empty -> .)
+    TEXTURE         reduce using rule 53 (empty -> .)
+    LIGHTSOURCE     reduce using rule 53 (empty -> .)
+    AREALIGHTSOURCE reduce using rule 53 (empty -> .)
+    TRANSFORM       reduce using rule 53 (empty -> .)
+    TRANSFORMEND    reduce using rule 53 (empty -> .)
+    ATTRIBUTEEND    reduce using rule 53 (empty -> .)
 
-  ! QUOTE           [ reduce using rule 48 (empty -> .) ]
+  ! QUOTE           [ reduce using rule 53 (empty -> .) ]
 
     empty                          shift and go to state 70
     params                         shift and go to state 96
@@ -1463,25 +1498,25 @@ state 77
     (34) param -> . QUOTE NORMAL SCONST QUOTE value
     (35) param -> . QUOTE TEX SCONST QUOTE value
     (36) param -> . empty
-    (48) empty -> .
+    (53) empty -> .
 
   ! shift/reduce conflict for QUOTE resolved as shift
     QUOTE           shift and go to state 67
-    WORLDEND        reduce using rule 48 (empty -> .)
-    ATTRIBUTEBEGIN  reduce using rule 48 (empty -> .)
-    TRANSFORMBEGIN  reduce using rule 48 (empty -> .)
-    SHAPE           reduce using rule 48 (empty -> .)
-    MAKENAMEDMATERIAL reduce using rule 48 (empty -> .)
-    MATERIAL        reduce using rule 48 (empty -> .)
-    NAMEDMATERIAL   reduce using rule 48 (empty -> .)
-    TEXTURE         reduce using rule 48 (empty -> .)
-    LIGHTSOURCE     reduce using rule 48 (empty -> .)
-    AREALIGHTSOURCE reduce using rule 48 (empty -> .)
-    TRANSFORM       reduce using rule 48 (empty -> .)
-    TRANSFORMEND    reduce using rule 48 (empty -> .)
-    ATTRIBUTEEND    reduce using rule 48 (empty -> .)
+    WORLDEND        reduce using rule 53 (empty -> .)
+    ATTRIBUTEBEGIN  reduce using rule 53 (empty -> .)
+    TRANSFORMBEGIN  reduce using rule 53 (empty -> .)
+    SHAPE           reduce using rule 53 (empty -> .)
+    MAKENAMEDMATERIAL reduce using rule 53 (empty -> .)
+    MATERIAL        reduce using rule 53 (empty -> .)
+    NAMEDMATERIAL   reduce using rule 53 (empty -> .)
+    TEXTURE         reduce using rule 53 (empty -> .)
+    LIGHTSOURCE     reduce using rule 53 (empty -> .)
+    AREALIGHTSOURCE reduce using rule 53 (empty -> .)
+    TRANSFORM       reduce using rule 53 (empty -> .)
+    TRANSFORMEND    reduce using rule 53 (empty -> .)
+    ATTRIBUTEEND    reduce using rule 53 (empty -> .)
 
-  ! QUOTE           [ reduce using rule 48 (empty -> .) ]
+  ! QUOTE           [ reduce using rule 53 (empty -> .) ]
 
     empty                          shift and go to state 70
     params                         shift and go to state 97
@@ -1501,25 +1536,25 @@ state 78
     (34) param -> . QUOTE NORMAL SCONST QUOTE value
     (35) param -> . QUOTE TEX SCONST QUOTE value
     (36) param -> . empty
-    (48) empty -> .
+    (53) empty -> .
 
   ! shift/reduce conflict for QUOTE resolved as shift
     QUOTE           shift and go to state 67
-    WORLDEND        reduce using rule 48 (empty -> .)
-    ATTRIBUTEBEGIN  reduce using rule 48 (empty -> .)
-    TRANSFORMBEGIN  reduce using rule 48 (empty -> .)
-    SHAPE           reduce using rule 48 (empty -> .)
-    MAKENAMEDMATERIAL reduce using rule 48 (empty -> .)
-    MATERIAL        reduce using rule 48 (empty -> .)
-    NAMEDMATERIAL   reduce using rule 48 (empty -> .)
-    TEXTURE         reduce using rule 48 (empty -> .)
-    LIGHTSOURCE     reduce using rule 48 (empty -> .)
-    AREALIGHTSOURCE reduce using rule 48 (empty -> .)
-    TRANSFORM       reduce using rule 48 (empty -> .)
-    TRANSFORMEND    reduce using rule 48 (empty -> .)
-    ATTRIBUTEEND    reduce using rule 48 (empty -> .)
+    WORLDEND        reduce using rule 53 (empty -> .)
+    ATTRIBUTEBEGIN  reduce using rule 53 (empty -> .)
+    TRANSFORMBEGIN  reduce using rule 53 (empty -> .)
+    SHAPE           reduce using rule 53 (empty -> .)
+    MAKENAMEDMATERIAL reduce using rule 53 (empty -> .)
+    MATERIAL        reduce using rule 53 (empty -> .)
+    NAMEDMATERIAL   reduce using rule 53 (empty -> .)
+    TEXTURE         reduce using rule 53 (empty -> .)
+    LIGHTSOURCE     reduce using rule 53 (empty -> .)
+    AREALIGHTSOURCE reduce using rule 53 (empty -> .)
+    TRANSFORM       reduce using rule 53 (empty -> .)
+    TRANSFORMEND    reduce using rule 53 (empty -> .)
+    ATTRIBUTEEND    reduce using rule 53 (empty -> .)
 
-  ! QUOTE           [ reduce using rule 48 (empty -> .) ]
+  ! QUOTE           [ reduce using rule 53 (empty -> .) ]
 
     empty                          shift and go to state 70
     params                         shift and go to state 98
@@ -1584,25 +1619,25 @@ state 82
     (34) param -> . QUOTE NORMAL SCONST QUOTE value
     (35) param -> . QUOTE TEX SCONST QUOTE value
     (36) param -> . empty
-    (48) empty -> .
+    (53) empty -> .
 
   ! shift/reduce conflict for QUOTE resolved as shift
     QUOTE           shift and go to state 67
-    WORLDEND        reduce using rule 48 (empty -> .)
-    ATTRIBUTEBEGIN  reduce using rule 48 (empty -> .)
-    TRANSFORMBEGIN  reduce using rule 48 (empty -> .)
-    SHAPE           reduce using rule 48 (empty -> .)
-    MAKENAMEDMATERIAL reduce using rule 48 (empty -> .)
-    MATERIAL        reduce using rule 48 (empty -> .)
-    NAMEDMATERIAL   reduce using rule 48 (empty -> .)
-    TEXTURE         reduce using rule 48 (empty -> .)
-    LIGHTSOURCE     reduce using rule 48 (empty -> .)
-    AREALIGHTSOURCE reduce using rule 48 (empty -> .)
-    TRANSFORM       reduce using rule 48 (empty -> .)
-    TRANSFORMEND    reduce using rule 48 (empty -> .)
-    ATTRIBUTEEND    reduce using rule 48 (empty -> .)
+    WORLDEND        reduce using rule 53 (empty -> .)
+    ATTRIBUTEBEGIN  reduce using rule 53 (empty -> .)
+    TRANSFORMBEGIN  reduce using rule 53 (empty -> .)
+    SHAPE           reduce using rule 53 (empty -> .)
+    MAKENAMEDMATERIAL reduce using rule 53 (empty -> .)
+    MATERIAL        reduce using rule 53 (empty -> .)
+    NAMEDMATERIAL   reduce using rule 53 (empty -> .)
+    TEXTURE         reduce using rule 53 (empty -> .)
+    LIGHTSOURCE     reduce using rule 53 (empty -> .)
+    AREALIGHTSOURCE reduce using rule 53 (empty -> .)
+    TRANSFORM       reduce using rule 53 (empty -> .)
+    TRANSFORMEND    reduce using rule 53 (empty -> .)
+    ATTRIBUTEEND    reduce using rule 53 (empty -> .)
 
-  ! QUOTE           [ reduce using rule 48 (empty -> .) ]
+  ! QUOTE           [ reduce using rule 53 (empty -> .) ]
 
     empty                          shift and go to state 70
     params                         shift and go to state 100
@@ -1622,25 +1657,25 @@ state 83
     (34) param -> . QUOTE NORMAL SCONST QUOTE value
     (35) param -> . QUOTE TEX SCONST QUOTE value
     (36) param -> . empty
-    (48) empty -> .
+    (53) empty -> .
 
   ! shift/reduce conflict for QUOTE resolved as shift
     QUOTE           shift and go to state 67
-    WORLDEND        reduce using rule 48 (empty -> .)
-    ATTRIBUTEBEGIN  reduce using rule 48 (empty -> .)
-    TRANSFORMBEGIN  reduce using rule 48 (empty -> .)
-    SHAPE           reduce using rule 48 (empty -> .)
-    MAKENAMEDMATERIAL reduce using rule 48 (empty -> .)
-    MATERIAL        reduce using rule 48 (empty -> .)
-    NAMEDMATERIAL   reduce using rule 48 (empty -> .)
-    TEXTURE         reduce using rule 48 (empty -> .)
-    LIGHTSOURCE     reduce using rule 48 (empty -> .)
-    AREALIGHTSOURCE reduce using rule 48 (empty -> .)
-    TRANSFORM       reduce using rule 48 (empty -> .)
-    TRANSFORMEND    reduce using rule 48 (empty -> .)
-    ATTRIBUTEEND    reduce using rule 48 (empty -> .)
+    WORLDEND        reduce using rule 53 (empty -> .)
+    ATTRIBUTEBEGIN  reduce using rule 53 (empty -> .)
+    TRANSFORMBEGIN  reduce using rule 53 (empty -> .)
+    SHAPE           reduce using rule 53 (empty -> .)
+    MAKENAMEDMATERIAL reduce using rule 53 (empty -> .)
+    MATERIAL        reduce using rule 53 (empty -> .)
+    NAMEDMATERIAL   reduce using rule 53 (empty -> .)
+    TEXTURE         reduce using rule 53 (empty -> .)
+    LIGHTSOURCE     reduce using rule 53 (empty -> .)
+    AREALIGHTSOURCE reduce using rule 53 (empty -> .)
+    TRANSFORM       reduce using rule 53 (empty -> .)
+    TRANSFORMEND    reduce using rule 53 (empty -> .)
+    ATTRIBUTEEND    reduce using rule 53 (empty -> .)
 
-  ! QUOTE           [ reduce using rule 48 (empty -> .) ]
+  ! QUOTE           [ reduce using rule 53 (empty -> .) ]
 
     empty                          shift and go to state 70
     params                         shift and go to state 101
@@ -1659,7 +1694,7 @@ state 84
     (34) param -> . QUOTE NORMAL SCONST QUOTE value
     (35) param -> . QUOTE TEX SCONST QUOTE value
     (36) param -> . empty
-    (48) empty -> .
+    (53) empty -> .
 
   ! shift/reduce conflict for QUOTE resolved as shift
   ! reduce/reduce conflict for WORLDBEGIN resolved using rule 7 (directive -> FILM QUOTE SCONST QUOTE params .)
@@ -1680,15 +1715,15 @@ state 84
     $end            reduce using rule 7 (directive -> FILM QUOTE SCONST QUOTE params .)
     QUOTE           shift and go to state 67
 
-  ! QUOTE           [ reduce using rule 48 (empty -> .) ]
-  ! WORLDBEGIN      [ reduce using rule 48 (empty -> .) ]
-  ! INTEGRATOR      [ reduce using rule 48 (empty -> .) ]
-  ! FILM            [ reduce using rule 48 (empty -> .) ]
-  ! SAMPLER         [ reduce using rule 48 (empty -> .) ]
-  ! FILTER          [ reduce using rule 48 (empty -> .) ]
-  ! CAMERA          [ reduce using rule 48 (empty -> .) ]
-  ! TRANSFORM       [ reduce using rule 48 (empty -> .) ]
-  ! $end            [ reduce using rule 48 (empty -> .) ]
+  ! QUOTE           [ reduce using rule 53 (empty -> .) ]
+  ! WORLDBEGIN      [ reduce using rule 53 (empty -> .) ]
+  ! INTEGRATOR      [ reduce using rule 53 (empty -> .) ]
+  ! FILM            [ reduce using rule 53 (empty -> .) ]
+  ! SAMPLER         [ reduce using rule 53 (empty -> .) ]
+  ! FILTER          [ reduce using rule 53 (empty -> .) ]
+  ! CAMERA          [ reduce using rule 53 (empty -> .) ]
+  ! TRANSFORM       [ reduce using rule 53 (empty -> .) ]
+  ! $end            [ reduce using rule 53 (empty -> .) ]
 
     empty                          shift and go to state 70
     param                          shift and go to state 93
@@ -1754,14 +1789,6 @@ state 93
     (26) params -> params param .
 
     QUOTE           reduce using rule 26 (params -> params param .)
-    WORLDBEGIN      reduce using rule 26 (params -> params param .)
-    INTEGRATOR      reduce using rule 26 (params -> params param .)
-    FILM            reduce using rule 26 (params -> params param .)
-    SAMPLER         reduce using rule 26 (params -> params param .)
-    FILTER          reduce using rule 26 (params -> params param .)
-    CAMERA          reduce using rule 26 (params -> params param .)
-    TRANSFORM       reduce using rule 26 (params -> params param .)
-    $end            reduce using rule 26 (params -> params param .)
     WORLDEND        reduce using rule 26 (params -> params param .)
     ATTRIBUTEBEGIN  reduce using rule 26 (params -> params param .)
     TRANSFORMBEGIN  reduce using rule 26 (params -> params param .)
@@ -1772,42 +1799,55 @@ state 93
     TEXTURE         reduce using rule 26 (params -> params param .)
     LIGHTSOURCE     reduce using rule 26 (params -> params param .)
     AREALIGHTSOURCE reduce using rule 26 (params -> params param .)
+    TRANSFORM       reduce using rule 26 (params -> params param .)
     TRANSFORMEND    reduce using rule 26 (params -> params param .)
     ATTRIBUTEEND    reduce using rule 26 (params -> params param .)
+    WORLDBEGIN      reduce using rule 26 (params -> params param .)
+    INTEGRATOR      reduce using rule 26 (params -> params param .)
+    FILM            reduce using rule 26 (params -> params param .)
+    SAMPLER         reduce using rule 26 (params -> params param .)
+    FILTER          reduce using rule 26 (params -> params param .)
+    CAMERA          reduce using rule 26 (params -> params param .)
+    $end            reduce using rule 26 (params -> params param .)
 
 
 state 94
 
-    (45) matrix -> LBRACKET number number number RBRACKET .
+    (50) matrix -> LBRACKET number number number RBRACKET .
 
-    QUOTE           reduce using rule 45 (matrix -> LBRACKET number number number RBRACKET .)
-    WORLDBEGIN      reduce using rule 45 (matrix -> LBRACKET number number number RBRACKET .)
-    INTEGRATOR      reduce using rule 45 (matrix -> LBRACKET number number number RBRACKET .)
-    FILM            reduce using rule 45 (matrix -> LBRACKET number number number RBRACKET .)
-    SAMPLER         reduce using rule 45 (matrix -> LBRACKET number number number RBRACKET .)
-    FILTER          reduce using rule 45 (matrix -> LBRACKET number number number RBRACKET .)
-    CAMERA          reduce using rule 45 (matrix -> LBRACKET number number number RBRACKET .)
-    TRANSFORM       reduce using rule 45 (matrix -> LBRACKET number number number RBRACKET .)
-    $end            reduce using rule 45 (matrix -> LBRACKET number number number RBRACKET .)
-    WORLDEND        reduce using rule 45 (matrix -> LBRACKET number number number RBRACKET .)
-    ATTRIBUTEBEGIN  reduce using rule 45 (matrix -> LBRACKET number number number RBRACKET .)
-    TRANSFORMBEGIN  reduce using rule 45 (matrix -> LBRACKET number number number RBRACKET .)
-    SHAPE           reduce using rule 45 (matrix -> LBRACKET number number number RBRACKET .)
-    MAKENAMEDMATERIAL reduce using rule 45 (matrix -> LBRACKET number number number RBRACKET .)
-    MATERIAL        reduce using rule 45 (matrix -> LBRACKET number number number RBRACKET .)
-    NAMEDMATERIAL   reduce using rule 45 (matrix -> LBRACKET number number number RBRACKET .)
-    TEXTURE         reduce using rule 45 (matrix -> LBRACKET number number number RBRACKET .)
-    LIGHTSOURCE     reduce using rule 45 (matrix -> LBRACKET number number number RBRACKET .)
-    AREALIGHTSOURCE reduce using rule 45 (matrix -> LBRACKET number number number RBRACKET .)
-    TRANSFORMEND    reduce using rule 45 (matrix -> LBRACKET number number number RBRACKET .)
-    ATTRIBUTEEND    reduce using rule 45 (matrix -> LBRACKET number number number RBRACKET .)
+    QUOTE           reduce using rule 50 (matrix -> LBRACKET number number number RBRACKET .)
+    WORLDBEGIN      reduce using rule 50 (matrix -> LBRACKET number number number RBRACKET .)
+    INTEGRATOR      reduce using rule 50 (matrix -> LBRACKET number number number RBRACKET .)
+    FILM            reduce using rule 50 (matrix -> LBRACKET number number number RBRACKET .)
+    SAMPLER         reduce using rule 50 (matrix -> LBRACKET number number number RBRACKET .)
+    FILTER          reduce using rule 50 (matrix -> LBRACKET number number number RBRACKET .)
+    CAMERA          reduce using rule 50 (matrix -> LBRACKET number number number RBRACKET .)
+    TRANSFORM       reduce using rule 50 (matrix -> LBRACKET number number number RBRACKET .)
+    $end            reduce using rule 50 (matrix -> LBRACKET number number number RBRACKET .)
+    WORLDEND        reduce using rule 50 (matrix -> LBRACKET number number number RBRACKET .)
+    ATTRIBUTEBEGIN  reduce using rule 50 (matrix -> LBRACKET number number number RBRACKET .)
+    TRANSFORMBEGIN  reduce using rule 50 (matrix -> LBRACKET number number number RBRACKET .)
+    SHAPE           reduce using rule 50 (matrix -> LBRACKET number number number RBRACKET .)
+    MAKENAMEDMATERIAL reduce using rule 50 (matrix -> LBRACKET number number number RBRACKET .)
+    MATERIAL        reduce using rule 50 (matrix -> LBRACKET number number number RBRACKET .)
+    NAMEDMATERIAL   reduce using rule 50 (matrix -> LBRACKET number number number RBRACKET .)
+    TEXTURE         reduce using rule 50 (matrix -> LBRACKET number number number RBRACKET .)
+    LIGHTSOURCE     reduce using rule 50 (matrix -> LBRACKET number number number RBRACKET .)
+    AREALIGHTSOURCE reduce using rule 50 (matrix -> LBRACKET number number number RBRACKET .)
+    TRANSFORMEND    reduce using rule 50 (matrix -> LBRACKET number number number RBRACKET .)
+    ATTRIBUTEEND    reduce using rule 50 (matrix -> LBRACKET number number number RBRACKET .)
 
 
 state 95
 
-    (44) matrix -> LBRACKET number number number number . number number number number number number number number number number number number RBRACKET
-    (46) number -> . ICONST
-    (47) number -> . FCONST
+    (44) matrix -> LBRACKET number number number number . number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number RBRACKET
+    (45) matrix -> LBRACKET number number number number . number number number number number number number number number number number number number number number number number number number number RBRACKET
+    (46) matrix -> LBRACKET number number number number . number number number number number number number number number number number number RBRACKET
+    (47) matrix -> LBRACKET number number number number . number number number number number number number number RBRACKET
+    (48) matrix -> LBRACKET number number number number . number number number number RBRACKET
+    (49) matrix -> LBRACKET number number number number . number number RBRACKET
+    (51) number -> . ICONST
+    (52) number -> . FCONST
 
     ICONST          shift and go to state 35
     FCONST          shift and go to state 37
@@ -1827,7 +1867,7 @@ state 96
     (34) param -> . QUOTE NORMAL SCONST QUOTE value
     (35) param -> . QUOTE TEX SCONST QUOTE value
     (36) param -> . empty
-    (48) empty -> .
+    (53) empty -> .
 
   ! shift/reduce conflict for QUOTE resolved as shift
   ! reduce/reduce conflict for WORLDEND resolved using rule 22 (object -> LIGHTSOURCE QUOTE SCONST QUOTE params .)
@@ -1858,20 +1898,20 @@ state 96
     WORLDEND        reduce using rule 22 (object -> LIGHTSOURCE QUOTE SCONST QUOTE params .)
     QUOTE           shift and go to state 67
 
-  ! QUOTE           [ reduce using rule 48 (empty -> .) ]
-  ! WORLDEND        [ reduce using rule 48 (empty -> .) ]
-  ! ATTRIBUTEBEGIN  [ reduce using rule 48 (empty -> .) ]
-  ! TRANSFORMBEGIN  [ reduce using rule 48 (empty -> .) ]
-  ! SHAPE           [ reduce using rule 48 (empty -> .) ]
-  ! MAKENAMEDMATERIAL [ reduce using rule 48 (empty -> .) ]
-  ! MATERIAL        [ reduce using rule 48 (empty -> .) ]
-  ! NAMEDMATERIAL   [ reduce using rule 48 (empty -> .) ]
-  ! TEXTURE         [ reduce using rule 48 (empty -> .) ]
-  ! LIGHTSOURCE     [ reduce using rule 48 (empty -> .) ]
-  ! AREALIGHTSOURCE [ reduce using rule 48 (empty -> .) ]
-  ! TRANSFORM       [ reduce using rule 48 (empty -> .) ]
-  ! TRANSFORMEND    [ reduce using rule 48 (empty -> .) ]
-  ! ATTRIBUTEEND    [ reduce using rule 48 (empty -> .) ]
+  ! QUOTE           [ reduce using rule 53 (empty -> .) ]
+  ! WORLDEND        [ reduce using rule 53 (empty -> .) ]
+  ! ATTRIBUTEBEGIN  [ reduce using rule 53 (empty -> .) ]
+  ! TRANSFORMBEGIN  [ reduce using rule 53 (empty -> .) ]
+  ! SHAPE           [ reduce using rule 53 (empty -> .) ]
+  ! MAKENAMEDMATERIAL [ reduce using rule 53 (empty -> .) ]
+  ! MATERIAL        [ reduce using rule 53 (empty -> .) ]
+  ! NAMEDMATERIAL   [ reduce using rule 53 (empty -> .) ]
+  ! TEXTURE         [ reduce using rule 53 (empty -> .) ]
+  ! LIGHTSOURCE     [ reduce using rule 53 (empty -> .) ]
+  ! AREALIGHTSOURCE [ reduce using rule 53 (empty -> .) ]
+  ! TRANSFORM       [ reduce using rule 53 (empty -> .) ]
+  ! TRANSFORMEND    [ reduce using rule 53 (empty -> .) ]
+  ! ATTRIBUTEEND    [ reduce using rule 53 (empty -> .) ]
 
     empty                          shift and go to state 70
     param                          shift and go to state 93
@@ -1889,7 +1929,7 @@ state 97
     (34) param -> . QUOTE NORMAL SCONST QUOTE value
     (35) param -> . QUOTE TEX SCONST QUOTE value
     (36) param -> . empty
-    (48) empty -> .
+    (53) empty -> .
 
   ! shift/reduce conflict for QUOTE resolved as shift
   ! reduce/reduce conflict for WORLDEND resolved using rule 23 (object -> AREALIGHTSOURCE QUOTE SCONST QUOTE params .)
@@ -1920,20 +1960,20 @@ state 97
     WORLDEND        reduce using rule 23 (object -> AREALIGHTSOURCE QUOTE SCONST QUOTE params .)
     QUOTE           shift and go to state 67
 
-  ! QUOTE           [ reduce using rule 48 (empty -> .) ]
-  ! WORLDEND        [ reduce using rule 48 (empty -> .) ]
-  ! ATTRIBUTEBEGIN  [ reduce using rule 48 (empty -> .) ]
-  ! TRANSFORMBEGIN  [ reduce using rule 48 (empty -> .) ]
-  ! SHAPE           [ reduce using rule 48 (empty -> .) ]
-  ! MAKENAMEDMATERIAL [ reduce using rule 48 (empty -> .) ]
-  ! MATERIAL        [ reduce using rule 48 (empty -> .) ]
-  ! NAMEDMATERIAL   [ reduce using rule 48 (empty -> .) ]
-  ! TEXTURE         [ reduce using rule 48 (empty -> .) ]
-  ! LIGHTSOURCE     [ reduce using rule 48 (empty -> .) ]
-  ! AREALIGHTSOURCE [ reduce using rule 48 (empty -> .) ]
-  ! TRANSFORM       [ reduce using rule 48 (empty -> .) ]
-  ! TRANSFORMEND    [ reduce using rule 48 (empty -> .) ]
-  ! ATTRIBUTEEND    [ reduce using rule 48 (empty -> .) ]
+  ! QUOTE           [ reduce using rule 53 (empty -> .) ]
+  ! WORLDEND        [ reduce using rule 53 (empty -> .) ]
+  ! ATTRIBUTEBEGIN  [ reduce using rule 53 (empty -> .) ]
+  ! TRANSFORMBEGIN  [ reduce using rule 53 (empty -> .) ]
+  ! SHAPE           [ reduce using rule 53 (empty -> .) ]
+  ! MAKENAMEDMATERIAL [ reduce using rule 53 (empty -> .) ]
+  ! MATERIAL        [ reduce using rule 53 (empty -> .) ]
+  ! NAMEDMATERIAL   [ reduce using rule 53 (empty -> .) ]
+  ! TEXTURE         [ reduce using rule 53 (empty -> .) ]
+  ! LIGHTSOURCE     [ reduce using rule 53 (empty -> .) ]
+  ! AREALIGHTSOURCE [ reduce using rule 53 (empty -> .) ]
+  ! TRANSFORM       [ reduce using rule 53 (empty -> .) ]
+  ! TRANSFORMEND    [ reduce using rule 53 (empty -> .) ]
+  ! ATTRIBUTEEND    [ reduce using rule 53 (empty -> .) ]
 
     empty                          shift and go to state 70
     param                          shift and go to state 93
@@ -1951,7 +1991,7 @@ state 98
     (34) param -> . QUOTE NORMAL SCONST QUOTE value
     (35) param -> . QUOTE TEX SCONST QUOTE value
     (36) param -> . empty
-    (48) empty -> .
+    (53) empty -> .
 
   ! shift/reduce conflict for QUOTE resolved as shift
   ! reduce/reduce conflict for WORLDEND resolved using rule 17 (object -> SHAPE QUOTE SCONST QUOTE params .)
@@ -1982,20 +2022,20 @@ state 98
     WORLDEND        reduce using rule 17 (object -> SHAPE QUOTE SCONST QUOTE params .)
     QUOTE           shift and go to state 67
 
-  ! QUOTE           [ reduce using rule 48 (empty -> .) ]
-  ! WORLDEND        [ reduce using rule 48 (empty -> .) ]
-  ! ATTRIBUTEBEGIN  [ reduce using rule 48 (empty -> .) ]
-  ! TRANSFORMBEGIN  [ reduce using rule 48 (empty -> .) ]
-  ! SHAPE           [ reduce using rule 48 (empty -> .) ]
-  ! MAKENAMEDMATERIAL [ reduce using rule 48 (empty -> .) ]
-  ! MATERIAL        [ reduce using rule 48 (empty -> .) ]
-  ! NAMEDMATERIAL   [ reduce using rule 48 (empty -> .) ]
-  ! TEXTURE         [ reduce using rule 48 (empty -> .) ]
-  ! LIGHTSOURCE     [ reduce using rule 48 (empty -> .) ]
-  ! AREALIGHTSOURCE [ reduce using rule 48 (empty -> .) ]
-  ! TRANSFORM       [ reduce using rule 48 (empty -> .) ]
-  ! TRANSFORMEND    [ reduce using rule 48 (empty -> .) ]
-  ! ATTRIBUTEEND    [ reduce using rule 48 (empty -> .) ]
+  ! QUOTE           [ reduce using rule 53 (empty -> .) ]
+  ! WORLDEND        [ reduce using rule 53 (empty -> .) ]
+  ! ATTRIBUTEBEGIN  [ reduce using rule 53 (empty -> .) ]
+  ! TRANSFORMBEGIN  [ reduce using rule 53 (empty -> .) ]
+  ! SHAPE           [ reduce using rule 53 (empty -> .) ]
+  ! MAKENAMEDMATERIAL [ reduce using rule 53 (empty -> .) ]
+  ! MATERIAL        [ reduce using rule 53 (empty -> .) ]
+  ! NAMEDMATERIAL   [ reduce using rule 53 (empty -> .) ]
+  ! TEXTURE         [ reduce using rule 53 (empty -> .) ]
+  ! LIGHTSOURCE     [ reduce using rule 53 (empty -> .) ]
+  ! AREALIGHTSOURCE [ reduce using rule 53 (empty -> .) ]
+  ! TRANSFORM       [ reduce using rule 53 (empty -> .) ]
+  ! TRANSFORMEND    [ reduce using rule 53 (empty -> .) ]
+  ! ATTRIBUTEEND    [ reduce using rule 53 (empty -> .) ]
 
     empty                          shift and go to state 70
     param                          shift and go to state 93
@@ -2020,7 +2060,7 @@ state 100
     (34) param -> . QUOTE NORMAL SCONST QUOTE value
     (35) param -> . QUOTE TEX SCONST QUOTE value
     (36) param -> . empty
-    (48) empty -> .
+    (53) empty -> .
 
   ! shift/reduce conflict for QUOTE resolved as shift
   ! reduce/reduce conflict for WORLDEND resolved using rule 19 (object -> MATERIAL QUOTE SCONST QUOTE params .)
@@ -2051,20 +2091,20 @@ state 100
     WORLDEND        reduce using rule 19 (object -> MATERIAL QUOTE SCONST QUOTE params .)
     QUOTE           shift and go to state 67
 
-  ! QUOTE           [ reduce using rule 48 (empty -> .) ]
-  ! WORLDEND        [ reduce using rule 48 (empty -> .) ]
-  ! ATTRIBUTEBEGIN  [ reduce using rule 48 (empty -> .) ]
-  ! TRANSFORMBEGIN  [ reduce using rule 48 (empty -> .) ]
-  ! SHAPE           [ reduce using rule 48 (empty -> .) ]
-  ! MAKENAMEDMATERIAL [ reduce using rule 48 (empty -> .) ]
-  ! MATERIAL        [ reduce using rule 48 (empty -> .) ]
-  ! NAMEDMATERIAL   [ reduce using rule 48 (empty -> .) ]
-  ! TEXTURE         [ reduce using rule 48 (empty -> .) ]
-  ! LIGHTSOURCE     [ reduce using rule 48 (empty -> .) ]
-  ! AREALIGHTSOURCE [ reduce using rule 48 (empty -> .) ]
-  ! TRANSFORM       [ reduce using rule 48 (empty -> .) ]
-  ! TRANSFORMEND    [ reduce using rule 48 (empty -> .) ]
-  ! ATTRIBUTEEND    [ reduce using rule 48 (empty -> .) ]
+  ! QUOTE           [ reduce using rule 53 (empty -> .) ]
+  ! WORLDEND        [ reduce using rule 53 (empty -> .) ]
+  ! ATTRIBUTEBEGIN  [ reduce using rule 53 (empty -> .) ]
+  ! TRANSFORMBEGIN  [ reduce using rule 53 (empty -> .) ]
+  ! SHAPE           [ reduce using rule 53 (empty -> .) ]
+  ! MAKENAMEDMATERIAL [ reduce using rule 53 (empty -> .) ]
+  ! MATERIAL        [ reduce using rule 53 (empty -> .) ]
+  ! NAMEDMATERIAL   [ reduce using rule 53 (empty -> .) ]
+  ! TEXTURE         [ reduce using rule 53 (empty -> .) ]
+  ! LIGHTSOURCE     [ reduce using rule 53 (empty -> .) ]
+  ! AREALIGHTSOURCE [ reduce using rule 53 (empty -> .) ]
+  ! TRANSFORM       [ reduce using rule 53 (empty -> .) ]
+  ! TRANSFORMEND    [ reduce using rule 53 (empty -> .) ]
+  ! ATTRIBUTEEND    [ reduce using rule 53 (empty -> .) ]
 
     empty                          shift and go to state 70
     param                          shift and go to state 93
@@ -2082,7 +2122,7 @@ state 101
     (34) param -> . QUOTE NORMAL SCONST QUOTE value
     (35) param -> . QUOTE TEX SCONST QUOTE value
     (36) param -> . empty
-    (48) empty -> .
+    (53) empty -> .
 
   ! shift/reduce conflict for QUOTE resolved as shift
   ! reduce/reduce conflict for WORLDEND resolved using rule 18 (object -> MAKENAMEDMATERIAL QUOTE SCONST QUOTE params .)
@@ -2113,20 +2153,20 @@ state 101
     WORLDEND        reduce using rule 18 (object -> MAKENAMEDMATERIAL QUOTE SCONST QUOTE params .)
     QUOTE           shift and go to state 67
 
-  ! QUOTE           [ reduce using rule 48 (empty -> .) ]
-  ! WORLDEND        [ reduce using rule 48 (empty -> .) ]
-  ! ATTRIBUTEBEGIN  [ reduce using rule 48 (empty -> .) ]
-  ! TRANSFORMBEGIN  [ reduce using rule 48 (empty -> .) ]
-  ! SHAPE           [ reduce using rule 48 (empty -> .) ]
-  ! MAKENAMEDMATERIAL [ reduce using rule 48 (empty -> .) ]
-  ! MATERIAL        [ reduce using rule 48 (empty -> .) ]
-  ! NAMEDMATERIAL   [ reduce using rule 48 (empty -> .) ]
-  ! TEXTURE         [ reduce using rule 48 (empty -> .) ]
-  ! LIGHTSOURCE     [ reduce using rule 48 (empty -> .) ]
-  ! AREALIGHTSOURCE [ reduce using rule 48 (empty -> .) ]
-  ! TRANSFORM       [ reduce using rule 48 (empty -> .) ]
-  ! TRANSFORMEND    [ reduce using rule 48 (empty -> .) ]
-  ! ATTRIBUTEEND    [ reduce using rule 48 (empty -> .) ]
+  ! QUOTE           [ reduce using rule 53 (empty -> .) ]
+  ! WORLDEND        [ reduce using rule 53 (empty -> .) ]
+  ! ATTRIBUTEBEGIN  [ reduce using rule 53 (empty -> .) ]
+  ! TRANSFORMBEGIN  [ reduce using rule 53 (empty -> .) ]
+  ! SHAPE           [ reduce using rule 53 (empty -> .) ]
+  ! MAKENAMEDMATERIAL [ reduce using rule 53 (empty -> .) ]
+  ! MATERIAL        [ reduce using rule 53 (empty -> .) ]
+  ! NAMEDMATERIAL   [ reduce using rule 53 (empty -> .) ]
+  ! TEXTURE         [ reduce using rule 53 (empty -> .) ]
+  ! LIGHTSOURCE     [ reduce using rule 53 (empty -> .) ]
+  ! AREALIGHTSOURCE [ reduce using rule 53 (empty -> .) ]
+  ! TRANSFORM       [ reduce using rule 53 (empty -> .) ]
+  ! TRANSFORMEND    [ reduce using rule 53 (empty -> .) ]
+  ! ATTRIBUTEEND    [ reduce using rule 53 (empty -> .) ]
 
     empty                          shift and go to state 70
     param                          shift and go to state 93
@@ -2189,9 +2229,14 @@ state 109
 
 state 110
 
-    (44) matrix -> LBRACKET number number number number number . number number number number number number number number number number number RBRACKET
-    (46) number -> . ICONST
-    (47) number -> . FCONST
+    (44) matrix -> LBRACKET number number number number number . number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number RBRACKET
+    (45) matrix -> LBRACKET number number number number number . number number number number number number number number number number number number number number number number number number number RBRACKET
+    (46) matrix -> LBRACKET number number number number number . number number number number number number number number number number number RBRACKET
+    (47) matrix -> LBRACKET number number number number number . number number number number number number number RBRACKET
+    (48) matrix -> LBRACKET number number number number number . number number number RBRACKET
+    (49) matrix -> LBRACKET number number number number number . number RBRACKET
+    (51) number -> . ICONST
+    (52) number -> . FCONST
 
     ICONST          shift and go to state 35
     FCONST          shift and go to state 37
@@ -2215,32 +2260,37 @@ state 112
     (41) value -> . LBRACKET QUOTE FALSE QUOTE RBRACKET
     (42) value -> . matrix
     (43) value -> . empty
-    (44) matrix -> . LBRACKET number number number number number number number number number number number number number number number number RBRACKET
-    (45) matrix -> . LBRACKET number number number RBRACKET
-    (48) empty -> .
+    (44) matrix -> . LBRACKET number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number RBRACKET
+    (45) matrix -> . LBRACKET number number number number number number number number number number number number number number number number number number number number number number number number RBRACKET
+    (46) matrix -> . LBRACKET number number number number number number number number number number number number number number number number RBRACKET
+    (47) matrix -> . LBRACKET number number number number number number number number number number number number RBRACKET
+    (48) matrix -> . LBRACKET number number number number number number number number RBRACKET
+    (49) matrix -> . LBRACKET number number number number number number RBRACKET
+    (50) matrix -> . LBRACKET number number number RBRACKET
+    (53) empty -> .
 
     LBRACKET        shift and go to state 123
-    QUOTE           reduce using rule 48 (empty -> .)
-    WORLDBEGIN      reduce using rule 48 (empty -> .)
-    INTEGRATOR      reduce using rule 48 (empty -> .)
-    FILM            reduce using rule 48 (empty -> .)
-    SAMPLER         reduce using rule 48 (empty -> .)
-    FILTER          reduce using rule 48 (empty -> .)
-    CAMERA          reduce using rule 48 (empty -> .)
-    TRANSFORM       reduce using rule 48 (empty -> .)
-    $end            reduce using rule 48 (empty -> .)
-    WORLDEND        reduce using rule 48 (empty -> .)
-    ATTRIBUTEBEGIN  reduce using rule 48 (empty -> .)
-    TRANSFORMBEGIN  reduce using rule 48 (empty -> .)
-    SHAPE           reduce using rule 48 (empty -> .)
-    MAKENAMEDMATERIAL reduce using rule 48 (empty -> .)
-    MATERIAL        reduce using rule 48 (empty -> .)
-    NAMEDMATERIAL   reduce using rule 48 (empty -> .)
-    TEXTURE         reduce using rule 48 (empty -> .)
-    LIGHTSOURCE     reduce using rule 48 (empty -> .)
-    AREALIGHTSOURCE reduce using rule 48 (empty -> .)
-    TRANSFORMEND    reduce using rule 48 (empty -> .)
-    ATTRIBUTEEND    reduce using rule 48 (empty -> .)
+    QUOTE           reduce using rule 53 (empty -> .)
+    WORLDBEGIN      reduce using rule 53 (empty -> .)
+    INTEGRATOR      reduce using rule 53 (empty -> .)
+    FILM            reduce using rule 53 (empty -> .)
+    SAMPLER         reduce using rule 53 (empty -> .)
+    FILTER          reduce using rule 53 (empty -> .)
+    CAMERA          reduce using rule 53 (empty -> .)
+    TRANSFORM       reduce using rule 53 (empty -> .)
+    $end            reduce using rule 53 (empty -> .)
+    WORLDEND        reduce using rule 53 (empty -> .)
+    ATTRIBUTEBEGIN  reduce using rule 53 (empty -> .)
+    TRANSFORMBEGIN  reduce using rule 53 (empty -> .)
+    SHAPE           reduce using rule 53 (empty -> .)
+    MAKENAMEDMATERIAL reduce using rule 53 (empty -> .)
+    MATERIAL        reduce using rule 53 (empty -> .)
+    NAMEDMATERIAL   reduce using rule 53 (empty -> .)
+    TEXTURE         reduce using rule 53 (empty -> .)
+    LIGHTSOURCE     reduce using rule 53 (empty -> .)
+    AREALIGHTSOURCE reduce using rule 53 (empty -> .)
+    TRANSFORMEND    reduce using rule 53 (empty -> .)
+    ATTRIBUTEEND    reduce using rule 53 (empty -> .)
 
     empty                          shift and go to state 125
     matrix                         shift and go to state 124
@@ -2256,32 +2306,37 @@ state 113
     (41) value -> . LBRACKET QUOTE FALSE QUOTE RBRACKET
     (42) value -> . matrix
     (43) value -> . empty
-    (44) matrix -> . LBRACKET number number number number number number number number number number number number number number number number RBRACKET
-    (45) matrix -> . LBRACKET number number number RBRACKET
-    (48) empty -> .
+    (44) matrix -> . LBRACKET number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number RBRACKET
+    (45) matrix -> . LBRACKET number number number number number number number number number number number number number number number number number number number number number number number number RBRACKET
+    (46) matrix -> . LBRACKET number number number number number number number number number number number number number number number number RBRACKET
+    (47) matrix -> . LBRACKET number number number number number number number number number number number number RBRACKET
+    (48) matrix -> . LBRACKET number number number number number number number number RBRACKET
+    (49) matrix -> . LBRACKET number number number number number number RBRACKET
+    (50) matrix -> . LBRACKET number number number RBRACKET
+    (53) empty -> .
 
     LBRACKET        shift and go to state 123
-    QUOTE           reduce using rule 48 (empty -> .)
-    WORLDBEGIN      reduce using rule 48 (empty -> .)
-    INTEGRATOR      reduce using rule 48 (empty -> .)
-    FILM            reduce using rule 48 (empty -> .)
-    SAMPLER         reduce using rule 48 (empty -> .)
-    FILTER          reduce using rule 48 (empty -> .)
-    CAMERA          reduce using rule 48 (empty -> .)
-    TRANSFORM       reduce using rule 48 (empty -> .)
-    $end            reduce using rule 48 (empty -> .)
-    WORLDEND        reduce using rule 48 (empty -> .)
-    ATTRIBUTEBEGIN  reduce using rule 48 (empty -> .)
-    TRANSFORMBEGIN  reduce using rule 48 (empty -> .)
-    SHAPE           reduce using rule 48 (empty -> .)
-    MAKENAMEDMATERIAL reduce using rule 48 (empty -> .)
-    MATERIAL        reduce using rule 48 (empty -> .)
-    NAMEDMATERIAL   reduce using rule 48 (empty -> .)
-    TEXTURE         reduce using rule 48 (empty -> .)
-    LIGHTSOURCE     reduce using rule 48 (empty -> .)
-    AREALIGHTSOURCE reduce using rule 48 (empty -> .)
-    TRANSFORMEND    reduce using rule 48 (empty -> .)
-    ATTRIBUTEEND    reduce using rule 48 (empty -> .)
+    QUOTE           reduce using rule 53 (empty -> .)
+    WORLDBEGIN      reduce using rule 53 (empty -> .)
+    INTEGRATOR      reduce using rule 53 (empty -> .)
+    FILM            reduce using rule 53 (empty -> .)
+    SAMPLER         reduce using rule 53 (empty -> .)
+    FILTER          reduce using rule 53 (empty -> .)
+    CAMERA          reduce using rule 53 (empty -> .)
+    TRANSFORM       reduce using rule 53 (empty -> .)
+    $end            reduce using rule 53 (empty -> .)
+    WORLDEND        reduce using rule 53 (empty -> .)
+    ATTRIBUTEBEGIN  reduce using rule 53 (empty -> .)
+    TRANSFORMBEGIN  reduce using rule 53 (empty -> .)
+    SHAPE           reduce using rule 53 (empty -> .)
+    MAKENAMEDMATERIAL reduce using rule 53 (empty -> .)
+    MATERIAL        reduce using rule 53 (empty -> .)
+    NAMEDMATERIAL   reduce using rule 53 (empty -> .)
+    TEXTURE         reduce using rule 53 (empty -> .)
+    LIGHTSOURCE     reduce using rule 53 (empty -> .)
+    AREALIGHTSOURCE reduce using rule 53 (empty -> .)
+    TRANSFORMEND    reduce using rule 53 (empty -> .)
+    ATTRIBUTEEND    reduce using rule 53 (empty -> .)
 
     empty                          shift and go to state 125
     matrix                         shift and go to state 124
@@ -2297,32 +2352,37 @@ state 114
     (41) value -> . LBRACKET QUOTE FALSE QUOTE RBRACKET
     (42) value -> . matrix
     (43) value -> . empty
-    (44) matrix -> . LBRACKET number number number number number number number number number number number number number number number number RBRACKET
-    (45) matrix -> . LBRACKET number number number RBRACKET
-    (48) empty -> .
+    (44) matrix -> . LBRACKET number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number RBRACKET
+    (45) matrix -> . LBRACKET number number number number number number number number number number number number number number number number number number number number number number number number RBRACKET
+    (46) matrix -> . LBRACKET number number number number number number number number number number number number number number number number RBRACKET
+    (47) matrix -> . LBRACKET number number number number number number number number number number number number RBRACKET
+    (48) matrix -> . LBRACKET number number number number number number number number RBRACKET
+    (49) matrix -> . LBRACKET number number number number number number RBRACKET
+    (50) matrix -> . LBRACKET number number number RBRACKET
+    (53) empty -> .
 
     LBRACKET        shift and go to state 123
-    QUOTE           reduce using rule 48 (empty -> .)
-    WORLDBEGIN      reduce using rule 48 (empty -> .)
-    INTEGRATOR      reduce using rule 48 (empty -> .)
-    FILM            reduce using rule 48 (empty -> .)
-    SAMPLER         reduce using rule 48 (empty -> .)
-    FILTER          reduce using rule 48 (empty -> .)
-    CAMERA          reduce using rule 48 (empty -> .)
-    TRANSFORM       reduce using rule 48 (empty -> .)
-    $end            reduce using rule 48 (empty -> .)
-    WORLDEND        reduce using rule 48 (empty -> .)
-    ATTRIBUTEBEGIN  reduce using rule 48 (empty -> .)
-    TRANSFORMBEGIN  reduce using rule 48 (empty -> .)
-    SHAPE           reduce using rule 48 (empty -> .)
-    MAKENAMEDMATERIAL reduce using rule 48 (empty -> .)
-    MATERIAL        reduce using rule 48 (empty -> .)
-    NAMEDMATERIAL   reduce using rule 48 (empty -> .)
-    TEXTURE         reduce using rule 48 (empty -> .)
-    LIGHTSOURCE     reduce using rule 48 (empty -> .)
-    AREALIGHTSOURCE reduce using rule 48 (empty -> .)
-    TRANSFORMEND    reduce using rule 48 (empty -> .)
-    ATTRIBUTEEND    reduce using rule 48 (empty -> .)
+    QUOTE           reduce using rule 53 (empty -> .)
+    WORLDBEGIN      reduce using rule 53 (empty -> .)
+    INTEGRATOR      reduce using rule 53 (empty -> .)
+    FILM            reduce using rule 53 (empty -> .)
+    SAMPLER         reduce using rule 53 (empty -> .)
+    FILTER          reduce using rule 53 (empty -> .)
+    CAMERA          reduce using rule 53 (empty -> .)
+    TRANSFORM       reduce using rule 53 (empty -> .)
+    $end            reduce using rule 53 (empty -> .)
+    WORLDEND        reduce using rule 53 (empty -> .)
+    ATTRIBUTEBEGIN  reduce using rule 53 (empty -> .)
+    TRANSFORMBEGIN  reduce using rule 53 (empty -> .)
+    SHAPE           reduce using rule 53 (empty -> .)
+    MAKENAMEDMATERIAL reduce using rule 53 (empty -> .)
+    MATERIAL        reduce using rule 53 (empty -> .)
+    NAMEDMATERIAL   reduce using rule 53 (empty -> .)
+    TEXTURE         reduce using rule 53 (empty -> .)
+    LIGHTSOURCE     reduce using rule 53 (empty -> .)
+    AREALIGHTSOURCE reduce using rule 53 (empty -> .)
+    TRANSFORMEND    reduce using rule 53 (empty -> .)
+    ATTRIBUTEEND    reduce using rule 53 (empty -> .)
 
     empty                          shift and go to state 125
     matrix                         shift and go to state 124
@@ -2338,32 +2398,37 @@ state 115
     (41) value -> . LBRACKET QUOTE FALSE QUOTE RBRACKET
     (42) value -> . matrix
     (43) value -> . empty
-    (44) matrix -> . LBRACKET number number number number number number number number number number number number number number number number RBRACKET
-    (45) matrix -> . LBRACKET number number number RBRACKET
-    (48) empty -> .
+    (44) matrix -> . LBRACKET number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number RBRACKET
+    (45) matrix -> . LBRACKET number number number number number number number number number number number number number number number number number number number number number number number number RBRACKET
+    (46) matrix -> . LBRACKET number number number number number number number number number number number number number number number number RBRACKET
+    (47) matrix -> . LBRACKET number number number number number number number number number number number number RBRACKET
+    (48) matrix -> . LBRACKET number number number number number number number number RBRACKET
+    (49) matrix -> . LBRACKET number number number number number number RBRACKET
+    (50) matrix -> . LBRACKET number number number RBRACKET
+    (53) empty -> .
 
     LBRACKET        shift and go to state 123
-    QUOTE           reduce using rule 48 (empty -> .)
-    WORLDBEGIN      reduce using rule 48 (empty -> .)
-    INTEGRATOR      reduce using rule 48 (empty -> .)
-    FILM            reduce using rule 48 (empty -> .)
-    SAMPLER         reduce using rule 48 (empty -> .)
-    FILTER          reduce using rule 48 (empty -> .)
-    CAMERA          reduce using rule 48 (empty -> .)
-    TRANSFORM       reduce using rule 48 (empty -> .)
-    $end            reduce using rule 48 (empty -> .)
-    WORLDEND        reduce using rule 48 (empty -> .)
-    ATTRIBUTEBEGIN  reduce using rule 48 (empty -> .)
-    TRANSFORMBEGIN  reduce using rule 48 (empty -> .)
-    SHAPE           reduce using rule 48 (empty -> .)
-    MAKENAMEDMATERIAL reduce using rule 48 (empty -> .)
-    MATERIAL        reduce using rule 48 (empty -> .)
-    NAMEDMATERIAL   reduce using rule 48 (empty -> .)
-    TEXTURE         reduce using rule 48 (empty -> .)
-    LIGHTSOURCE     reduce using rule 48 (empty -> .)
-    AREALIGHTSOURCE reduce using rule 48 (empty -> .)
-    TRANSFORMEND    reduce using rule 48 (empty -> .)
-    ATTRIBUTEEND    reduce using rule 48 (empty -> .)
+    QUOTE           reduce using rule 53 (empty -> .)
+    WORLDBEGIN      reduce using rule 53 (empty -> .)
+    INTEGRATOR      reduce using rule 53 (empty -> .)
+    FILM            reduce using rule 53 (empty -> .)
+    SAMPLER         reduce using rule 53 (empty -> .)
+    FILTER          reduce using rule 53 (empty -> .)
+    CAMERA          reduce using rule 53 (empty -> .)
+    TRANSFORM       reduce using rule 53 (empty -> .)
+    $end            reduce using rule 53 (empty -> .)
+    WORLDEND        reduce using rule 53 (empty -> .)
+    ATTRIBUTEBEGIN  reduce using rule 53 (empty -> .)
+    TRANSFORMBEGIN  reduce using rule 53 (empty -> .)
+    SHAPE           reduce using rule 53 (empty -> .)
+    MAKENAMEDMATERIAL reduce using rule 53 (empty -> .)
+    MATERIAL        reduce using rule 53 (empty -> .)
+    NAMEDMATERIAL   reduce using rule 53 (empty -> .)
+    TEXTURE         reduce using rule 53 (empty -> .)
+    LIGHTSOURCE     reduce using rule 53 (empty -> .)
+    AREALIGHTSOURCE reduce using rule 53 (empty -> .)
+    TRANSFORMEND    reduce using rule 53 (empty -> .)
+    ATTRIBUTEEND    reduce using rule 53 (empty -> .)
 
     empty                          shift and go to state 125
     matrix                         shift and go to state 124
@@ -2379,32 +2444,37 @@ state 116
     (41) value -> . LBRACKET QUOTE FALSE QUOTE RBRACKET
     (42) value -> . matrix
     (43) value -> . empty
-    (44) matrix -> . LBRACKET number number number number number number number number number number number number number number number number RBRACKET
-    (45) matrix -> . LBRACKET number number number RBRACKET
-    (48) empty -> .
+    (44) matrix -> . LBRACKET number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number RBRACKET
+    (45) matrix -> . LBRACKET number number number number number number number number number number number number number number number number number number number number number number number number RBRACKET
+    (46) matrix -> . LBRACKET number number number number number number number number number number number number number number number number RBRACKET
+    (47) matrix -> . LBRACKET number number number number number number number number number number number number RBRACKET
+    (48) matrix -> . LBRACKET number number number number number number number number RBRACKET
+    (49) matrix -> . LBRACKET number number number number number number RBRACKET
+    (50) matrix -> . LBRACKET number number number RBRACKET
+    (53) empty -> .
 
     LBRACKET        shift and go to state 123
-    QUOTE           reduce using rule 48 (empty -> .)
-    WORLDBEGIN      reduce using rule 48 (empty -> .)
-    INTEGRATOR      reduce using rule 48 (empty -> .)
-    FILM            reduce using rule 48 (empty -> .)
-    SAMPLER         reduce using rule 48 (empty -> .)
-    FILTER          reduce using rule 48 (empty -> .)
-    CAMERA          reduce using rule 48 (empty -> .)
-    TRANSFORM       reduce using rule 48 (empty -> .)
-    $end            reduce using rule 48 (empty -> .)
-    WORLDEND        reduce using rule 48 (empty -> .)
-    ATTRIBUTEBEGIN  reduce using rule 48 (empty -> .)
-    TRANSFORMBEGIN  reduce using rule 48 (empty -> .)
-    SHAPE           reduce using rule 48 (empty -> .)
-    MAKENAMEDMATERIAL reduce using rule 48 (empty -> .)
-    MATERIAL        reduce using rule 48 (empty -> .)
-    NAMEDMATERIAL   reduce using rule 48 (empty -> .)
-    TEXTURE         reduce using rule 48 (empty -> .)
-    LIGHTSOURCE     reduce using rule 48 (empty -> .)
-    AREALIGHTSOURCE reduce using rule 48 (empty -> .)
-    TRANSFORMEND    reduce using rule 48 (empty -> .)
-    ATTRIBUTEEND    reduce using rule 48 (empty -> .)
+    QUOTE           reduce using rule 53 (empty -> .)
+    WORLDBEGIN      reduce using rule 53 (empty -> .)
+    INTEGRATOR      reduce using rule 53 (empty -> .)
+    FILM            reduce using rule 53 (empty -> .)
+    SAMPLER         reduce using rule 53 (empty -> .)
+    FILTER          reduce using rule 53 (empty -> .)
+    CAMERA          reduce using rule 53 (empty -> .)
+    TRANSFORM       reduce using rule 53 (empty -> .)
+    $end            reduce using rule 53 (empty -> .)
+    WORLDEND        reduce using rule 53 (empty -> .)
+    ATTRIBUTEBEGIN  reduce using rule 53 (empty -> .)
+    TRANSFORMBEGIN  reduce using rule 53 (empty -> .)
+    SHAPE           reduce using rule 53 (empty -> .)
+    MAKENAMEDMATERIAL reduce using rule 53 (empty -> .)
+    MATERIAL        reduce using rule 53 (empty -> .)
+    NAMEDMATERIAL   reduce using rule 53 (empty -> .)
+    TEXTURE         reduce using rule 53 (empty -> .)
+    LIGHTSOURCE     reduce using rule 53 (empty -> .)
+    AREALIGHTSOURCE reduce using rule 53 (empty -> .)
+    TRANSFORMEND    reduce using rule 53 (empty -> .)
+    ATTRIBUTEEND    reduce using rule 53 (empty -> .)
 
     empty                          shift and go to state 125
     matrix                         shift and go to state 124
@@ -2420,32 +2490,37 @@ state 117
     (41) value -> . LBRACKET QUOTE FALSE QUOTE RBRACKET
     (42) value -> . matrix
     (43) value -> . empty
-    (44) matrix -> . LBRACKET number number number number number number number number number number number number number number number number RBRACKET
-    (45) matrix -> . LBRACKET number number number RBRACKET
-    (48) empty -> .
+    (44) matrix -> . LBRACKET number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number RBRACKET
+    (45) matrix -> . LBRACKET number number number number number number number number number number number number number number number number number number number number number number number number RBRACKET
+    (46) matrix -> . LBRACKET number number number number number number number number number number number number number number number number RBRACKET
+    (47) matrix -> . LBRACKET number number number number number number number number number number number number RBRACKET
+    (48) matrix -> . LBRACKET number number number number number number number number RBRACKET
+    (49) matrix -> . LBRACKET number number number number number number RBRACKET
+    (50) matrix -> . LBRACKET number number number RBRACKET
+    (53) empty -> .
 
     LBRACKET        shift and go to state 123
-    QUOTE           reduce using rule 48 (empty -> .)
-    WORLDBEGIN      reduce using rule 48 (empty -> .)
-    INTEGRATOR      reduce using rule 48 (empty -> .)
-    FILM            reduce using rule 48 (empty -> .)
-    SAMPLER         reduce using rule 48 (empty -> .)
-    FILTER          reduce using rule 48 (empty -> .)
-    CAMERA          reduce using rule 48 (empty -> .)
-    TRANSFORM       reduce using rule 48 (empty -> .)
-    $end            reduce using rule 48 (empty -> .)
-    WORLDEND        reduce using rule 48 (empty -> .)
-    ATTRIBUTEBEGIN  reduce using rule 48 (empty -> .)
-    TRANSFORMBEGIN  reduce using rule 48 (empty -> .)
-    SHAPE           reduce using rule 48 (empty -> .)
-    MAKENAMEDMATERIAL reduce using rule 48 (empty -> .)
-    MATERIAL        reduce using rule 48 (empty -> .)
-    NAMEDMATERIAL   reduce using rule 48 (empty -> .)
-    TEXTURE         reduce using rule 48 (empty -> .)
-    LIGHTSOURCE     reduce using rule 48 (empty -> .)
-    AREALIGHTSOURCE reduce using rule 48 (empty -> .)
-    TRANSFORMEND    reduce using rule 48 (empty -> .)
-    ATTRIBUTEEND    reduce using rule 48 (empty -> .)
+    QUOTE           reduce using rule 53 (empty -> .)
+    WORLDBEGIN      reduce using rule 53 (empty -> .)
+    INTEGRATOR      reduce using rule 53 (empty -> .)
+    FILM            reduce using rule 53 (empty -> .)
+    SAMPLER         reduce using rule 53 (empty -> .)
+    FILTER          reduce using rule 53 (empty -> .)
+    CAMERA          reduce using rule 53 (empty -> .)
+    TRANSFORM       reduce using rule 53 (empty -> .)
+    $end            reduce using rule 53 (empty -> .)
+    WORLDEND        reduce using rule 53 (empty -> .)
+    ATTRIBUTEBEGIN  reduce using rule 53 (empty -> .)
+    TRANSFORMBEGIN  reduce using rule 53 (empty -> .)
+    SHAPE           reduce using rule 53 (empty -> .)
+    MAKENAMEDMATERIAL reduce using rule 53 (empty -> .)
+    MATERIAL        reduce using rule 53 (empty -> .)
+    NAMEDMATERIAL   reduce using rule 53 (empty -> .)
+    TEXTURE         reduce using rule 53 (empty -> .)
+    LIGHTSOURCE     reduce using rule 53 (empty -> .)
+    AREALIGHTSOURCE reduce using rule 53 (empty -> .)
+    TRANSFORMEND    reduce using rule 53 (empty -> .)
+    ATTRIBUTEEND    reduce using rule 53 (empty -> .)
 
     empty                          shift and go to state 125
     matrix                         shift and go to state 124
@@ -2461,32 +2536,37 @@ state 118
     (41) value -> . LBRACKET QUOTE FALSE QUOTE RBRACKET
     (42) value -> . matrix
     (43) value -> . empty
-    (44) matrix -> . LBRACKET number number number number number number number number number number number number number number number number RBRACKET
-    (45) matrix -> . LBRACKET number number number RBRACKET
-    (48) empty -> .
+    (44) matrix -> . LBRACKET number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number RBRACKET
+    (45) matrix -> . LBRACKET number number number number number number number number number number number number number number number number number number number number number number number number RBRACKET
+    (46) matrix -> . LBRACKET number number number number number number number number number number number number number number number number RBRACKET
+    (47) matrix -> . LBRACKET number number number number number number number number number number number number RBRACKET
+    (48) matrix -> . LBRACKET number number number number number number number number RBRACKET
+    (49) matrix -> . LBRACKET number number number number number number RBRACKET
+    (50) matrix -> . LBRACKET number number number RBRACKET
+    (53) empty -> .
 
     LBRACKET        shift and go to state 123
-    QUOTE           reduce using rule 48 (empty -> .)
-    WORLDBEGIN      reduce using rule 48 (empty -> .)
-    INTEGRATOR      reduce using rule 48 (empty -> .)
-    FILM            reduce using rule 48 (empty -> .)
-    SAMPLER         reduce using rule 48 (empty -> .)
-    FILTER          reduce using rule 48 (empty -> .)
-    CAMERA          reduce using rule 48 (empty -> .)
-    TRANSFORM       reduce using rule 48 (empty -> .)
-    $end            reduce using rule 48 (empty -> .)
-    WORLDEND        reduce using rule 48 (empty -> .)
-    ATTRIBUTEBEGIN  reduce using rule 48 (empty -> .)
-    TRANSFORMBEGIN  reduce using rule 48 (empty -> .)
-    SHAPE           reduce using rule 48 (empty -> .)
-    MAKENAMEDMATERIAL reduce using rule 48 (empty -> .)
-    MATERIAL        reduce using rule 48 (empty -> .)
-    NAMEDMATERIAL   reduce using rule 48 (empty -> .)
-    TEXTURE         reduce using rule 48 (empty -> .)
-    LIGHTSOURCE     reduce using rule 48 (empty -> .)
-    AREALIGHTSOURCE reduce using rule 48 (empty -> .)
-    TRANSFORMEND    reduce using rule 48 (empty -> .)
-    ATTRIBUTEEND    reduce using rule 48 (empty -> .)
+    QUOTE           reduce using rule 53 (empty -> .)
+    WORLDBEGIN      reduce using rule 53 (empty -> .)
+    INTEGRATOR      reduce using rule 53 (empty -> .)
+    FILM            reduce using rule 53 (empty -> .)
+    SAMPLER         reduce using rule 53 (empty -> .)
+    FILTER          reduce using rule 53 (empty -> .)
+    CAMERA          reduce using rule 53 (empty -> .)
+    TRANSFORM       reduce using rule 53 (empty -> .)
+    $end            reduce using rule 53 (empty -> .)
+    WORLDEND        reduce using rule 53 (empty -> .)
+    ATTRIBUTEBEGIN  reduce using rule 53 (empty -> .)
+    TRANSFORMBEGIN  reduce using rule 53 (empty -> .)
+    SHAPE           reduce using rule 53 (empty -> .)
+    MAKENAMEDMATERIAL reduce using rule 53 (empty -> .)
+    MATERIAL        reduce using rule 53 (empty -> .)
+    NAMEDMATERIAL   reduce using rule 53 (empty -> .)
+    TEXTURE         reduce using rule 53 (empty -> .)
+    LIGHTSOURCE     reduce using rule 53 (empty -> .)
+    AREALIGHTSOURCE reduce using rule 53 (empty -> .)
+    TRANSFORMEND    reduce using rule 53 (empty -> .)
+    ATTRIBUTEEND    reduce using rule 53 (empty -> .)
 
     empty                          shift and go to state 125
     matrix                         shift and go to state 124
@@ -2502,32 +2582,37 @@ state 119
     (41) value -> . LBRACKET QUOTE FALSE QUOTE RBRACKET
     (42) value -> . matrix
     (43) value -> . empty
-    (44) matrix -> . LBRACKET number number number number number number number number number number number number number number number number RBRACKET
-    (45) matrix -> . LBRACKET number number number RBRACKET
-    (48) empty -> .
+    (44) matrix -> . LBRACKET number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number RBRACKET
+    (45) matrix -> . LBRACKET number number number number number number number number number number number number number number number number number number number number number number number number RBRACKET
+    (46) matrix -> . LBRACKET number number number number number number number number number number number number number number number number RBRACKET
+    (47) matrix -> . LBRACKET number number number number number number number number number number number number RBRACKET
+    (48) matrix -> . LBRACKET number number number number number number number number RBRACKET
+    (49) matrix -> . LBRACKET number number number number number number RBRACKET
+    (50) matrix -> . LBRACKET number number number RBRACKET
+    (53) empty -> .
 
     LBRACKET        shift and go to state 123
-    QUOTE           reduce using rule 48 (empty -> .)
-    WORLDBEGIN      reduce using rule 48 (empty -> .)
-    INTEGRATOR      reduce using rule 48 (empty -> .)
-    FILM            reduce using rule 48 (empty -> .)
-    SAMPLER         reduce using rule 48 (empty -> .)
-    FILTER          reduce using rule 48 (empty -> .)
-    CAMERA          reduce using rule 48 (empty -> .)
-    TRANSFORM       reduce using rule 48 (empty -> .)
-    $end            reduce using rule 48 (empty -> .)
-    WORLDEND        reduce using rule 48 (empty -> .)
-    ATTRIBUTEBEGIN  reduce using rule 48 (empty -> .)
-    TRANSFORMBEGIN  reduce using rule 48 (empty -> .)
-    SHAPE           reduce using rule 48 (empty -> .)
-    MAKENAMEDMATERIAL reduce using rule 48 (empty -> .)
-    MATERIAL        reduce using rule 48 (empty -> .)
-    NAMEDMATERIAL   reduce using rule 48 (empty -> .)
-    TEXTURE         reduce using rule 48 (empty -> .)
-    LIGHTSOURCE     reduce using rule 48 (empty -> .)
-    AREALIGHTSOURCE reduce using rule 48 (empty -> .)
-    TRANSFORMEND    reduce using rule 48 (empty -> .)
-    ATTRIBUTEEND    reduce using rule 48 (empty -> .)
+    QUOTE           reduce using rule 53 (empty -> .)
+    WORLDBEGIN      reduce using rule 53 (empty -> .)
+    INTEGRATOR      reduce using rule 53 (empty -> .)
+    FILM            reduce using rule 53 (empty -> .)
+    SAMPLER         reduce using rule 53 (empty -> .)
+    FILTER          reduce using rule 53 (empty -> .)
+    CAMERA          reduce using rule 53 (empty -> .)
+    TRANSFORM       reduce using rule 53 (empty -> .)
+    $end            reduce using rule 53 (empty -> .)
+    WORLDEND        reduce using rule 53 (empty -> .)
+    ATTRIBUTEBEGIN  reduce using rule 53 (empty -> .)
+    TRANSFORMBEGIN  reduce using rule 53 (empty -> .)
+    SHAPE           reduce using rule 53 (empty -> .)
+    MAKENAMEDMATERIAL reduce using rule 53 (empty -> .)
+    MATERIAL        reduce using rule 53 (empty -> .)
+    NAMEDMATERIAL   reduce using rule 53 (empty -> .)
+    TEXTURE         reduce using rule 53 (empty -> .)
+    LIGHTSOURCE     reduce using rule 53 (empty -> .)
+    AREALIGHTSOURCE reduce using rule 53 (empty -> .)
+    TRANSFORMEND    reduce using rule 53 (empty -> .)
+    ATTRIBUTEEND    reduce using rule 53 (empty -> .)
 
     empty                          shift and go to state 125
     matrix                         shift and go to state 124
@@ -2535,20 +2620,26 @@ state 119
 
 state 120
 
-    (44) matrix -> LBRACKET number number number number number number . number number number number number number number number number number RBRACKET
-    (46) number -> . ICONST
-    (47) number -> . FCONST
+    (44) matrix -> LBRACKET number number number number number number . number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number RBRACKET
+    (45) matrix -> LBRACKET number number number number number number . number number number number number number number number number number number number number number number number number number RBRACKET
+    (46) matrix -> LBRACKET number number number number number number . number number number number number number number number number number RBRACKET
+    (47) matrix -> LBRACKET number number number number number number . number number number number number number RBRACKET
+    (48) matrix -> LBRACKET number number number number number number . number number RBRACKET
+    (49) matrix -> LBRACKET number number number number number number . RBRACKET
+    (51) number -> . ICONST
+    (52) number -> . FCONST
 
+    RBRACKET        shift and go to state 133
     ICONST          shift and go to state 35
     FCONST          shift and go to state 37
 
-    number                         shift and go to state 133
+    number                         shift and go to state 134
 
 state 121
 
     (21) object -> TEXTURE QUOTE SCONST QUOTE QUOTE SCONST QUOTE . QUOTE SCONST QUOTE params
 
-    QUOTE           shift and go to state 134
+    QUOTE           shift and go to state 135
 
 
 state 122
@@ -2585,14 +2676,19 @@ state 123
     (39) value -> LBRACKET . QUOTE SCONST QUOTE RBRACKET
     (40) value -> LBRACKET . QUOTE TRUE QUOTE RBRACKET
     (41) value -> LBRACKET . QUOTE FALSE QUOTE RBRACKET
-    (44) matrix -> LBRACKET . number number number number number number number number number number number number number number number number RBRACKET
-    (45) matrix -> LBRACKET . number number number RBRACKET
-    (46) number -> . ICONST
-    (47) number -> . FCONST
+    (44) matrix -> LBRACKET . number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number RBRACKET
+    (45) matrix -> LBRACKET . number number number number number number number number number number number number number number number number number number number number number number number number RBRACKET
+    (46) matrix -> LBRACKET . number number number number number number number number number number number number number number number number RBRACKET
+    (47) matrix -> LBRACKET . number number number number number number number number number number number number RBRACKET
+    (48) matrix -> LBRACKET . number number number number number number number number RBRACKET
+    (49) matrix -> LBRACKET . number number number number number number RBRACKET
+    (50) matrix -> LBRACKET . number number number RBRACKET
+    (51) number -> . ICONST
+    (52) number -> . FCONST
 
-    ICONST          shift and go to state 137
-    FCONST          shift and go to state 135
-    QUOTE           shift and go to state 136
+    ICONST          shift and go to state 138
+    FCONST          shift and go to state 136
+    QUOTE           shift and go to state 137
 
     number                         shift and go to state 36
 
@@ -2841,72 +2937,108 @@ state 132
 
 state 133
 
-    (44) matrix -> LBRACKET number number number number number number number . number number number number number number number number number RBRACKET
-    (46) number -> . ICONST
-    (47) number -> . FCONST
+    (49) matrix -> LBRACKET number number number number number number RBRACKET .
+
+    QUOTE           reduce using rule 49 (matrix -> LBRACKET number number number number number number RBRACKET .)
+    WORLDBEGIN      reduce using rule 49 (matrix -> LBRACKET number number number number number number RBRACKET .)
+    INTEGRATOR      reduce using rule 49 (matrix -> LBRACKET number number number number number number RBRACKET .)
+    FILM            reduce using rule 49 (matrix -> LBRACKET number number number number number number RBRACKET .)
+    SAMPLER         reduce using rule 49 (matrix -> LBRACKET number number number number number number RBRACKET .)
+    FILTER          reduce using rule 49 (matrix -> LBRACKET number number number number number number RBRACKET .)
+    CAMERA          reduce using rule 49 (matrix -> LBRACKET number number number number number number RBRACKET .)
+    TRANSFORM       reduce using rule 49 (matrix -> LBRACKET number number number number number number RBRACKET .)
+    $end            reduce using rule 49 (matrix -> LBRACKET number number number number number number RBRACKET .)
+    WORLDEND        reduce using rule 49 (matrix -> LBRACKET number number number number number number RBRACKET .)
+    ATTRIBUTEBEGIN  reduce using rule 49 (matrix -> LBRACKET number number number number number number RBRACKET .)
+    TRANSFORMBEGIN  reduce using rule 49 (matrix -> LBRACKET number number number number number number RBRACKET .)
+    SHAPE           reduce using rule 49 (matrix -> LBRACKET number number number number number number RBRACKET .)
+    MAKENAMEDMATERIAL reduce using rule 49 (matrix -> LBRACKET number number number number number number RBRACKET .)
+    MATERIAL        reduce using rule 49 (matrix -> LBRACKET number number number number number number RBRACKET .)
+    NAMEDMATERIAL   reduce using rule 49 (matrix -> LBRACKET number number number number number number RBRACKET .)
+    TEXTURE         reduce using rule 49 (matrix -> LBRACKET number number number number number number RBRACKET .)
+    LIGHTSOURCE     reduce using rule 49 (matrix -> LBRACKET number number number number number number RBRACKET .)
+    AREALIGHTSOURCE reduce using rule 49 (matrix -> LBRACKET number number number number number number RBRACKET .)
+    TRANSFORMEND    reduce using rule 49 (matrix -> LBRACKET number number number number number number RBRACKET .)
+    ATTRIBUTEEND    reduce using rule 49 (matrix -> LBRACKET number number number number number number RBRACKET .)
+
+
+state 134
+
+    (44) matrix -> LBRACKET number number number number number number number . number number number number number number number number number number number number number number number number number number number number number number number number number number number number number RBRACKET
+    (45) matrix -> LBRACKET number number number number number number number . number number number number number number number number number number number number number number number number number RBRACKET
+    (46) matrix -> LBRACKET number number number number number number number . number number number number number number number number number RBRACKET
+    (47) matrix -> LBRACKET number number number number number number number . number number number number number RBRACKET
+    (48) matrix -> LBRACKET number number number number number number number . number RBRACKET
+    (51) number -> . ICONST
+    (52) number -> . FCONST
 
     ICONST          shift and go to state 35
     FCONST          shift and go to state 37
 
-    number                         shift and go to state 138
-
-state 134
-
-    (21) object -> TEXTURE QUOTE SCONST QUOTE QUOTE SCONST QUOTE QUOTE . SCONST QUOTE params
-
-    SCONST          shift and go to state 139
-
+    number                         shift and go to state 139
 
 state 135
 
-    (38) value -> LBRACKET FCONST . RBRACKET
-    (47) number -> FCONST .
+    (21) object -> TEXTURE QUOTE SCONST QUOTE QUOTE SCONST QUOTE QUOTE . SCONST QUOTE params
 
-    RBRACKET        shift and go to state 140
-    ICONST          reduce using rule 47 (number -> FCONST .)
-    FCONST          reduce using rule 47 (number -> FCONST .)
+    SCONST          shift and go to state 140
 
 
 state 136
+
+    (38) value -> LBRACKET FCONST . RBRACKET
+    (52) number -> FCONST .
+
+    RBRACKET        shift and go to state 141
+    ICONST          reduce using rule 52 (number -> FCONST .)
+    FCONST          reduce using rule 52 (number -> FCONST .)
+
+
+state 137
 
     (39) value -> LBRACKET QUOTE . SCONST QUOTE RBRACKET
     (40) value -> LBRACKET QUOTE . TRUE QUOTE RBRACKET
     (41) value -> LBRACKET QUOTE . FALSE QUOTE RBRACKET
 
-    SCONST          shift and go to state 142
-    TRUE            shift and go to state 143
-    FALSE           shift and go to state 141
-
-
-state 137
-
-    (37) value -> LBRACKET ICONST . RBRACKET
-    (46) number -> ICONST .
-
-    RBRACKET        shift and go to state 144
-    ICONST          reduce using rule 46 (number -> ICONST .)
-    FCONST          reduce using rule 46 (number -> ICONST .)
+    SCONST          shift and go to state 143
+    TRUE            shift and go to state 144
+    FALSE           shift and go to state 142
 
 
 state 138
 
-    (44) matrix -> LBRACKET number number number number number number number number . number number number number number number number number RBRACKET
-    (46) number -> . ICONST
-    (47) number -> . FCONST
+    (37) value -> LBRACKET ICONST . RBRACKET
+    (51) number -> ICONST .
 
-    ICONST          shift and go to state 35
-    FCONST          shift and go to state 37
+    RBRACKET        shift and go to state 145
+    ICONST          reduce using rule 51 (number -> ICONST .)
+    FCONST          reduce using rule 51 (number -> ICONST .)
 
-    number                         shift and go to state 145
 
 state 139
 
-    (21) object -> TEXTURE QUOTE SCONST QUOTE QUOTE SCONST QUOTE QUOTE SCONST . QUOTE params
+    (44) matrix -> LBRACKET number number number number number number number number . number number number number number number number number number number number number number number number number number number number number number number number number number number number number RBRACKET
+    (45) matrix -> LBRACKET number number number number number number number number . number number number number number number number number number number number number number number number number RBRACKET
+    (46) matrix -> LBRACKET number number number number number number number number . number number number number number number number number RBRACKET
+    (47) matrix -> LBRACKET number number number number number number number number . number number number number RBRACKET
+    (48) matrix -> LBRACKET number number number number number number number number . RBRACKET
+    (51) number -> . ICONST
+    (52) number -> . FCONST
 
-    QUOTE           shift and go to state 146
+    RBRACKET        shift and go to state 146
+    ICONST          shift and go to state 35
+    FCONST          shift and go to state 37
 
+    number                         shift and go to state 147
 
 state 140
+
+    (21) object -> TEXTURE QUOTE SCONST QUOTE QUOTE SCONST QUOTE QUOTE SCONST . QUOTE params
+
+    QUOTE           shift and go to state 148
+
+
+state 141
 
     (38) value -> LBRACKET FCONST RBRACKET .
 
@@ -2933,28 +3065,28 @@ state 140
     ATTRIBUTEEND    reduce using rule 38 (value -> LBRACKET FCONST RBRACKET .)
 
 
-state 141
-
-    (41) value -> LBRACKET QUOTE FALSE . QUOTE RBRACKET
-
-    QUOTE           shift and go to state 147
-
-
 state 142
 
-    (39) value -> LBRACKET QUOTE SCONST . QUOTE RBRACKET
-
-    QUOTE           shift and go to state 148
-
-
-state 143
-
-    (40) value -> LBRACKET QUOTE TRUE . QUOTE RBRACKET
+    (41) value -> LBRACKET QUOTE FALSE . QUOTE RBRACKET
 
     QUOTE           shift and go to state 149
 
 
+state 143
+
+    (39) value -> LBRACKET QUOTE SCONST . QUOTE RBRACKET
+
+    QUOTE           shift and go to state 150
+
+
 state 144
+
+    (40) value -> LBRACKET QUOTE TRUE . QUOTE RBRACKET
+
+    QUOTE           shift and go to state 151
+
+
+state 145
 
     (37) value -> LBRACKET ICONST RBRACKET .
 
@@ -2981,18 +3113,48 @@ state 144
     ATTRIBUTEEND    reduce using rule 37 (value -> LBRACKET ICONST RBRACKET .)
 
 
-state 145
+state 146
 
-    (44) matrix -> LBRACKET number number number number number number number number number . number number number number number number number RBRACKET
-    (46) number -> . ICONST
-    (47) number -> . FCONST
+    (48) matrix -> LBRACKET number number number number number number number number RBRACKET .
+
+    QUOTE           reduce using rule 48 (matrix -> LBRACKET number number number number number number number number RBRACKET .)
+    WORLDBEGIN      reduce using rule 48 (matrix -> LBRACKET number number number number number number number number RBRACKET .)
+    INTEGRATOR      reduce using rule 48 (matrix -> LBRACKET number number number number number number number number RBRACKET .)
+    FILM            reduce using rule 48 (matrix -> LBRACKET number number number number number number number number RBRACKET .)
+    SAMPLER         reduce using rule 48 (matrix -> LBRACKET number number number number number number number number RBRACKET .)
+    FILTER          reduce using rule 48 (matrix -> LBRACKET number number number number number number number number RBRACKET .)
+    CAMERA          reduce using rule 48 (matrix -> LBRACKET number number number number number number number number RBRACKET .)
+    TRANSFORM       reduce using rule 48 (matrix -> LBRACKET number number number number number number number number RBRACKET .)
+    $end            reduce using rule 48 (matrix -> LBRACKET number number number number number number number number RBRACKET .)
+    WORLDEND        reduce using rule 48 (matrix -> LBRACKET number number number number number number number number RBRACKET .)
+    ATTRIBUTEBEGIN  reduce using rule 48 (matrix -> LBRACKET number number number number number number number number RBRACKET .)
+    TRANSFORMBEGIN  reduce using rule 48 (matrix -> LBRACKET number number number number number number number number RBRACKET .)
+    SHAPE           reduce using rule 48 (matrix -> LBRACKET number number number number number number number number RBRACKET .)
+    MAKENAMEDMATERIAL reduce using rule 48 (matrix -> LBRACKET number number number number number number number number RBRACKET .)
+    MATERIAL        reduce using rule 48 (matrix -> LBRACKET number number number number number number number number RBRACKET .)
+    NAMEDMATERIAL   reduce using rule 48 (matrix -> LBRACKET number number number number number number number number RBRACKET .)
+    TEXTURE         reduce using rule 48 (matrix -> LBRACKET number number number number number number number number RBRACKET .)
+    LIGHTSOURCE     reduce using rule 48 (matrix -> LBRACKET number number number number number number number number RBRACKET .)
+    AREALIGHTSOURCE reduce using rule 48 (matrix -> LBRACKET number number number number number number number number RBRACKET .)
+    TRANSFORMEND    reduce using rule 48 (matrix -> LBRACKET number number number number number number number number RBRACKET .)
+    ATTRIBUTEEND    reduce using rule 48 (matrix -> LBRACKET number number number number number number number number RBRACKET .)
+
+
+state 147
+
+    (44) matrix -> LBRACKET number number number number number number number number number . number number number number number number number number number number number number number number number number number number number number number number number number number number number RBRACKET
+    (45) matrix -> LBRACKET number number number number number number number number number . number number number number number number number number number number number number number number number RBRACKET
+    (46) matrix -> LBRACKET number number number number number number number number number . number number number number number number number RBRACKET
+    (47) matrix -> LBRACKET number number number number number number number number number . number number number RBRACKET
+    (51) number -> . ICONST
+    (52) number -> . FCONST
 
     ICONST          shift and go to state 35
     FCONST          shift and go to state 37
 
-    number                         shift and go to state 150
+    number                         shift and go to state 152
 
-state 146
+state 148
 
     (21) object -> TEXTURE QUOTE SCONST QUOTE QUOTE SCONST QUOTE QUOTE SCONST QUOTE . params
     (26) params -> . params param
@@ -3006,63 +3168,66 @@ state 146
     (34) param -> . QUOTE NORMAL SCONST QUOTE value
     (35) param -> . QUOTE TEX SCONST QUOTE value
     (36) param -> . empty
-    (48) empty -> .
+    (53) empty -> .
 
   ! shift/reduce conflict for QUOTE resolved as shift
     QUOTE           shift and go to state 67
-    WORLDEND        reduce using rule 48 (empty -> .)
-    ATTRIBUTEBEGIN  reduce using rule 48 (empty -> .)
-    TRANSFORMBEGIN  reduce using rule 48 (empty -> .)
-    SHAPE           reduce using rule 48 (empty -> .)
-    MAKENAMEDMATERIAL reduce using rule 48 (empty -> .)
-    MATERIAL        reduce using rule 48 (empty -> .)
-    NAMEDMATERIAL   reduce using rule 48 (empty -> .)
-    TEXTURE         reduce using rule 48 (empty -> .)
-    LIGHTSOURCE     reduce using rule 48 (empty -> .)
-    AREALIGHTSOURCE reduce using rule 48 (empty -> .)
-    TRANSFORM       reduce using rule 48 (empty -> .)
-    TRANSFORMEND    reduce using rule 48 (empty -> .)
-    ATTRIBUTEEND    reduce using rule 48 (empty -> .)
+    WORLDEND        reduce using rule 53 (empty -> .)
+    ATTRIBUTEBEGIN  reduce using rule 53 (empty -> .)
+    TRANSFORMBEGIN  reduce using rule 53 (empty -> .)
+    SHAPE           reduce using rule 53 (empty -> .)
+    MAKENAMEDMATERIAL reduce using rule 53 (empty -> .)
+    MATERIAL        reduce using rule 53 (empty -> .)
+    NAMEDMATERIAL   reduce using rule 53 (empty -> .)
+    TEXTURE         reduce using rule 53 (empty -> .)
+    LIGHTSOURCE     reduce using rule 53 (empty -> .)
+    AREALIGHTSOURCE reduce using rule 53 (empty -> .)
+    TRANSFORM       reduce using rule 53 (empty -> .)
+    TRANSFORMEND    reduce using rule 53 (empty -> .)
+    ATTRIBUTEEND    reduce using rule 53 (empty -> .)
 
-  ! QUOTE           [ reduce using rule 48 (empty -> .) ]
+  ! QUOTE           [ reduce using rule 53 (empty -> .) ]
 
     empty                          shift and go to state 70
-    params                         shift and go to state 151
+    params                         shift and go to state 153
     param                          shift and go to state 68
-
-state 147
-
-    (41) value -> LBRACKET QUOTE FALSE QUOTE . RBRACKET
-
-    RBRACKET        shift and go to state 152
-
-
-state 148
-
-    (39) value -> LBRACKET QUOTE SCONST QUOTE . RBRACKET
-
-    RBRACKET        shift and go to state 153
-
 
 state 149
 
-    (40) value -> LBRACKET QUOTE TRUE QUOTE . RBRACKET
+    (41) value -> LBRACKET QUOTE FALSE QUOTE . RBRACKET
 
     RBRACKET        shift and go to state 154
 
 
 state 150
 
-    (44) matrix -> LBRACKET number number number number number number number number number number . number number number number number number RBRACKET
-    (46) number -> . ICONST
-    (47) number -> . FCONST
+    (39) value -> LBRACKET QUOTE SCONST QUOTE . RBRACKET
+
+    RBRACKET        shift and go to state 155
+
+
+state 151
+
+    (40) value -> LBRACKET QUOTE TRUE QUOTE . RBRACKET
+
+    RBRACKET        shift and go to state 156
+
+
+state 152
+
+    (44) matrix -> LBRACKET number number number number number number number number number number . number number number number number number number number number number number number number number number number number number number number number number number number number number RBRACKET
+    (45) matrix -> LBRACKET number number number number number number number number number number . number number number number number number number number number number number number number number RBRACKET
+    (46) matrix -> LBRACKET number number number number number number number number number number . number number number number number number RBRACKET
+    (47) matrix -> LBRACKET number number number number number number number number number number . number number RBRACKET
+    (51) number -> . ICONST
+    (52) number -> . FCONST
 
     ICONST          shift and go to state 35
     FCONST          shift and go to state 37
 
-    number                         shift and go to state 155
+    number                         shift and go to state 157
 
-state 151
+state 153
 
     (21) object -> TEXTURE QUOTE SCONST QUOTE QUOTE SCONST QUOTE QUOTE SCONST QUOTE params .
     (26) params -> params . param
@@ -3075,7 +3240,7 @@ state 151
     (34) param -> . QUOTE NORMAL SCONST QUOTE value
     (35) param -> . QUOTE TEX SCONST QUOTE value
     (36) param -> . empty
-    (48) empty -> .
+    (53) empty -> .
 
   ! shift/reduce conflict for QUOTE resolved as shift
   ! reduce/reduce conflict for WORLDEND resolved using rule 21 (object -> TEXTURE QUOTE SCONST QUOTE QUOTE SCONST QUOTE QUOTE SCONST QUOTE params .)
@@ -3106,25 +3271,25 @@ state 151
     WORLDEND        reduce using rule 21 (object -> TEXTURE QUOTE SCONST QUOTE QUOTE SCONST QUOTE QUOTE SCONST QUOTE params .)
     QUOTE           shift and go to state 67
 
-  ! QUOTE           [ reduce using rule 48 (empty -> .) ]
-  ! WORLDEND        [ reduce using rule 48 (empty -> .) ]
-  ! ATTRIBUTEBEGIN  [ reduce using rule 48 (empty -> .) ]
-  ! TRANSFORMBEGIN  [ reduce using rule 48 (empty -> .) ]
-  ! SHAPE           [ reduce using rule 48 (empty -> .) ]
-  ! MAKENAMEDMATERIAL [ reduce using rule 48 (empty -> .) ]
-  ! MATERIAL        [ reduce using rule 48 (empty -> .) ]
-  ! NAMEDMATERIAL   [ reduce using rule 48 (empty -> .) ]
-  ! TEXTURE         [ reduce using rule 48 (empty -> .) ]
-  ! LIGHTSOURCE     [ reduce using rule 48 (empty -> .) ]
-  ! AREALIGHTSOURCE [ reduce using rule 48 (empty -> .) ]
-  ! TRANSFORM       [ reduce using rule 48 (empty -> .) ]
-  ! TRANSFORMEND    [ reduce using rule 48 (empty -> .) ]
-  ! ATTRIBUTEEND    [ reduce using rule 48 (empty -> .) ]
+  ! QUOTE           [ reduce using rule 53 (empty -> .) ]
+  ! WORLDEND        [ reduce using rule 53 (empty -> .) ]
+  ! ATTRIBUTEBEGIN  [ reduce using rule 53 (empty -> .) ]
+  ! TRANSFORMBEGIN  [ reduce using rule 53 (empty -> .) ]
+  ! SHAPE           [ reduce using rule 53 (empty -> .) ]
+  ! MAKENAMEDMATERIAL [ reduce using rule 53 (empty -> .) ]
+  ! MATERIAL        [ reduce using rule 53 (empty -> .) ]
+  ! NAMEDMATERIAL   [ reduce using rule 53 (empty -> .) ]
+  ! TEXTURE         [ reduce using rule 53 (empty -> .) ]
+  ! LIGHTSOURCE     [ reduce using rule 53 (empty -> .) ]
+  ! AREALIGHTSOURCE [ reduce using rule 53 (empty -> .) ]
+  ! TRANSFORM       [ reduce using rule 53 (empty -> .) ]
+  ! TRANSFORMEND    [ reduce using rule 53 (empty -> .) ]
+  ! ATTRIBUTEEND    [ reduce using rule 53 (empty -> .) ]
 
     empty                          shift and go to state 70
     param                          shift and go to state 93
 
-state 152
+state 154
 
     (41) value -> LBRACKET QUOTE FALSE QUOTE RBRACKET .
 
@@ -3151,7 +3316,7 @@ state 152
     ATTRIBUTEEND    reduce using rule 41 (value -> LBRACKET QUOTE FALSE QUOTE RBRACKET .)
 
 
-state 153
+state 155
 
     (39) value -> LBRACKET QUOTE SCONST QUOTE RBRACKET .
 
@@ -3178,7 +3343,7 @@ state 153
     ATTRIBUTEEND    reduce using rule 39 (value -> LBRACKET QUOTE SCONST QUOTE RBRACKET .)
 
 
-state 154
+state 156
 
     (40) value -> LBRACKET QUOTE TRUE QUOTE RBRACKET .
 
@@ -3205,33 +3370,14 @@ state 154
     ATTRIBUTEEND    reduce using rule 40 (value -> LBRACKET QUOTE TRUE QUOTE RBRACKET .)
 
 
-state 155
-
-    (44) matrix -> LBRACKET number number number number number number number number number number number . number number number number number RBRACKET
-    (46) number -> . ICONST
-    (47) number -> . FCONST
-
-    ICONST          shift and go to state 35
-    FCONST          shift and go to state 37
-
-    number                         shift and go to state 156
-
-state 156
-
-    (44) matrix -> LBRACKET number number number number number number number number number number number number . number number number number RBRACKET
-    (46) number -> . ICONST
-    (47) number -> . FCONST
-
-    ICONST          shift and go to state 35
-    FCONST          shift and go to state 37
-
-    number                         shift and go to state 157
-
 state 157
 
-    (44) matrix -> LBRACKET number number number number number number number number number number number number number . number number number RBRACKET
-    (46) number -> . ICONST
-    (47) number -> . FCONST
+    (44) matrix -> LBRACKET number number number number number number number number number number number . number number number number number number number number number number number number number number number number number number number number number number number number number RBRACKET
+    (45) matrix -> LBRACKET number number number number number number number number number number number . number number number number number number number number number number number number number RBRACKET
+    (46) matrix -> LBRACKET number number number number number number number number number number number . number number number number number RBRACKET
+    (47) matrix -> LBRACKET number number number number number number number number number number number . number RBRACKET
+    (51) number -> . ICONST
+    (52) number -> . FCONST
 
     ICONST          shift and go to state 35
     FCONST          shift and go to state 37
@@ -3240,58 +3386,403 @@ state 157
 
 state 158
 
-    (44) matrix -> LBRACKET number number number number number number number number number number number number number number . number number RBRACKET
-    (46) number -> . ICONST
-    (47) number -> . FCONST
+    (44) matrix -> LBRACKET number number number number number number number number number number number number . number number number number number number number number number number number number number number number number number number number number number number number number RBRACKET
+    (45) matrix -> LBRACKET number number number number number number number number number number number number . number number number number number number number number number number number number RBRACKET
+    (46) matrix -> LBRACKET number number number number number number number number number number number number . number number number number RBRACKET
+    (47) matrix -> LBRACKET number number number number number number number number number number number number . RBRACKET
+    (51) number -> . ICONST
+    (52) number -> . FCONST
 
-    ICONST          shift and go to state 35
-    FCONST          shift and go to state 37
-
-    number                         shift and go to state 159
-
-state 159
-
-    (44) matrix -> LBRACKET number number number number number number number number number number number number number number number . number RBRACKET
-    (46) number -> . ICONST
-    (47) number -> . FCONST
-
+    RBRACKET        shift and go to state 159
     ICONST          shift and go to state 35
     FCONST          shift and go to state 37
 
     number                         shift and go to state 160
 
+state 159
+
+    (47) matrix -> LBRACKET number number number number number number number number number number number number RBRACKET .
+
+    QUOTE           reduce using rule 47 (matrix -> LBRACKET number number number number number number number number number number number number RBRACKET .)
+    WORLDBEGIN      reduce using rule 47 (matrix -> LBRACKET number number number number number number number number number number number number RBRACKET .)
+    INTEGRATOR      reduce using rule 47 (matrix -> LBRACKET number number number number number number number number number number number number RBRACKET .)
+    FILM            reduce using rule 47 (matrix -> LBRACKET number number number number number number number number number number number number RBRACKET .)
+    SAMPLER         reduce using rule 47 (matrix -> LBRACKET number number number number number number number number number number number number RBRACKET .)
+    FILTER          reduce using rule 47 (matrix -> LBRACKET number number number number number number number number number number number number RBRACKET .)
+    CAMERA          reduce using rule 47 (matrix -> LBRACKET number number number number number number number number number number number number RBRACKET .)
+    TRANSFORM       reduce using rule 47 (matrix -> LBRACKET number number number number number number number number number number number number RBRACKET .)
+    $end            reduce using rule 47 (matrix -> LBRACKET number number number number number number number number number number number number RBRACKET .)
+    WORLDEND        reduce using rule 47 (matrix -> LBRACKET number number number number number number number number number number number number RBRACKET .)
+    ATTRIBUTEBEGIN  reduce using rule 47 (matrix -> LBRACKET number number number number number number number number number number number number RBRACKET .)
+    TRANSFORMBEGIN  reduce using rule 47 (matrix -> LBRACKET number number number number number number number number number number number number RBRACKET .)
+    SHAPE           reduce using rule 47 (matrix -> LBRACKET number number number number number number number number number number number number RBRACKET .)
+    MAKENAMEDMATERIAL reduce using rule 47 (matrix -> LBRACKET number number number number number number number number number number number number RBRACKET .)
+    MATERIAL        reduce using rule 47 (matrix -> LBRACKET number number number number number number number number number number number number RBRACKET .)
+    NAMEDMATERIAL   reduce using rule 47 (matrix -> LBRACKET number number number number number number number number number number number number RBRACKET .)
+    TEXTURE         reduce using rule 47 (matrix -> LBRACKET number number number number number number number number number number number number RBRACKET .)
+    LIGHTSOURCE     reduce using rule 47 (matrix -> LBRACKET number number number number number number number number number number number number RBRACKET .)
+    AREALIGHTSOURCE reduce using rule 47 (matrix -> LBRACKET number number number number number number number number number number number number RBRACKET .)
+    TRANSFORMEND    reduce using rule 47 (matrix -> LBRACKET number number number number number number number number number number number number RBRACKET .)
+    ATTRIBUTEEND    reduce using rule 47 (matrix -> LBRACKET number number number number number number number number number number number number RBRACKET .)
+
+
 state 160
 
-    (44) matrix -> LBRACKET number number number number number number number number number number number number number number number number . RBRACKET
+    (44) matrix -> LBRACKET number number number number number number number number number number number number number . number number number number number number number number number number number number number number number number number number number number number number number RBRACKET
+    (45) matrix -> LBRACKET number number number number number number number number number number number number number . number number number number number number number number number number number RBRACKET
+    (46) matrix -> LBRACKET number number number number number number number number number number number number number . number number number RBRACKET
+    (51) number -> . ICONST
+    (52) number -> . FCONST
 
-    RBRACKET        shift and go to state 161
+    ICONST          shift and go to state 35
+    FCONST          shift and go to state 37
 
+    number                         shift and go to state 161
 
 state 161
 
-    (44) matrix -> LBRACKET number number number number number number number number number number number number number number number number RBRACKET .
+    (44) matrix -> LBRACKET number number number number number number number number number number number number number number . number number number number number number number number number number number number number number number number number number number number number number RBRACKET
+    (45) matrix -> LBRACKET number number number number number number number number number number number number number number . number number number number number number number number number number RBRACKET
+    (46) matrix -> LBRACKET number number number number number number number number number number number number number number . number number RBRACKET
+    (51) number -> . ICONST
+    (52) number -> . FCONST
 
-    QUOTE           reduce using rule 44 (matrix -> LBRACKET number number number number number number number number number number number number number number number number RBRACKET .)
-    WORLDBEGIN      reduce using rule 44 (matrix -> LBRACKET number number number number number number number number number number number number number number number number RBRACKET .)
-    INTEGRATOR      reduce using rule 44 (matrix -> LBRACKET number number number number number number number number number number number number number number number number RBRACKET .)
-    FILM            reduce using rule 44 (matrix -> LBRACKET number number number number number number number number number number number number number number number number RBRACKET .)
-    SAMPLER         reduce using rule 44 (matrix -> LBRACKET number number number number number number number number number number number number number number number number RBRACKET .)
-    FILTER          reduce using rule 44 (matrix -> LBRACKET number number number number number number number number number number number number number number number number RBRACKET .)
-    CAMERA          reduce using rule 44 (matrix -> LBRACKET number number number number number number number number number number number number number number number number RBRACKET .)
-    TRANSFORM       reduce using rule 44 (matrix -> LBRACKET number number number number number number number number number number number number number number number number RBRACKET .)
-    $end            reduce using rule 44 (matrix -> LBRACKET number number number number number number number number number number number number number number number number RBRACKET .)
-    WORLDEND        reduce using rule 44 (matrix -> LBRACKET number number number number number number number number number number number number number number number number RBRACKET .)
-    ATTRIBUTEBEGIN  reduce using rule 44 (matrix -> LBRACKET number number number number number number number number number number number number number number number number RBRACKET .)
-    TRANSFORMBEGIN  reduce using rule 44 (matrix -> LBRACKET number number number number number number number number number number number number number number number number RBRACKET .)
-    SHAPE           reduce using rule 44 (matrix -> LBRACKET number number number number number number number number number number number number number number number number RBRACKET .)
-    MAKENAMEDMATERIAL reduce using rule 44 (matrix -> LBRACKET number number number number number number number number number number number number number number number number RBRACKET .)
-    MATERIAL        reduce using rule 44 (matrix -> LBRACKET number number number number number number number number number number number number number number number number RBRACKET .)
-    NAMEDMATERIAL   reduce using rule 44 (matrix -> LBRACKET number number number number number number number number number number number number number number number number RBRACKET .)
-    TEXTURE         reduce using rule 44 (matrix -> LBRACKET number number number number number number number number number number number number number number number number RBRACKET .)
-    LIGHTSOURCE     reduce using rule 44 (matrix -> LBRACKET number number number number number number number number number number number number number number number number RBRACKET .)
-    AREALIGHTSOURCE reduce using rule 44 (matrix -> LBRACKET number number number number number number number number number number number number number number number number RBRACKET .)
-    TRANSFORMEND    reduce using rule 44 (matrix -> LBRACKET number number number number number number number number number number number number number number number number RBRACKET .)
-    ATTRIBUTEEND    reduce using rule 44 (matrix -> LBRACKET number number number number number number number number number number number number number number number number RBRACKET .)
+    ICONST          shift and go to state 35
+    FCONST          shift and go to state 37
+
+    number                         shift and go to state 162
+
+state 162
+
+    (44) matrix -> LBRACKET number number number number number number number number number number number number number number number . number number number number number number number number number number number number number number number number number number number number number RBRACKET
+    (45) matrix -> LBRACKET number number number number number number number number number number number number number number number . number number number number number number number number number RBRACKET
+    (46) matrix -> LBRACKET number number number number number number number number number number number number number number number . number RBRACKET
+    (51) number -> . ICONST
+    (52) number -> . FCONST
+
+    ICONST          shift and go to state 35
+    FCONST          shift and go to state 37
+
+    number                         shift and go to state 163
+
+state 163
+
+    (44) matrix -> LBRACKET number number number number number number number number number number number number number number number number . number number number number number number number number number number number number number number number number number number number number RBRACKET
+    (45) matrix -> LBRACKET number number number number number number number number number number number number number number number number . number number number number number number number number RBRACKET
+    (46) matrix -> LBRACKET number number number number number number number number number number number number number number number number . RBRACKET
+    (51) number -> . ICONST
+    (52) number -> . FCONST
+
+    RBRACKET        shift and go to state 164
+    ICONST          shift and go to state 35
+    FCONST          shift and go to state 37
+
+    number                         shift and go to state 165
+
+state 164
+
+    (46) matrix -> LBRACKET number number number number number number number number number number number number number number number number RBRACKET .
+
+    QUOTE           reduce using rule 46 (matrix -> LBRACKET number number number number number number number number number number number number number number number number RBRACKET .)
+    WORLDBEGIN      reduce using rule 46 (matrix -> LBRACKET number number number number number number number number number number number number number number number number RBRACKET .)
+    INTEGRATOR      reduce using rule 46 (matrix -> LBRACKET number number number number number number number number number number number number number number number number RBRACKET .)
+    FILM            reduce using rule 46 (matrix -> LBRACKET number number number number number number number number number number number number number number number number RBRACKET .)
+    SAMPLER         reduce using rule 46 (matrix -> LBRACKET number number number number number number number number number number number number number number number number RBRACKET .)
+    FILTER          reduce using rule 46 (matrix -> LBRACKET number number number number number number number number number number number number number number number number RBRACKET .)
+    CAMERA          reduce using rule 46 (matrix -> LBRACKET number number number number number number number number number number number number number number number number RBRACKET .)
+    TRANSFORM       reduce using rule 46 (matrix -> LBRACKET number number number number number number number number number number number number number number number number RBRACKET .)
+    $end            reduce using rule 46 (matrix -> LBRACKET number number number number number number number number number number number number number number number number RBRACKET .)
+    WORLDEND        reduce using rule 46 (matrix -> LBRACKET number number number number number number number number number number number number number number number number RBRACKET .)
+    ATTRIBUTEBEGIN  reduce using rule 46 (matrix -> LBRACKET number number number number number number number number number number number number number number number number RBRACKET .)
+    TRANSFORMBEGIN  reduce using rule 46 (matrix -> LBRACKET number number number number number number number number number number number number number number number number RBRACKET .)
+    SHAPE           reduce using rule 46 (matrix -> LBRACKET number number number number number number number number number number number number number number number number RBRACKET .)
+    MAKENAMEDMATERIAL reduce using rule 46 (matrix -> LBRACKET number number number number number number number number number number number number number number number number RBRACKET .)
+    MATERIAL        reduce using rule 46 (matrix -> LBRACKET number number number number number number number number number number number number number number number number RBRACKET .)
+    NAMEDMATERIAL   reduce using rule 46 (matrix -> LBRACKET number number number number number number number number number number number number number number number number RBRACKET .)
+    TEXTURE         reduce using rule 46 (matrix -> LBRACKET number number number number number number number number number number number number number number number number RBRACKET .)
+    LIGHTSOURCE     reduce using rule 46 (matrix -> LBRACKET number number number number number number number number number number number number number number number number RBRACKET .)
+    AREALIGHTSOURCE reduce using rule 46 (matrix -> LBRACKET number number number number number number number number number number number number number number number number RBRACKET .)
+    TRANSFORMEND    reduce using rule 46 (matrix -> LBRACKET number number number number number number number number number number number number number number number number RBRACKET .)
+    ATTRIBUTEEND    reduce using rule 46 (matrix -> LBRACKET number number number number number number number number number number number number number number number number RBRACKET .)
+
+
+state 165
+
+    (44) matrix -> LBRACKET number number number number number number number number number number number number number number number number number . number number number number number number number number number number number number number number number number number number number RBRACKET
+    (45) matrix -> LBRACKET number number number number number number number number number number number number number number number number number . number number number number number number number RBRACKET
+    (51) number -> . ICONST
+    (52) number -> . FCONST
+
+    ICONST          shift and go to state 35
+    FCONST          shift and go to state 37
+
+    number                         shift and go to state 166
+
+state 166
+
+    (44) matrix -> LBRACKET number number number number number number number number number number number number number number number number number number . number number number number number number number number number number number number number number number number number number RBRACKET
+    (45) matrix -> LBRACKET number number number number number number number number number number number number number number number number number number . number number number number number number RBRACKET
+    (51) number -> . ICONST
+    (52) number -> . FCONST
+
+    ICONST          shift and go to state 35
+    FCONST          shift and go to state 37
+
+    number                         shift and go to state 167
+
+state 167
+
+    (44) matrix -> LBRACKET number number number number number number number number number number number number number number number number number number number . number number number number number number number number number number number number number number number number number RBRACKET
+    (45) matrix -> LBRACKET number number number number number number number number number number number number number number number number number number number . number number number number number RBRACKET
+    (51) number -> . ICONST
+    (52) number -> . FCONST
+
+    ICONST          shift and go to state 35
+    FCONST          shift and go to state 37
+
+    number                         shift and go to state 168
+
+state 168
+
+    (44) matrix -> LBRACKET number number number number number number number number number number number number number number number number number number number number . number number number number number number number number number number number number number number number number RBRACKET
+    (45) matrix -> LBRACKET number number number number number number number number number number number number number number number number number number number number . number number number number RBRACKET
+    (51) number -> . ICONST
+    (52) number -> . FCONST
+
+    ICONST          shift and go to state 35
+    FCONST          shift and go to state 37
+
+    number                         shift and go to state 169
+
+state 169
+
+    (44) matrix -> LBRACKET number number number number number number number number number number number number number number number number number number number number number . number number number number number number number number number number number number number number number RBRACKET
+    (45) matrix -> LBRACKET number number number number number number number number number number number number number number number number number number number number number . number number number RBRACKET
+    (51) number -> . ICONST
+    (52) number -> . FCONST
+
+    ICONST          shift and go to state 35
+    FCONST          shift and go to state 37
+
+    number                         shift and go to state 170
+
+state 170
+
+    (44) matrix -> LBRACKET number number number number number number number number number number number number number number number number number number number number number number . number number number number number number number number number number number number number number RBRACKET
+    (45) matrix -> LBRACKET number number number number number number number number number number number number number number number number number number number number number number . number number RBRACKET
+    (51) number -> . ICONST
+    (52) number -> . FCONST
+
+    ICONST          shift and go to state 35
+    FCONST          shift and go to state 37
+
+    number                         shift and go to state 171
+
+state 171
+
+    (44) matrix -> LBRACKET number number number number number number number number number number number number number number number number number number number number number number number . number number number number number number number number number number number number number RBRACKET
+    (45) matrix -> LBRACKET number number number number number number number number number number number number number number number number number number number number number number number . number RBRACKET
+    (51) number -> . ICONST
+    (52) number -> . FCONST
+
+    ICONST          shift and go to state 35
+    FCONST          shift and go to state 37
+
+    number                         shift and go to state 172
+
+state 172
+
+    (44) matrix -> LBRACKET number number number number number number number number number number number number number number number number number number number number number number number number . number number number number number number number number number number number number RBRACKET
+    (45) matrix -> LBRACKET number number number number number number number number number number number number number number number number number number number number number number number number . RBRACKET
+    (51) number -> . ICONST
+    (52) number -> . FCONST
+
+    RBRACKET        shift and go to state 173
+    ICONST          shift and go to state 35
+    FCONST          shift and go to state 37
+
+    number                         shift and go to state 174
+
+state 173
+
+    (45) matrix -> LBRACKET number number number number number number number number number number number number number number number number number number number number number number number number RBRACKET .
+
+    QUOTE           reduce using rule 45 (matrix -> LBRACKET number number number number number number number number number number number number number number number number number number number number number number number number RBRACKET .)
+    WORLDBEGIN      reduce using rule 45 (matrix -> LBRACKET number number number number number number number number number number number number number number number number number number number number number number number number RBRACKET .)
+    INTEGRATOR      reduce using rule 45 (matrix -> LBRACKET number number number number number number number number number number number number number number number number number number number number number number number number RBRACKET .)
+    FILM            reduce using rule 45 (matrix -> LBRACKET number number number number number number number number number number number number number number number number number number number number number number number number RBRACKET .)
+    SAMPLER         reduce using rule 45 (matrix -> LBRACKET number number number number number number number number number number number number number number number number number number number number number number number number RBRACKET .)
+    FILTER          reduce using rule 45 (matrix -> LBRACKET number number number number number number number number number number number number number number number number number number number number number number number number RBRACKET .)
+    CAMERA          reduce using rule 45 (matrix -> LBRACKET number number number number number number number number number number number number number number number number number number number number number number number number RBRACKET .)
+    TRANSFORM       reduce using rule 45 (matrix -> LBRACKET number number number number number number number number number number number number number number number number number number number number number number number number RBRACKET .)
+    $end            reduce using rule 45 (matrix -> LBRACKET number number number number number number number number number number number number number number number number number number number number number number number number RBRACKET .)
+    WORLDEND        reduce using rule 45 (matrix -> LBRACKET number number number number number number number number number number number number number number number number number number number number number number number number RBRACKET .)
+    ATTRIBUTEBEGIN  reduce using rule 45 (matrix -> LBRACKET number number number number number number number number number number number number number number number number number number number number number number number number RBRACKET .)
+    TRANSFORMBEGIN  reduce using rule 45 (matrix -> LBRACKET number number number number number number number number number number number number number number number number number number number number number number number number RBRACKET .)
+    SHAPE           reduce using rule 45 (matrix -> LBRACKET number number number number number number number number number number number number number number number number number number number number number number number number RBRACKET .)
+    MAKENAMEDMATERIAL reduce using rule 45 (matrix -> LBRACKET number number number number number number number number number number number number number number number number number number number number number number number number RBRACKET .)
+    MATERIAL        reduce using rule 45 (matrix -> LBRACKET number number number number number number number number number number number number number number number number number number number number number number number number RBRACKET .)
+    NAMEDMATERIAL   reduce using rule 45 (matrix -> LBRACKET number number number number number number number number number number number number number number number number number number number number number number number number RBRACKET .)
+    TEXTURE         reduce using rule 45 (matrix -> LBRACKET number number number number number number number number number number number number number number number number number number number number number number number number RBRACKET .)
+    LIGHTSOURCE     reduce using rule 45 (matrix -> LBRACKET number number number number number number number number number number number number number number number number number number number number number number number number RBRACKET .)
+    AREALIGHTSOURCE reduce using rule 45 (matrix -> LBRACKET number number number number number number number number number number number number number number number number number number number number number number number number RBRACKET .)
+    TRANSFORMEND    reduce using rule 45 (matrix -> LBRACKET number number number number number number number number number number number number number number number number number number number number number number number number RBRACKET .)
+    ATTRIBUTEEND    reduce using rule 45 (matrix -> LBRACKET number number number number number number number number number number number number number number number number number number number number number number number number RBRACKET .)
+
+
+state 174
+
+    (44) matrix -> LBRACKET number number number number number number number number number number number number number number number number number number number number number number number number number . number number number number number number number number number number number RBRACKET
+    (51) number -> . ICONST
+    (52) number -> . FCONST
+
+    ICONST          shift and go to state 35
+    FCONST          shift and go to state 37
+
+    number                         shift and go to state 175
+
+state 175
+
+    (44) matrix -> LBRACKET number number number number number number number number number number number number number number number number number number number number number number number number number number . number number number number number number number number number number RBRACKET
+    (51) number -> . ICONST
+    (52) number -> . FCONST
+
+    ICONST          shift and go to state 35
+    FCONST          shift and go to state 37
+
+    number                         shift and go to state 176
+
+state 176
+
+    (44) matrix -> LBRACKET number number number number number number number number number number number number number number number number number number number number number number number number number number number . number number number number number number number number number RBRACKET
+    (51) number -> . ICONST
+    (52) number -> . FCONST
+
+    ICONST          shift and go to state 35
+    FCONST          shift and go to state 37
+
+    number                         shift and go to state 177
+
+state 177
+
+    (44) matrix -> LBRACKET number number number number number number number number number number number number number number number number number number number number number number number number number number number number . number number number number number number number number RBRACKET
+    (51) number -> . ICONST
+    (52) number -> . FCONST
+
+    ICONST          shift and go to state 35
+    FCONST          shift and go to state 37
+
+    number                         shift and go to state 178
+
+state 178
+
+    (44) matrix -> LBRACKET number number number number number number number number number number number number number number number number number number number number number number number number number number number number number . number number number number number number number RBRACKET
+    (51) number -> . ICONST
+    (52) number -> . FCONST
+
+    ICONST          shift and go to state 35
+    FCONST          shift and go to state 37
+
+    number                         shift and go to state 179
+
+state 179
+
+    (44) matrix -> LBRACKET number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number . number number number number number number RBRACKET
+    (51) number -> . ICONST
+    (52) number -> . FCONST
+
+    ICONST          shift and go to state 35
+    FCONST          shift and go to state 37
+
+    number                         shift and go to state 180
+
+state 180
+
+    (44) matrix -> LBRACKET number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number . number number number number number RBRACKET
+    (51) number -> . ICONST
+    (52) number -> . FCONST
+
+    ICONST          shift and go to state 35
+    FCONST          shift and go to state 37
+
+    number                         shift and go to state 181
+
+state 181
+
+    (44) matrix -> LBRACKET number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number . number number number number RBRACKET
+    (51) number -> . ICONST
+    (52) number -> . FCONST
+
+    ICONST          shift and go to state 35
+    FCONST          shift and go to state 37
+
+    number                         shift and go to state 182
+
+state 182
+
+    (44) matrix -> LBRACKET number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number . number number number RBRACKET
+    (51) number -> . ICONST
+    (52) number -> . FCONST
+
+    ICONST          shift and go to state 35
+    FCONST          shift and go to state 37
+
+    number                         shift and go to state 183
+
+state 183
+
+    (44) matrix -> LBRACKET number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number . number number RBRACKET
+    (51) number -> . ICONST
+    (52) number -> . FCONST
+
+    ICONST          shift and go to state 35
+    FCONST          shift and go to state 37
+
+    number                         shift and go to state 184
+
+state 184
+
+    (44) matrix -> LBRACKET number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number . number RBRACKET
+    (51) number -> . ICONST
+    (52) number -> . FCONST
+
+    ICONST          shift and go to state 35
+    FCONST          shift and go to state 37
+
+    number                         shift and go to state 185
+
+state 185
+
+    (44) matrix -> LBRACKET number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number . RBRACKET
+
+    RBRACKET        shift and go to state 186
+
+
+state 186
+
+    (44) matrix -> LBRACKET number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number RBRACKET .
+
+    QUOTE           reduce using rule 44 (matrix -> LBRACKET number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number RBRACKET .)
+    WORLDBEGIN      reduce using rule 44 (matrix -> LBRACKET number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number RBRACKET .)
+    INTEGRATOR      reduce using rule 44 (matrix -> LBRACKET number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number RBRACKET .)
+    FILM            reduce using rule 44 (matrix -> LBRACKET number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number RBRACKET .)
+    SAMPLER         reduce using rule 44 (matrix -> LBRACKET number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number RBRACKET .)
+    FILTER          reduce using rule 44 (matrix -> LBRACKET number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number RBRACKET .)
+    CAMERA          reduce using rule 44 (matrix -> LBRACKET number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number RBRACKET .)
+    TRANSFORM       reduce using rule 44 (matrix -> LBRACKET number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number RBRACKET .)
+    $end            reduce using rule 44 (matrix -> LBRACKET number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number RBRACKET .)
+    WORLDEND        reduce using rule 44 (matrix -> LBRACKET number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number RBRACKET .)
+    ATTRIBUTEBEGIN  reduce using rule 44 (matrix -> LBRACKET number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number RBRACKET .)
+    TRANSFORMBEGIN  reduce using rule 44 (matrix -> LBRACKET number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number RBRACKET .)
+    SHAPE           reduce using rule 44 (matrix -> LBRACKET number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number RBRACKET .)
+    MAKENAMEDMATERIAL reduce using rule 44 (matrix -> LBRACKET number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number RBRACKET .)
+    MATERIAL        reduce using rule 44 (matrix -> LBRACKET number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number RBRACKET .)
+    NAMEDMATERIAL   reduce using rule 44 (matrix -> LBRACKET number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number RBRACKET .)
+    TEXTURE         reduce using rule 44 (matrix -> LBRACKET number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number RBRACKET .)
+    LIGHTSOURCE     reduce using rule 44 (matrix -> LBRACKET number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number RBRACKET .)
+    AREALIGHTSOURCE reduce using rule 44 (matrix -> LBRACKET number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number RBRACKET .)
+    TRANSFORMEND    reduce using rule 44 (matrix -> LBRACKET number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number RBRACKET .)
+    ATTRIBUTEEND    reduce using rule 44 (matrix -> LBRACKET number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number RBRACKET .)
 
 WARNING: 
 WARNING: Conflicts:
@@ -3373,8 +3864,8 @@ WARNING: shift/reduce conflict for QUOTE in state 97 resolved as shift
 WARNING: shift/reduce conflict for QUOTE in state 98 resolved as shift
 WARNING: shift/reduce conflict for QUOTE in state 100 resolved as shift
 WARNING: shift/reduce conflict for QUOTE in state 101 resolved as shift
-WARNING: shift/reduce conflict for QUOTE in state 146 resolved as shift
-WARNING: shift/reduce conflict for QUOTE in state 151 resolved as shift
+WARNING: shift/reduce conflict for QUOTE in state 148 resolved as shift
+WARNING: shift/reduce conflict for QUOTE in state 153 resolved as shift
 WARNING: reduce/reduce conflict in state 69 resolved using rule (directive -> CAMERA QUOTE SCONST QUOTE params)
 WARNING: rejected rule (empty -> <empty>) in state 69
 WARNING: reduce/reduce conflict in state 71 resolved using rule (directive -> INTEGRATOR QUOTE SCONST QUOTE params)
@@ -3395,5 +3886,5 @@ WARNING: reduce/reduce conflict in state 100 resolved using rule (object -> MATE
 WARNING: rejected rule (empty -> <empty>) in state 100
 WARNING: reduce/reduce conflict in state 101 resolved using rule (object -> MAKENAMEDMATERIAL QUOTE SCONST QUOTE params)
 WARNING: rejected rule (empty -> <empty>) in state 101
-WARNING: reduce/reduce conflict in state 151 resolved using rule (object -> TEXTURE QUOTE SCONST QUOTE QUOTE SCONST QUOTE QUOTE SCONST QUOTE params)
-WARNING: rejected rule (empty -> <empty>) in state 151
+WARNING: reduce/reduce conflict in state 153 resolved using rule (object -> TEXTURE QUOTE SCONST QUOTE QUOTE SCONST QUOTE QUOTE SCONST QUOTE params)
+WARNING: rejected rule (empty -> <empty>) in state 153

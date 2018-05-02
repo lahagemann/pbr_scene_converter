@@ -1,0 +1,231 @@
+<scene version="0.5.0">
+  <integrator type="path">
+    <integer name="maxDepth" value="17"/>
+  </integrator>
+  <sensor type="perspective">
+    <float name="fov" value="25.0"/>
+    <transform name="toWorld">
+      <matrix value="-0.9999731298122769 0.00028589165525974325 0.007265516433916367 -0.0029600387752957685 -2.4930389791090274e-10 0.9992264402801116 -0.03931874040150983 0.1983031268824304 -0.007271141677653512 -0.03931766161519466 -0.9992006109755946 0.8281509934188602 -0.0 0.0 0.0 1.0 "/>
+    </transform>
+    <sampler type="sobol"/>
+    <film type="ldrfilm">
+      <string name="fileFormat" value="png"/>
+      <integer name="height" value="1000"/>
+      <integer name="width" value="800"/>
+      <string name="pixelFormat" value="rgb"/>
+      <float name="gamma" value="2.2"/>
+      <boolean name="banner" value="false"/>
+      <rfilter type="tent"/>
+    </film>
+  </sensor>
+  <bsdf id="Plastic_Orange" type="twosided">
+    <bsdf type="plastic">
+      <string name="distribution" value="ggx"/>
+      <boolean name="nonlinear" value="true"/>
+    </bsdf>
+  </bsdf>
+  <bsdf id="Plastic_Black" type="twosided">
+    <bsdf type="roughplastic">
+      <string name="distribution" value="ggx"/>
+      <boolean name="nonlinear" value="true"/>
+      <float name="alpha" value="0.1"/>
+    </bsdf>
+  </bsdf>
+  <bsdf id="Glass" type="dielectric">
+    <float name="intIOR" value="1.5"/>
+  </bsdf>
+  <bsdf id="Metal" type="twosided">
+    <bsdf type="conductor">
+      <rgb name="specularReflectance" value="1, 1, 1"/>
+      <string name="distribution" value="ggx"/>
+    </bsdf>
+  </bsdf>
+  <bsdf id="Floor" type="twosided">
+    <bsdf type="plastic">
+      <string name="distribution" value="ggx"/>
+      <boolean name="nonlinear" value="true"/>
+    </bsdf>
+  </bsdf>
+  <shape type="ply">
+    <string name="filename" value="models/Mesh013.ply"/>
+    <transform name="toWorld">
+      <matrix value="1 0 0 0 0 1 0 0 0 0 1 0 0 0 0 1"/>
+    </transform>
+    <ref id="Plastic_Black"/>
+  </shape>
+  <shape type="ply">
+    <string name="filename" value="models/Mesh008.ply"/>
+    <transform name="toWorld">
+      <matrix value="1 0 0 0 0 1 0 0 0 0 1 0 0 0 0 1"/>
+    </transform>
+    <ref id="Plastic_Black"/>
+  </shape>
+  <shape type="ply">
+    <string name="filename" value="models/Mesh010.ply"/>
+    <transform name="toWorld">
+      <matrix value="1 0 0 0 0 1 0 0 0 0 1 0 0 0 0 1"/>
+    </transform>
+    <ref id="Glass"/>
+  </shape>
+  <shape type="ply">
+    <string name="filename" value="models/Mesh009.ply"/>
+    <transform name="toWorld">
+      <matrix value="1 0 0 0 0 1 0 0 0 0 1 0 0 0 0 1"/>
+    </transform>
+    <ref id="Plastic_Orange"/>
+  </shape>
+  <shape type="ply">
+    <string name="filename" value="models/Mesh015.ply"/>
+    <transform name="toWorld">
+      <matrix value="1 0 0 0 0 1 0 0 0 0 1 0 0 0 0 1"/>
+    </transform>
+    <ref id="Metal"/>
+  </shape>
+  <shape type="ply">
+    <string name="filename" value="models/Mesh012.ply"/>
+    <transform name="toWorld">
+      <matrix value="1 0 0 0 0 1 0 0 0 0 1 0 0 0 0 1"/>
+    </transform>
+    <ref id="Plastic_Orange"/>
+  </shape>
+  <shape type="ply">
+    <string name="filename" value="models/Mesh016.ply"/>
+    <transform name="toWorld">
+      <matrix value="1 0 0 0 0 1 0 0 0 0 1 0 0 0 0 1"/>
+    </transform>
+    <ref id="Plastic_Orange"/>
+  </shape>
+  <shape type="ply">
+    <string name="filename" value="models/Mesh017.ply"/>
+    <transform name="toWorld">
+      <matrix value="1 0 0 0 0 1 0 0 0 0 1 0 0 0 0 1"/>
+    </transform>
+    <ref id="Plastic_Black"/>
+  </shape>
+  <shape type="ply">
+    <string name="filename" value="models/Mesh018.ply"/>
+    <transform name="toWorld">
+      <matrix value="1 0 0 0 0 1 0 0 0 0 1 0 0 0 0 1"/>
+    </transform>
+    <ref id="Plastic_Black"/>
+  </shape>
+  <shape type="ply">
+    <string name="filename" value="models/Mesh019.ply"/>
+    <transform name="toWorld">
+      <matrix value="1 0 0 0 0 1 0 0 0 0 1 0 0 0 0 1"/>
+    </transform>
+    <ref id="Plastic_Black"/>
+  </shape>
+  <shape type="ply">
+    <string name="filename" value="models/Mesh007.ply"/>
+    <transform name="toWorld">
+      <matrix value="1 0 0 0 0 1 0 0 0 0 1 0 0 0 0 1"/>
+    </transform>
+    <ref id="Plastic_Black"/>
+  </shape>
+  <shape type="ply">
+    <string name="filename" value="models/Mesh006.ply"/>
+    <transform name="toWorld">
+      <matrix value="1 0 0 0 0 1 0 0 0 0 1 0 0 0 0 1"/>
+    </transform>
+    <ref id="Plastic_Orange"/>
+  </shape>
+  <shape type="ply">
+    <string name="filename" value="models/Mesh005.ply"/>
+    <transform name="toWorld">
+      <matrix value="1 0 0 0 0 1 0 0 0 0 1 0 0 0 0 1"/>
+    </transform>
+    <ref id="Plastic_Black"/>
+  </shape>
+  <shape type="ply">
+    <string name="filename" value="models/Mesh003.ply"/>
+    <transform name="toWorld">
+      <matrix value="1 0 0 0 0 1 0 0 0 0 1 0 0 0 0 1"/>
+    </transform>
+    <ref id="Plastic_Black"/>
+  </shape>
+  <shape type="ply">
+    <string name="filename" value="models/Mesh002.ply"/>
+    <transform name="toWorld">
+      <matrix value="1 0 0 0 0 1 0 0 0 0 1 0 0 0 0 1"/>
+    </transform>
+    <ref id="Metal"/>
+  </shape>
+  <shape type="ply">
+    <string name="filename" value="models/Mesh001.ply"/>
+    <transform name="toWorld">
+      <matrix value="1 0 0 0 0 1 0 0 0 0 1 0 0 0 0 1"/>
+    </transform>
+    <ref id="Plastic_Orange"/>
+  </shape>
+  <shape type="ply">
+    <string name="filename" value="models/Mesh011.ply"/>
+    <transform name="toWorld">
+      <matrix value="1 0 0 0 0 1 0 0 0 0 1 0 0 0 0 1"/>
+    </transform>
+    <ref id="Plastic_Black"/>
+  </shape>
+  <shape type="ply">
+    <string name="filename" value="models/Mesh000.ply"/>
+    <transform name="toWorld">
+      <matrix value="1 0 0 0 0 1 0 0 0 0 1 0 0 0 0 1"/>
+    </transform>
+    <ref id="Plastic_Orange"/>
+  </shape>
+  <shape type="ply">
+    <string name="filename" value="models/Mesh014.ply"/>
+    <transform name="toWorld">
+      <matrix value="1 0 0 0 0 1 0 0 0 0 1 0 0 0 0 1"/>
+    </transform>
+    <ref id="Plastic_Black"/>
+  </shape>
+  <shape type="ply">
+    <string name="filename" value="models/Mesh004.ply"/>
+    <transform name="toWorld">
+      <matrix value="1 0 0 0 0 1 0 0 0 0 1 0 0 0 0 1"/>
+    </transform>
+    <ref id="Floor"/>
+  </shape>
+  <shape type="rectangle">
+    <transform name="toWorld">
+      <matrix value="0.08138599999999999 0.0 0.0 -0.27792300000000003 7.500000023807907e-09 -0.224422003 0.0 0.22527099700000006 0.1745325 -3.469446951953614e-18 0.0 0.1637235 5.551115123125783e-17 0.0 0.0 1.0 "/>
+    </transform>
+    <bsdf id="" type="twosided">
+      <bsdf type="diffuse">
+        <rgb name="reflectance" value="0.0, 0.0, 0.0"/>
+      </bsdf>
+    </bsdf>
+    <emitter type="area">
+      <rgb name="radiance" value="2.0, 2.0, 2.0"/>
+    </emitter>
+    <ref id="Floor"/>
+  </shape>
+  <shape type="rectangle">
+    <transform name="toWorld">
+      <matrix value="2.7755575615628914e-17 0.0022739999999999982 0.0 0.322947 0.22442250000000002 1.3877787807814457e-17 0.0 0.2517595 1.3877787807814457e-17 -0.18269700000000003 0.0 0.04627800000000003 5.551115123125783e-17 0.0 0.0 1.0 "/>
+    </transform>
+    <bsdf id="" type="twosided">
+      <bsdf type="diffuse">
+        <rgb name="reflectance" value="0.0, 0.0, 0.0"/>
+      </bsdf>
+    </bsdf>
+    <emitter type="area">
+      <rgb name="radiance" value="2.0, 2.0, 2.0"/>
+    </emitter>
+    <ref id="Floor"/>
+  </shape>
+  <shape type="rectangle">
+    <transform name="toWorld">
+      <matrix value="-0.23012800000000005 0.0 0.0 1.3877787807814457e-17 2.7755575615628914e-17 0.0 0.0 0.50385 1.3877787807814457e-17 -0.2301285 0.0 0.03724350000000004 5.551115123125783e-17 0.0 0.0 1.0 "/>
+    </transform>
+    <bsdf id="" type="twosided">
+      <bsdf type="diffuse">
+        <rgb name="reflectance" value="0.0, 0.0, 0.0"/>
+      </bsdf>
+    </bsdf>
+    <emitter type="area">
+      <rgb name="radiance" value="2.0, 2.0, 2.0"/>
+    </emitter>
+    <ref id="Floor"/>
+  </shape>
+</scene>

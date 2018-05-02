@@ -165,15 +165,10 @@ class PBRTv3Loader:
                         transform.matrix = modifiedStruct[2]
 
                     elif modifiedDirective == 'Material':
-                        type = ''
-                        id = modifiedStruct[1]
+                        type = modifiedStruct[1]
                         params = self.loadParams(modifiedStruct[2])
 
-                        if 'type' in params:
-                            type = params['type'].value
-                            params.pop('type')
-
-                        material = Material(type, id)
+                        material = Material(type, '')
                         material.params = params
 
                         if 'Kd' in params:
