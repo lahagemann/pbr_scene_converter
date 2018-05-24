@@ -128,6 +128,7 @@ class PBRTv3ToMitsuba:
             self.materialDescriptionToMitsuba(material, self.sceneElement)
 
         self.shapeDescriptionToMitsuba(scene)
+        self.lightDescriptionToMitsuba(scene)
         
 
     def materialDescriptionToMitsuba(self, material, element):
@@ -159,13 +160,7 @@ class PBRTv3ToMitsuba:
                 bsdf = ET.SubElement(twosided, 'bsdf', type=type)
 
                 if material.type == 'mirror':
-                    ET.SubElement(bsdf, 'rgb', name='specularReflectance', value='1, 1, 1')
-                
-                if material.type in ['mirror', 'metal', 'substrate']:
-                    ET.SubElement(bsdf, 'string', name='distribution', value='ggx')
-
-                if material.type == 'substrate':
-                    ET.SubElement(bsdf, 'boolean', name='nonlinear', value='true')
+                    ET.SubElement(bsdf, 'string', name='material', value='none')
 
                 if 'uroughness' in material.params or 'vroughness' in material.params:
                     if type.startswith('rough'):
@@ -175,20 +170,32 @@ class PBRTv3ToMitsuba:
                 if material.type in pbrttm.materialDict:
                     dictionary = pbrttm.materialDict[material.type]
                     self.paramsToMitsuba(bsdf, material.params, dictionary)
-            
+
             if material.texture is not None:
                 if material.texture.type in pbrttm.textureType:
                     texType = pbrttm.textureType[material.texture.type]
-                    texture = ET.SubElement(bsdf, 'texture', name='reflectance', type=texType)
+                    if type == 'diffuse':
+                        texture = ET.SubElement(bsdf, 'texture', name='reflectance', type=texType)
+                    else:
+                        texture = ET.SubElement(bsdf, 'texture', name='diffuseReflectance', type=texType)
+
                     self.paramsToMitsuba(texture, material.texture.params, pbrttm.textureParam)
+
+                    if 'trilinear' in material.texture.params:
+                        if material.texture.params['trilinear'].value == 'true':
+                            ET.SubElement(texture, 'string', name='filterType', value='trilinear')
         else:
             bumpmap = ET.SubElement(element, 'bsdf', type='bumpmap')
             if material.texture is not None:
                 if material.texture.type in pbrttm.textureType:
                     texType = pbrttm.textureType[material.texture.type]
-                    texture = ET.SubElement(bsdf, 'texture', name='map', type=texType)
+                    texture = ET.SubElement(bumpmap, 'texture', name='map', type=texType)
                     self.paramsToMitsuba(texture, material.texture.params, pbrttm.textureParam)
-            
+
+                    if 'trilinear' in material.texture.params:
+                        if material.texture.params['trilinear'].value == 'true':
+                            ET.SubElement(texture, 'string', name='filterType', value='trilinear')
+
             if material.material is not None:
                 if material.material.type in pbrttm.materialType:
                     type = pbrttm.materialType[material.material.type]
@@ -203,7 +210,7 @@ class PBRTv3ToMitsuba:
                     type = 'rough' + type
 
                 if material.material.type == 'glass':
-                    bsdf = ET.SubElement(element, 'bsdf', type=type, id=material.id)
+                    bsdf = ET.SubElement(bumpmap, 'bsdf', type=type, id=material.id)
 
                     if 'uroughness' in material.material.params or 'vroughness' in material.material.params:
                         if type.startswith('rough'):
@@ -212,7 +219,7 @@ class PBRTv3ToMitsuba:
 
                     self.paramsToMitsuba(bsdf, material.material.params, pbrttm.glassParam)
                 else:
-                    twosided = ET.SubElement(element, 'bsdf', type='twosided', id=material.id)
+                    twosided = ET.SubElement(bumpmap, 'bsdf', type='twosided', id=material.material.id)
                     bsdf = ET.SubElement(twosided, 'bsdf', type=type)
 
                     if material.material.type == 'mirror':
@@ -233,8 +240,17 @@ class PBRTv3ToMitsuba:
                 if material.material.texture is not None:
                     if material.material.texture.type in pbrttm.textureType:
                         texType = pbrttm.textureType[material.material.texture.type]
-                        texture = ET.SubElement(bsdf, 'texture', name='reflectance', type=texType)
+                        
+                        if type == 'diffuse':
+                            texture = ET.SubElement(bsdf, 'texture', name='reflectance', type=texType)
+                        else:
+                            texture = ET.SubElement(bsdf, 'texture', name='diffuseReflectance', type=texType)
+
                         self.paramsToMitsuba(texture, material.material.texture.params, pbrttm.textureParam)
+
+                        if 'trilinear' in material.texture.params:
+                            if material.material.texture.params['trilinear'].value == 'true':
+                                ET.SubElement(texture, 'string', name='filterType', value='trilinear')
 
     def shapeDescriptionToMitsuba(self, scene):
         for shape in scene.shapes:
@@ -250,7 +266,7 @@ class PBRTv3ToMitsuba:
                     matrix = ''
                     for i in range(0,4):
                         for j in range(0,4):
-                            matrix += str(shape.transform.matrix.T[i][j])
+                            matrix += str(np.array(shape.transform.matrix).T[i][j])
                 else:
                     matrix = '1 0 0 0 0 1 0 0 0 0 1 0 0 0 0 1'
 
@@ -309,6 +325,10 @@ class PBRTv3ToMitsuba:
                             canonical = np.array([[-1, 1, 1, -1], [-1, -1, 1, 1], [0, 0, 0, 0], [1, 1, 1, 1]])
                             toWorld = np.matmul(points, np.linalg.pinv(canonical))
 
+                            # put cushion on z axis so matrix stays invertible. figure out later
+                            for i in range(0,3):
+                                toWorld[i][2] = -0.01
+
                             matrix = ''
                             for i in range(0,4):
                                 for j in range(0,4):
@@ -333,9 +353,54 @@ class PBRTv3ToMitsuba:
                         type = 'cube'
                         pass
 
-    # def lightDescriptionToMitsuba(self, scene):
-    #     for light in scene.lights:
-    #         if light.type == 'distant':
+    def lightDescriptionToMitsuba(self, scene):
+
+        print scene.lights
+        for light in scene.lights:
+            if light.type == 'distant':
+                emitter = ET.SubElement(self.sceneElement, 'emitter', type='sun')
+
+                if 'from' in light.params:
+                    f = light.params['from'].value
+                    ET.SubElement(emitter, 'vector', name='sunDirection', x=str(f[0]), y=str(f[1]), z=str(f[2]))
+                
+                if 'L' in light.params:
+                    scale = light.params['L'].value
+                    ET.SubElement(emitter, 'float', name='sunScale', value=str(scale[0]))
+            
+            elif light.type == 'infinite':
+                emitter = ET.SubElement(self.sceneElement, 'emitter', type='envmap')
+
+                if light.transform and light.transform.matrix:
+                    m = copy.deepcopy(light.transform.matrix)
+                    m_rot = np.zeros((4,4))
+                    
+                    m_rot[2] = copy.deepcopy(m[0])
+                    m_rot[0] = copy.deepcopy(m[1])
+                    m_rot[1] = copy.deepcopy(m[2])
+
+                    m_rot[0][2] = -m_rot[0][2]
+                    m_rot[1][2] = -m_rot[1][2]
+                    m_rot[2][2] = -m_rot[2][2]
+                    m_rot[3][3] = 1
+
+                    matrix = ''
+
+                    for i in range(0,4):
+                        for j in range(0,4):
+                            matrix += str(m_rot[i][j])
+                            matrix += ' '
+                    
+                    transform = ET.SubElement(emitter, 'transform', name='toWorld')
+                    ET.SubElement(transform, 'matrix', value=matrix)
+
+                self.paramsToMitsuba(emitter, light.params, pbrttm.emitterParam)
+                        
+            elif light.type == 'spot':
+                pass
+            
+            elif light.type == 'point':
+                pass
 
             
     def paramsToMitsuba(self, rootElement, params, dictionary):

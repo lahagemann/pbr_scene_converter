@@ -505,10 +505,6 @@ class MitsubaToPBRTv3:
                 m_rot[2][2] = -m_rot[2][2]
                 m_rot[3][3] = 1
 
-                print m_rot
-
-                #m_T = np.transpose(m)
-
                 for i in range(0,4):
                     for j in range(0,4):
                         output += str(m_rot[i][j])

@@ -26,7 +26,7 @@ samplerType =       {   'random' : 'independent',
                         'sobol' : 'sobol'
                     }
 
-samplerParam =      {   'sampleCount' : 'pixelsamples'  }
+samplerParam =      {   'pixelsamples' : 'sampleCount'  }
 
 # film
 
@@ -69,6 +69,7 @@ textureType =       {
                     }
 
 textureParam =      {
+                        'filename' : 'filename',
                         'tex1' : 'color1',
                         'tex2' : 'color0',
                         'uscale' : 'uscale',
@@ -97,28 +98,23 @@ glassParam =        {
                     }
 
 uberParam =         {
-                        'intIOR' : 'index',
-                        'specularReflectance' : 'Kr',
-                        'specularTransmittance' : 'Kt'
+                        'index' : 'intIOR',
+                        'Kr' : 'specularReflectance',
+                        'Kt' : 'specularTransmittance'
                     }
 
 substrateParam =    {
-                        'alphaU' : 'uroughness',
-                        'alphaV' : 'vroughness',
-                        'diffuseReflectance' : 'Kd',
-                        'specularReflectance' : 'Ks'
+                        'Kd' : 'diffuseReflectance',
                     }
 
 metalParam =        {
                         'eta' : 'eta',
-                        'k' : 'k',
+                        'k' : 'k'
                         #'specularReflectance' : 'Kr',
-                        'alphaU' : 'uroughness',
-                        'alphaV' : 'vroughness'
                     }
 
 translucentParam =  {
-                        'transmittance' : 'Kt'
+                        'Kt' : 'transmittance'
                     }
 
 materialDict =      {
@@ -144,5 +140,6 @@ emitterParam =      {
                         'position' : 'from',
                         'samplingWeight' : 'samples',
                         'cutoffAngle' : 'conedeltaangle',
-                        'beamWidth' : 'coneangle'
+                        'beamWidth' : 'coneangle',
+                        'mapname' : 'filename'
                     }

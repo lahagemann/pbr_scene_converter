@@ -30,12 +30,14 @@ def p_directives(t):
         t[0] = [t[1]] 
 
 def p_directive(t):
-    '''directive : INTEGRATOR QUOTE SCONST QUOTE params
+    '''directive : RENDERER QUOTE SCONST QUOTE
+                 | INTEGRATOR QUOTE SCONST QUOTE params
                  | FILM QUOTE SCONST QUOTE params
                  | SAMPLER QUOTE SCONST QUOTE params
                  | FILTER QUOTE SCONST QUOTE params
                  | CAMERA QUOTE SCONST QUOTE params
-                 | TRANSFORM matrix'''
+                 | TRANSFORM matrix
+                 | INCLUDE QUOTE SCONST QUOTE'''
 
     if len(t) == 3:
         t[0] = (t[1], None, t[2]) 

@@ -200,6 +200,7 @@ class PBRTv3Loader:
                     if modifiedDirective == 'Transform':
                         transform = Transform()
                         transform.matrix = modifiedStruct[2]
+                        transform.matrix = [transform.matrix[i:i + 4] for i in xrange(0, len(transform.matrix), 4)]
 
                     elif modifiedDirective == 'Shape':
                         # simple shape, no emitter, embed material or transform
@@ -213,6 +214,14 @@ class PBRTv3Loader:
                         shape.transform = transform
 
                         shapes.append(shape)
+                    
+                    elif modifiedDirective == 'LightSource':
+                        # simple emitters, no transform or shape involved. they go into lights list
+                        emitter = Emitter(modifiedStruct[1])
+                        emitter.transform = transform
+                        emitter.params = self.loadParams(modifiedStruct[2])
+
+                        lights.append(emitter)
         
         scene.materials = materials
         scene.lights = lights
