@@ -14,7 +14,7 @@ reserved = (
 )
 
 tokens = reserved + (
-    'SCONST', 'ICONST', 'FCONST', 
+    'ID', 'SCONST', 'ICONST', 'FCONST', 
     'LBRACKET', 'RBRACKET', 'QUOTE'
 )
 
@@ -45,10 +45,19 @@ reserved_map = {
     'Include': 'INCLUDE'
 }
 
-def t_SCONST(t):
+# def t_SCONST(t):
+#     r'[A-Za-z_][\w_|\.|/|-]*'
+#     t.type = reserved_map.get(t.value, "SCONST")
+#     return t
+
+
+def t_ID(t):
     r'[A-Za-z_][\w_|\.|/|-]*'
-    t.type = reserved_map.get(t.value, "SCONST")
+    t.type = reserved_map.get(t.value, "ID")
     return t
+
+# String literal
+t_SCONST = r'\"([^\\\n]|(\\.))*?\"'
 
 # Integer literal
 t_ICONST = r'[+|-]?\d+'

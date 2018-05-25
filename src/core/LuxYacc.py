@@ -1,10 +1,10 @@
 import sys
 import operator
-import PBRTv3Lex
+import LuxLex
 import ply.yacc as yacc
 
 # Get the token map
-tokens = PBRTv3Lex.tokens
+tokens = LuxLex.tokens
 
 start = 'scene'
 
@@ -30,19 +30,22 @@ def p_directives(t):
         t[0] = [t[1]] 
 
 def p_directive(t):
-    '''directive : RENDERER QUOTE SCONST QUOTE
-                 | INTEGRATOR QUOTE SCONST QUOTE params
-                 | FILM QUOTE SCONST QUOTE params
-                 | SAMPLER QUOTE SCONST QUOTE params
-                 | FILTER QUOTE SCONST QUOTE params
-                 | CAMERA QUOTE SCONST QUOTE params
+    '''directive : RENDERER SCONST
+                 | INTEGRATOR SCONST params
+                 | FILM SCONST params
+                 | SAMPLER SCONST params
+                 | FILTER SCONST params
+                 | CAMERA SCONST params
                  | TRANSFORM matrix
-                 | INCLUDE QUOTE SCONST QUOTE'''
+                 | INCLUDE SCONST'''
 
     if len(t) == 3:
-        t[0] = (t[1], None, t[2]) 
+        if t[1] == 'Renderer' or t[1] == 'Include':
+            t[0] = (t[1], eval(t[2]), None)
+        else:
+            t[0] = (t[1], None, t[2])
     else:
-        t[0] = (t[1], t[3], t[5])
+        t[0] = (t[1], eval(t[2]), t[3])
 
 def p_worldblock(t):
     'worldblock : WORLDBEGIN objects WORLDEND'
@@ -64,27 +67,27 @@ def p_objects(t):
         t[0] = [t[1]]
 
 def p_object(t):
-    '''object : SHAPE QUOTE SCONST QUOTE params
-              | MAKENAMEDMATERIAL QUOTE SCONST QUOTE params
-              | MATERIAL QUOTE SCONST QUOTE params
-              | NAMEDMATERIAL QUOTE SCONST QUOTE
-              | TEXTURE QUOTE SCONST QUOTE QUOTE SCONST QUOTE QUOTE SCONST QUOTE params
-              | TEXTURE QUOTE SCONST QUOTE QUOTE FLOAT QUOTE QUOTE SCONST QUOTE params
-              | LIGHTSOURCE QUOTE SCONST QUOTE params
-              | AREALIGHTSOURCE QUOTE SCONST QUOTE params
+    '''object : SHAPE SCONST params
+              | MAKENAMEDMATERIAL SCONST params
+              | MATERIAL SCONST params
+              | NAMEDMATERIAL SCONST
+              | TEXTURE SCONST SCONST SCONST params
+              | LIGHTSOURCE SCONST params
+              | AREALIGHTSOURCE SCONST params
               | TRANSFORM matrix
               | empty'''
 
     if len(t) == 2:
         t[0] = t[1]
     elif len(t) == 3:
-        t[0] = (t[1], None, t[2]) 
-    elif len(t) == 5:
-        t[0] = (t[1], t[3], None)
-    elif len(t) == 6:
-        t[0] = (t[1], t[3], t[5])
-    elif len(t) > 6:
-        t[0] = (t[1], t[3], t[6], t[9], t[11])
+        if t[1] == 'Transform':
+            t[0] = (t[1], None, t[2]) 
+        else:
+            t[0] = (t[1], eval(t[2]), None)
+    elif len(t) == 4:
+        t[0] = (t[1], eval(t[2]), t[3])
+    else:
+        t[0] = (t[1], eval(t[2]), eval(t[3]), eval(t[4]), t[5])
 
 # params and values
 def p_params(t):
@@ -98,23 +101,17 @@ def p_params(t):
         t[0] = [t[1]] 
 
 def p_param(t):
-    '''param : QUOTE INTEGER SCONST QUOTE value
-             | QUOTE BOOL SCONST QUOTE value
-             | QUOTE STRING SCONST QUOTE value 
-             | QUOTE FLOAT SCONST QUOTE value
-             | QUOTE RGB SCONST QUOTE value
-             | QUOTE POINT SCONST QUOTE value
-             | QUOTE NORMAL SCONST QUOTE value
-             | QUOTE TEX SCONST QUOTE value
+    '''param : SCONST value
              | empty ''' 
 
     if len(t) > 2:
-        t[0] = (t[2], t[3], t[5])
+        param = t[1].split(' ')
+        t[0] = (param[0].replace('"', ''), param[1].replace('"',''), t[2])
 
 def p_value(t):
     '''value : LBRACKET ICONST RBRACKET
              | LBRACKET FCONST RBRACKET
-             | LBRACKET QUOTE SCONST QUOTE RBRACKET
+             | LBRACKET SCONST RBRACKET
              | LBRACKET QUOTE TRUE QUOTE RBRACKET
              | LBRACKET QUOTE FALSE QUOTE RBRACKET
              | matrix
