@@ -1,8 +1,10 @@
-from mitsuba import MitsubaToPBRTv3 as mp
-from mitsuba import MitsubaToLuxRender as ml
 from core import MitsubaLoader as mit
 from core import PBRTv3Loader as pbrt
+from core import LuxRenderLoader as lux
+from mitsuba import MitsubaToPBRTv3 as mp
+from mitsuba import MitsubaToLuxRender as ml
 from pbrt import PBRTv3ToMitsuba as pm
+from lux import LuxRenderToPBRTv3 as lp
 
 import sys
 
@@ -58,7 +60,20 @@ if __name__ == '__main__':
 			# 	pl.PBRTv3ToLuxRender(loader.scene, output)
 
 			else:
-				print 'The output renderer informed is not valid. For a mitsuba input file, please type -d pbrt or -d lux.\n'
+				print 'The output renderer informed is not valid. For a pbrt input file, please type -d mitsuba.\n'
+
+		elif source == 'lux':
+			if filename.endswith('.lxs') or filename.endswith('.lxm') or filename.endswith('.lxo'):
+				print 'For lux sources, please inform the scene directory.'
+
+			else:
+				loader = lux.LuxRenderLoader(filename)
+
+				if destination == 'pbrt':
+					lp.LuxRenderToPBRTv3(loader.scene, output)
+
+				else:
+					print 'The output renderer informed is not valid. For a lux input file, please type -d pbrt.\n'
 		else:
 			print 'The source renderer informed is not valid. Current valid source renderers are: pbrt, mitsuba. \n'
 

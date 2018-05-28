@@ -94,17 +94,22 @@ class LuxRenderLoader:
         currentRefMaterial = ''
 
         for struct in worldStructure:
-            print struct
             directive = struct[0]
 
             if directive == 'Texture':
                 name = struct[1]
                 type = struct[3]
 
-                params = self.loadParams(struct[4])
-
                 texture = Texture(name, type)
-                texture.params = params
+                texture.params = self.loadParams(struct[4])
+
+                if 'amount' in texture.params:
+                    reference = texture.params['amount'].value
+
+                    if reference in textures:
+                        texture.params.update(textures[reference].params)
+
+                        texture.type = textures[reference].type
 
                 textures[name] = texture
 
@@ -256,6 +261,10 @@ class LuxRenderLoader:
             params[tuple[1]] = param
 
         return params
+
+    def __init__(self, filename):
+        sceneStruct = self.importFile(filename)
+        self.scene = self.loadScene(sceneStruct)
 
 if __name__ == '__main__':
     p = LuxRenderLoader()

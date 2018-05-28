@@ -94,7 +94,7 @@ materialType =      {
                         'roughplastic' : 'glossy',
                         'difftrans' : 'mattetranslucent'
                     }
-diffuseParam =     {
+diffuseParam =      {
                         'diffuseReflectance' : 'Kd',
                         'reflectance' : 'Kd'
                     }
