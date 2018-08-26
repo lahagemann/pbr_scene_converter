@@ -5,17 +5,16 @@ import ply.lex as lex
 
 # Reserved words
 reserved = (
-    'RENDERER', 'INTEGRATOR', 'TRANSFORM', 'SAMPLER', 'FILTER', 'FILM', 'CAMERA',
+    'RENDERER', 'SURFACEINTEGRATOR', 'INTEGRATOR', 'TRANSFORM', 'SAMPLER', 'FILTER', 'FILM', 'CAMERA',
     'WORLDBEGIN', 'WORLDEND', 'ATTRIBUTEBEGIN', 'ATTRIBUTEEND', 'TRANSFORMBEGIN', 'TRANSFORMEND',
     'MAKENAMEDMATERIAL', 'NAMEDMATERIAL', 'MATERIAL', 'SHAPE', 'TEXTURE', 'AREALIGHTSOURCE', 'LIGHTSOURCE',
-    'INTEGER', 'BOOL', 'STRING', 'FLOAT', 'COLOR', 'POINT', 'NORMAL', 'TEX',
-    'TRUE', 'FALSE',
+    'LOOKAT', 'TRANSLATE', 'ROTATE',
     'INCLUDE'
 )
 
 tokens = reserved + (
-    'ID', 'SCONST', 'ICONST', 'FCONST', 
-    'LBRACKET', 'RBRACKET', 'QUOTE'
+    'SCONST', 'ICONST', 'FCONST',
+    'LBRACKET', 'RBRACKET'
 )
 
 # Completely ignored characters
@@ -35,13 +34,12 @@ t_QUOTE = r'\"'
 # Identifiers and reserved words
 
 reserved_map = {
-    'Renderer': 'RENDERER', 'SurfaceIntegrator': 'INTEGRATOR', 'Transform': 'TRANSFORM', 'Sampler': 'SAMPLER', 'PixelFilter': 'FILTER', 'Film': 'FILM', 'Camera': 'CAMERA',
-    'WorldBegin': 'WORLDBEGIN', 'WorldEnd': 'WORLDEND', 'AttributeBegin': 'ATTRIBUTEBEGIN', 'AttributeEnd': 'ATTRIBUTEEND', 
+    'Renderer': 'RENDERER', 'SurfaceIntegrator': 'SURFACEINTEGRATOR', 'Integrator' : 'INTEGRATOR', 'Transform': 'TRANSFORM', 'Sampler': 'SAMPLER', 'PixelFilter': 'FILTER', 'Film': 'FILM', 'Camera': 'CAMERA',
+    'WorldBegin': 'WORLDBEGIN', 'WorldEnd': 'WORLDEND', 'AttributeBegin': 'ATTRIBUTEBEGIN', 'AttributeEnd': 'ATTRIBUTEEND',
     'TransformBegin': 'TRANSFORMBEGIN', 'TransformEnd': 'TRANSFORMEND',
-    'MakeNamedMaterial': 'MAKENAMEDMATERIAL', 'NamedMaterial': 'NAMEDMATERIAL', 'Material': 'MATERIAL', 'Shape': 'SHAPE', 'Texture': 'TEXTURE', 
+    'MakeNamedMaterial': 'MAKENAMEDMATERIAL', 'NamedMaterial': 'NAMEDMATERIAL', 'Material': 'MATERIAL', 'Shape': 'SHAPE', 'Texture': 'TEXTURE',
     'AreaLightSource': 'AREALIGHTSOURCE', 'LightSource': 'LIGHTSOURCE',
-    'integer': 'INTEGER', 'bool': 'BOOL', 'string': 'STRING', 'float': 'FLOAT', 'color': 'COLOR', 'point': 'POINT', 'normal': 'NORMAL',
-    'texture': 'TEX', 'true': 'TRUE', 'false': 'FALSE',
+    'LookAt' : 'LOOKAT', 'Translate' : 'TRANSLATE', 'Rotate' : 'ROTATE',
     'Include': 'INCLUDE'
 }
 
@@ -64,13 +62,6 @@ t_ICONST = r'[+|-]?\d+'
 
 # Floating literal
 t_FCONST = r'[+|-]?((\d+)(\.\d+)(e(\+|-)?(\d+))? | [+|-]?(\d+)e(\+|-)?(\d+))([lL]|[fF])?'
-
-
-# def t_SCONST(t):
-#     r'[.]+'
-#     t.type = reserved_map.get(t.value, "SCONST")
-#     return t
-#t_SCONST = r'[.]+'
 
 # Comments
 

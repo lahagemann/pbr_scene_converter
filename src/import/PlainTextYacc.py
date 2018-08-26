@@ -1,10 +1,10 @@
 import sys
 import operator
-import LuxLex
+import PlainTextLex
 import ply.yacc as yacc
 
 # Get the token map
-tokens = LuxLex.tokens
+tokens = PlainTextLex.tokens
 
 start = 'scene'
 
@@ -27,16 +27,20 @@ def p_directives(t):
         t[0] = t[1]
         t[0].append(t[2])
     else:
-        t[0] = [t[1]] 
+        t[0] = [t[1]]
 
 def p_directive(t):
     '''directive : RENDERER SCONST
                  | INTEGRATOR SCONST params
+                 | SURFACEINTEGRATOR SCONST params
                  | FILM SCONST params
                  | SAMPLER SCONST params
                  | FILTER SCONST params
                  | CAMERA SCONST params
                  | TRANSFORM matrix
+                 | LOOKAT numbers
+                 | TRANSLATE matrix
+                 | ROTATE matrix
                  | INCLUDE SCONST'''
 
     if len(t) == 3:
@@ -75,13 +79,16 @@ def p_object(t):
               | LIGHTSOURCE SCONST params
               | AREALIGHTSOURCE SCONST params
               | TRANSFORM matrix
+              | LOOKAT numbers
+              | TRANSLATE matrix
+              | ROTATE matrix
               | empty'''
 
     if len(t) == 2:
         t[0] = t[1]
     elif len(t) == 3:
         if t[1] == 'Transform':
-            t[0] = (t[1], None, t[2]) 
+            t[0] = (t[1], None, t[2])
         else:
             t[0] = (t[1], eval(t[2]), None)
     elif len(t) == 4:
@@ -93,16 +100,16 @@ def p_object(t):
 def p_params(t):
     '''params : params param
               | param '''
-    
+
     if len(t) > 2:
         t[0] = t[1]
         t[0].append(t[2])
     else:
-        t[0] = [t[1]] 
+        t[0] = [t[1]]
 
 def p_param(t):
     '''param : SCONST value
-             | empty ''' 
+             | empty '''
 
     if len(t) > 2:
         param = t[1].split(' ')
@@ -125,38 +132,24 @@ def p_value(t):
         t[0] = t[1]
 
 def p_matrix(t):
-    '''matrix : LBRACKET number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number number RBRACKET
-              | LBRACKET number number number number number number number number number number number number number number number number number number number number number number number number RBRACKET
-              | LBRACKET number number number number number number number number number number number number number number number number RBRACKET
-              | LBRACKET number number number number number number number number number number number number RBRACKET
-              | LBRACKET number number number number number number number number RBRACKET
-              | LBRACKET number number number number number number RBRACKET
-              | LBRACKET number number number RBRACKET'''
+    '''matrix : LBRACKET numbers RBRACKET'''
 
-    if len(t) == 6:
-        t[0] = [t[2], t[3], t[4]]
-    elif len(t) == 9:
-        t[0] = [t[2], t[3], t[4], t[5], t[6], t[7]]
-    elif len(t) == 11:
-        t[0] = [t[2], t[3], t[4], t[5], t[6], t[7], t[8], t[9]]
-    elif len(t) == 15:
-        t[0] = [t[2], t[3], t[4], t[5], t[6], t[7], t[8], t[9], t[10], t[11], t[12], t[13]]
-    elif len(t) == 19:
-        t[0] = [t[2], t[3], t[4], t[5], t[6], t[7], t[8], t[9], t[10], t[11], t[12], t[13], t[14], t[15], t[16], t[17]]
-    elif len(t) == 27:
-        t[0] = [t[2], t[3], t[4], t[5], t[6], t[7], t[8], t[9], 
-                t[10], t[11], t[12], t[13], t[14], t[15], t[16], t[17],
-                t[18], t[19], t[20], t[21], t[22], t[23], t[24], t[25]]
+    t[0] = t[2]
+
+def p_numbers(t):
+    '''numbers : numbers number
+               | number '''
+
+    if len(t) > 2:
+        t[0] = t[1]
+        t[0].append(t[2])
     else:
-        t[0] = [t[2], t[3], t[4], t[5], t[6], t[7], t[8], t[9], t[10], t[11], t[12], t[13], 
-                t[14], t[15], t[16], t[17], t[18], t[19], t[20], t[21], t[22], t[23], t[24], t[25],
-                t[26], t[27], t[28], t[29], t[30], t[31], t[32], t[33], t[34], t[35], t[36], t[37]]
-
+        t[0] = [t[1]]
 
 def p_number(t):
     '''number : ICONST
               | FCONST'''
-              
+
     t[0] = eval(t[1])
 
 def p_empty(t):
@@ -177,7 +170,7 @@ def parse(data, debug=0):
         return None
     return p
 
-# debug rules :D 
+# debug rules :D
 # while 1:
 #     try:
 #         s = raw_input('>>> ')

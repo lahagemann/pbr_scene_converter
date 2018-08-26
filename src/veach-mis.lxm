@@ -1,8 +1,0 @@
-
-	MakeNamedMaterial "Diffuse" "string type" [ "matte" ] "color Kd" [ 0.5  0.5  0.5 ] 
-	MakeNamedMaterial "Smooth" "string type" [ "metal2" ] "float uroughness" [ 0.01 ] "float vroughness" [ 0.01 ] 
-	MakeNamedMaterial "Glossy" "string type" [ "metal2" ] "float uroughness" [ 0.05 ] "float vroughness" [ 0.05 ] 
-	MakeNamedMaterial "Rough" "string type" [ "metal2" ] "float uroughness" [ 0.1 ] "float vroughness" [ 0.1 ] 
-	MakeNamedMaterial "Null" "string type" [ "matte" ] "color Kd" [ 0  0  0 ] 
-	MakeNamedMaterial "SuperRough" "string type" [ "metal2" ] "float uroughness" [ 0.25 ] "float vroughness" [ 0.25 ] 
-

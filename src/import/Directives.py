@@ -16,9 +16,13 @@ class Integrator:
 		self.params = {}
 
 class Transform:
-	def __init__(self, name = 'toWorld'):
-		self.name = name
+	def __init__(self):
+		self.name = ''
 		self.matrix = []
+        self.lookat = {}
+        self.translate = []
+        self.rotate = []
+        self.scale = []
 
 class Sampler:
 	def __init__(self, type = 'sobol'):
@@ -84,4 +88,3 @@ class Scene:
 		self.shapes = []
 		self.lights = []
 		self.mediums = []
-

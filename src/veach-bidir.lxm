@@ -1,6 +1,0 @@
-
-	MakeNamedMaterial "Diffuse" "string type" [ "matte" ] "color Kd" [ 0.5  0.5  0.5 ] 
-	MakeNamedMaterial "Glass" "string type" [ "glass" ] "float index" [ 1.5 ] 
-	MakeNamedMaterial "Lamp" "string type" [ "metal2" ] "float uroughness" [ 0.25 ] "float vroughness" [ 0.25 ] 
-	MakeNamedMaterial "Wood" "string type" [ "matte" ] "color Kd" [ 0.32963  0.257976  0.150292 ] 
-

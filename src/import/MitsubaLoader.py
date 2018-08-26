@@ -22,7 +22,7 @@ class MitsubaLoader:
         scene.materials = self.loadMaterials(element)
         scene.shapes = self.loadShapes(element)
         scene.lights = self.loadLights(element)
-        
+
         return scene
 
     def loadIntegrator(self, element):
@@ -31,38 +31,28 @@ class MitsubaLoader:
             type = integratorElement.attrib.get('type')
             integrator = Integrator(type)
             integrator.params = self.extractParams(integratorElement)
-        
+
             return integrator
         else:
             return None
 
     def loadSensor(self, scene):
         np.set_printoptions(suppress=True)
-        
+
         sensorElement = scene.find('sensor')
         type = sensorElement.attrib.get('type')
 
         sensor = Sensor()
 
         # transform setup
-        name = sensorElement.find('transform').get('name')
-        sensor.transform = Transform(name)
-        
-        matrixElement = sensorElement.find('transform').find('matrix')
-        if matrixElement is not None:
-            matrix = matrixElement.get('value')
-            sensor.transform.matrix = map(float, matrix.strip().split(' '))
-            sensor.transform.matrix = [sensor.transform.matrix[i:i + 4] for i in xrange(0, len(sensor.transform.matrix), 4)]
-        else:
-            #search for lookat translate scale
-            pass
+        sensor.transform = self.extractTransform(sensorElement.find('transform'))
 
         # sampler setup
         samplerElement = sensorElement.find('sampler')
         type = samplerElement.get('type')
         sensor.sampler = Sampler(type)
         sensor.sampler.params = self.extractParams(samplerElement)
-        
+
         # film setup
         filmElement = sensorElement.find('film')
         type = filmElement.get('type')
@@ -71,7 +61,7 @@ class MitsubaLoader:
 
         sensor.film.params = self.extractParams(filmElement)
         sensor.film.params.pop('rfilter', None)
-        
+
         # other params
         sensor.params = self.extractParams(sensorElement)
         sensor.params.pop('transform', None)
@@ -82,7 +72,7 @@ class MitsubaLoader:
 
     def loadMaterials(self, scene):
         materials = []
-        
+
         for materialElement in scene.findall('bsdf'):
             material = self.extractMaterial(materialElement)
             if material is not None:
@@ -96,17 +86,17 @@ class MitsubaLoader:
             type = shapeElement.get('type')
             shape = Shape(type)
             shape.transform = self.extractTransform(shapeElement)
-                
+
             if shapeElement.find('emitter') is not None:
                 type = shapeElement.find('emitter').get('type')
                 shape.emitter = Emitter(type)
                 shape.emitter.transform = self.extractTransform(shapeElement.find('emitter'))
-                
+
                 shape.emitter.params = self.extractParams(shapeElement.find('emitter'))
                 shape.emitter.params.pop('transform', None)
-            
+
             materialElement = shapeElement.find('bsdf')
-            
+
             if materialElement is not None:
                 shape.material = self.extractMaterial(materialElement)
 
@@ -115,24 +105,24 @@ class MitsubaLoader:
             shape.params.pop('transform', None)
             shape.params.pop('bsdf', None)
             shape.params.pop('emitter', None)
-            
+
             shapes.append(shape)
-            
+
         return shapes
 
     def loadLights(self, scene):
         lights = []
-        
-        for emitterElement in scene.findall('emitter'):    
+
+        for emitterElement in scene.findall('emitter'):
             type = emitterElement.get('type')
             emitter = Emitter(type)
             emitter.transform = self.extractTransform(emitterElement)
-                
+
             emitter.params = self.extractParams(emitterElement)
             emitter.params.pop('transform', None)
-            
+
             lights.append(emitter)
-        
+
         return lights
 
     def extractParams(self, element):
@@ -172,7 +162,7 @@ class MitsubaLoader:
             if textureElement is not None:
                 name = textureElement.attrib.get('name')
                 type = textureElement.attrib.get('type')
-                
+
                 bumpmap.texture = Texture(name, type)
                 bumpmap.texture.params = self.extractParams(textureElement)
 
@@ -192,7 +182,7 @@ class MitsubaLoader:
                     nestedMaterialElement = nestedMaterialElement.find('bsdf')
 
                 matType = nestedMaterialElement.attrib.get('type')
-                
+
                 material = Material(matType, matId)
 
                 textureElement = nestedMaterialElement.find('texture')
@@ -200,7 +190,7 @@ class MitsubaLoader:
                 if textureElement is not None:
                     name = textureElement.attrib.get('name')
                     type = textureElement.attrib.get('type')
-                
+
                     material.texture = Texture(name, type)
                     material.texture.params = self.extractParams(textureElement)
 
@@ -224,7 +214,7 @@ class MitsubaLoader:
                 if textureElement is not None:
                     name = textureElement.attrib.get('name')
                     type = textureElement.attrib.get('type')
-                
+
                     material.texture = Texture(name, type)
                     material.texture.params = self.extractParams(textureElement)
 
@@ -254,7 +244,7 @@ class MitsubaLoader:
                 if textureElement is not None:
                     name = textureElement.attrib.get('name')
                     type = textureElement.attrib.get('type')
-                
+
                     material.texture = Texture(name, type)
                     material.texture.params = self.extractParams(textureElement)
 
@@ -276,7 +266,7 @@ class MitsubaLoader:
                 if textureElement is not None:
                     name = textureElement.attrib.get('name')
                     type = textureElement.attrib.get('type')
-                
+
                     material.texture = Texture(name, type)
                     material.texture.params = self.extractParams(textureElement)
 
@@ -286,25 +276,63 @@ class MitsubaLoader:
                 # get other material parameters
                 material.params = self.extractParams(materialElement)
                 material.params.pop('texture', None)
-            
+
             return material
 
     def extractTransform(self, element):
         transform = None
 
-        if element.find('transform') is not None:
+        if element.find('transform'):
             transformElement = element.find('transform')
             name = transformElement.get('name')
             transform = Transform(name)
 
-            if transformElement.find('matrix') is not None:
+            if transformElement.find('matrix'):
                 matrix = transformElement.find('matrix').get('value')
                 matrix =  map(float, matrix.strip().split(' '))
                 transform.matrix = [matrix[i:i + 4] for i in xrange(0, len(matrix), 4)]
 
-            else:
-                # extract other elements
-                pass
+            if transformElement.find('scale'):
+                # uniform scale
+                if transformElement.find('scale').get('value'):
+                    transform.scale = [ float(transformElement.find('scale').get('value')) ]
+
+                # non-uniform scale
+                else:
+                    x = transformElement.find('scale').get('x')
+                    y = transformElement.find('scale').get('y')
+                    z = transformElement.find('scale').get('z')
+
+                    transform.scale = [ float(x), float(y), float(z) ]
+
+            if transformElement.find('rotate'):
+                x = transformElement.find('rotate').get('x')
+                y = transformElement.find('rotate').get('y')
+                z = transformElement.find('rotate').get('z')
+                angle = transformElement.find('rotate').get('angle')
+
+                transform.rotate = [ float(x), float(y), float(z), float(angle) ]
+
+            if transformElement.find('translate'):
+                x = transformElement.find('translate').get('x')
+                y = transformElement.find('translate').get('y')
+                z = transformElement.find('translate').get('z')
+
+                transform.translate = [ float(x), float(y), float(z) ]
+
+            if transformElement.find('lookat'):
+                origin = transformElement.find('lookat').get('origin')
+                origin =  map(float, origin.strip().split(','))
+
+                target = transformElement.find('lookat').get('target')
+                target =  map(float, target.strip().split(','))
+
+                up = transformElement.find('lookat').get('up')
+                up =  map(float, up.strip().split(','))
+
+                transform.lookat['eye'] = origin
+                transform.lookat['look'] = target
+                transform.lookat['up'] = up
 
         return transform
 

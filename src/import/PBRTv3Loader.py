@@ -1,5 +1,5 @@
-import PBRTv3Lex
-import PBRTv3Yacc
+import PlainTextLex
+import PlainTextYacc
 from Directives import *
 import sys
 
@@ -25,7 +25,7 @@ class PBRTv3Loader:
             scene = self.loadWorld(sceneStructure[1], scene)
 
         return scene
-        
+
     def loadDirectives(self, directiveStructure, scene):
         scene.sensor = Sensor()
         for struct in directiveStructure:
@@ -36,13 +36,13 @@ class PBRTv3Loader:
 
                 if struct[2] is not None:
                     scene.integrator.params = self.loadParams(struct[2])
-            
+
             elif directive == 'Camera':
                 scene.sensor.type = struct[1]
 
                 if struct[2] is not None:
-                   scene.sensor.params = self.loadParams(struct[2]) 
-            
+                   scene.sensor.params = self.loadParams(struct[2])
+
             elif directive == 'Sampler':
                 scene.sensor.sampler.type = struct[1]
 
@@ -60,7 +60,7 @@ class PBRTv3Loader:
 
             elif directive == 'Transform':
                 scene.sensor.transform = Transform()
-                
+
                 if struct[2] is not None:
                     scene.sensor.transform.matrix = struct[2]
                     scene.sensor.transform.matrix = [scene.sensor.transform.matrix[i:i + 4] for i in xrange(0, len(scene.sensor.transform.matrix), 4)]
@@ -113,7 +113,7 @@ class PBRTv3Loader:
                     material.material.params = params
 
                     materials.append(material)
-                
+
                 else:
                     material = Material(type, id)
                     material.params = params
@@ -214,7 +214,7 @@ class PBRTv3Loader:
                         shape.transform = transform
 
                         shapes.append(shape)
-                    
+
                     elif modifiedDirective == 'LightSource':
                         # simple emitters, no transform or shape involved. they go into lights list
                         emitter = Emitter(modifiedStruct[1])
@@ -222,7 +222,7 @@ class PBRTv3Loader:
                         emitter.params = self.loadParams(modifiedStruct[2])
 
                         lights.append(emitter)
-        
+
         scene.materials = materials
         scene.lights = lights
         scene.shapes = shapes
@@ -244,4 +244,3 @@ class PBRTv3Loader:
 
 # if __name__ == '__main__':
 #     loader = PBRTv3Loader(sys.argv[1])
-    
